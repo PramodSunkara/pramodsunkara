@@ -3,8 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Linkedin } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import DecorativeBlobs from './DecorativeBlobs';
-import Sparkle from './Sparkle';
 
 const Contact = () => {
   const [email, setEmail] = useState('');
@@ -19,22 +17,17 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="bg-dark-section text-dark-section-foreground relative overflow-hidden">
-      <DecorativeBlobs variant="footer" />
-      
-      <div className="section-padding relative z-10">
+    <section id="contact" className="bg-dark-section text-dark-section-foreground">
+      <div className="section-padding">
         <div className="container-narrow">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             {/* Left side - Headline */}
             <div className="reveal">
-              <div className="relative inline-block">
-                <Sparkle className="absolute -top-4 -left-6 text-blob-orange/50" size="sm" />
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
-                  Shall we work
-                  <br />
-                  <em className="font-normal">together?</em>
-                </h2>
-              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
+                Shall we work
+                <br />
+                <em className="font-normal">together?</em>
+              </h2>
               
               <p className="text-body opacity-70 mb-8">
                 Open to senior roles in web development, UI/UX engineering, and design leadership.

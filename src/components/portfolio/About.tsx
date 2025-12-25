@@ -1,19 +1,10 @@
-import Sparkle from './Sparkle';
-
 const About = () => {
   return (
-    <section id="about" className="section-padding bg-secondary/30 relative overflow-hidden">
-      {/* Decorative blob */}
-      <div className="absolute top-20 -left-32 w-64 h-64 rounded-full bg-blob-green/10 blur-3xl pointer-events-none" aria-hidden="true" />
-      <div className="absolute bottom-20 -right-24 w-48 h-48 rounded-full bg-blob-yellow/10 blur-3xl pointer-events-none" aria-hidden="true" />
-      
-      <div className="container-narrow relative z-10">
+    <section id="about" className="section-padding bg-secondary/30">
+      <div className="container-narrow">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div>
-            <div className="relative inline-block">
-              <Sparkle className="absolute -top-3 -right-5 text-blob-orange/50" size="sm" />
-              <h2 className="text-section mb-8 reveal">About</h2>
-            </div>
+            <h2 className="text-section mb-8 reveal">About</h2>
             <p className="text-body text-muted-foreground leading-relaxed reveal reveal-delay-1">
               We may work remotely, but we deliver mighty results. My approach provides a personalized service, guiding you every step of the way. Being a focused practitioner means I move swiftly and respond quickly, ensuring you always have timely support and attention.
             </p>

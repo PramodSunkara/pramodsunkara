@@ -42,11 +42,6 @@
     --clay: 220 10% 18%;
     --olive: 160 15% 45%;
     --warm-gray: 220 5% 70%;
-    
-    /* Accent blobs from drawing inspiration */
-    --blob-orange: 24 85% 60%;
-    --blob-green: 145 55% 42%;
-    --blob-yellow: 48 85% 75%;
 
     /* Dark section background */
     --dark-section: 220 10% 18%;
@@ -97,11 +92,6 @@
     --clay: 210 20% 85%;
     --olive: 160 12% 40%;
     --warm-gray: 220 5% 45%;
-    
-    /* Accent blobs - slightly muted for dark mode */
-    --blob-orange: 24 75% 55%;
-    --blob-green: 145 45% 38%;
-    --blob-yellow: 48 75% 65%;
 
     /* Dark section in dark mode becomes lighter */
     --dark-section: 220 10% 15%;
@@ -162,32 +152,14 @@
     transform: translateY(0);
   }
 
-  /* Hero elements should be visible immediately */
-  .reveal-hero {
-    opacity: 1;
-    transform: translateY(0);
-    animation: fade-in-up 0.8s ease-out;
-  }
-
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .reveal-delay-1 { transition-delay: 0.1s; animation-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; animation-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; animation-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; animation-delay: 0.4s; }
-  .reveal-delay-5 { transition-delay: 0.5s; animation-delay: 0.5s; }
-  .reveal-delay-6 { transition-delay: 0.6s; animation-delay: 0.6s; }
-  .reveal-delay-7 { transition-delay: 0.7s; animation-delay: 0.7s; }
-  .reveal-delay-8 { transition-delay: 0.8s; animation-delay: 0.8s; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+  .reveal-delay-6 { transition-delay: 0.6s; }
+  .reveal-delay-7 { transition-delay: 0.7s; }
+  .reveal-delay-8 { transition-delay: 0.8s; }
 
   /* Link underline animation */
   .link-underline {
