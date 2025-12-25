@@ -7,14 +7,11 @@ const Portfolio = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <section id="portfolio" className="section-padding">
+    <section id="portfolio" className="section-padding bg-secondary/30">
       <div className="container-narrow">
-        <h2 className="text-section text-center mb-4 reveal">Featured Work</h2>
-        <p className="text-body text-muted-foreground text-center max-w-2xl mx-auto mb-16 reveal reveal-delay-1">
-          A selection of projects showcasing my approach to solving complex problems through design and technology.
-        </p>
+        <h2 className="text-section mb-16 reveal">Latest work</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
           {projects.map((project, index) => (
             <ProjectCard
               key={project.id}

@@ -1,4 +1,5 @@
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import Navigation from '@/components/portfolio/Navigation';
 import Hero from '@/components/portfolio/Hero';
 import ImpactHighlights from '@/components/portfolio/ImpactHighlights';
 import Portfolio from '@/components/portfolio/Portfolio';
@@ -14,6 +15,7 @@ const Index = () => {
 
   return (
     <div ref={containerRef} className="min-h-screen">
+      <Navigation />
       <main>
         <Hero />
         <ImpactHighlights />

@@ -27,55 +27,44 @@ const steps = [
 
 const Process = () => {
   return (
-    <section className="section-padding bg-card">
+    <section id="process" className="section-padding">
       <div className="container-narrow">
-        <h2 className="text-section text-center mb-4 reveal">Process</h2>
-        <p className="text-body text-muted-foreground text-center max-w-2xl mx-auto mb-16 reveal reveal-delay-1">
+        <h2 className="text-section mb-4 reveal">Process</h2>
+        <p className="text-body text-muted-foreground max-w-2xl mb-16 reveal reveal-delay-1">
           A flexible, user-centered approach adapted to each project's unique needs.
         </p>
 
         {/* Desktop: Horizontal flow */}
-        <div className="hidden md:flex items-start justify-between gap-4 reveal reveal-delay-2">
+        <div className="hidden md:grid md:grid-cols-6 gap-4 reveal reveal-delay-2">
           {steps.map((step, index) => (
-            <div key={step.title} className="flex-1 relative">
-              <div className="text-center">
-                <div className="w-12 h-12 rounded-full bg-background border-2 border-primary flex items-center justify-center mx-auto mb-4">
-                  <span className="font-semibold text-primary">{index + 1}</span>
+            <div key={step.title} className="relative">
+              <div className="p-5 rounded-2xl bg-secondary/50 h-full transition-colors duration-300 hover:bg-secondary">
+                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold mb-4">
+                  {index + 1}
                 </div>
-                <h3 className="font-semibold mb-2">{step.title}</h3>
+                <h3 className="font-semibold text-foreground mb-2">{step.title}</h3>
                 <p className="text-caption text-muted-foreground">
                   {step.description}
                 </p>
               </div>
-              {/* Connector line */}
-              {index < steps.length - 1 && (
-                <div className="absolute top-6 left-[calc(50%+24px)] w-[calc(100%-48px)] h-px bg-border" />
-              )}
             </div>
           ))}
         </div>
 
         {/* Mobile: Vertical flow */}
-        <div className="md:hidden space-y-8">
+        <div className="md:hidden grid grid-cols-2 gap-4">
           {steps.map((step, index) => (
             <div 
               key={step.title} 
-              className={`reveal reveal-delay-${index + 1} flex gap-4`}
+              className={`reveal reveal-delay-${index + 1} p-5 rounded-2xl bg-secondary/50`}
             >
-              <div className="flex flex-col items-center">
-                <div className="w-10 h-10 rounded-full bg-background border-2 border-primary flex items-center justify-center shrink-0">
-                  <span className="font-semibold text-sm text-primary">{index + 1}</span>
-                </div>
-                {index < steps.length - 1 && (
-                  <div className="w-px flex-1 bg-border mt-2" />
-                )}
+              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold mb-3">
+                {index + 1}
               </div>
-              <div className="pb-8">
-                <h3 className="font-semibold mb-1">{step.title}</h3>
-                <p className="text-caption text-muted-foreground">
-                  {step.description}
-                </p>
-              </div>
+              <h3 className="font-semibold text-foreground mb-1">{step.title}</h3>
+              <p className="text-caption text-muted-foreground">
+                {step.description}
+              </p>
             </div>
           ))}
         </div>

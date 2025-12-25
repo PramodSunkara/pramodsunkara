@@ -10,7 +10,7 @@ const ThemeToggle = () => {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-card border border-border shadow-lg transition-all duration-300 hover:scale-110 hover:border-primary/50"
+      className="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-card border border-border shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       {theme === 'light' ? (

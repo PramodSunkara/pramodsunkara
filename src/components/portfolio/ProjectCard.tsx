@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { ArrowUpRight } from 'lucide-react';
 
 interface ProjectCardProps {
   title: string;
@@ -10,58 +10,62 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ title, outcome, role, tools, onViewCase, index }: ProjectCardProps) => {
+  // Different accent colors for variety
+  const accentColors = [
+    'bg-rose-100 dark:bg-rose-900/30',
+    'bg-amber-100 dark:bg-amber-900/30',
+    'bg-emerald-100 dark:bg-emerald-900/30',
+    'bg-sky-100 dark:bg-sky-900/30',
+    'bg-violet-100 dark:bg-violet-900/30',
+    'bg-orange-100 dark:bg-orange-900/30',
+    'bg-teal-100 dark:bg-teal-900/30',
+    'bg-pink-100 dark:bg-pink-900/30',
+  ];
+
   return (
     <div 
       className={`reveal reveal-delay-${(index % 4) + 1} group cursor-pointer`}
       onClick={onViewCase}
     >
-      {/* Layered placeholder images */}
-      <div className="relative h-64 mb-6 overflow-hidden rounded-lg">
-        {/* Back layer */}
-        <div className="absolute inset-0 bg-sand rounded-lg transform translate-x-4 translate-y-4 transition-transform duration-300 group-hover:translate-x-6 group-hover:translate-y-6" />
-        {/* Middle layer */}
-        <div className="absolute inset-0 bg-muted rounded-lg transform translate-x-2 translate-y-2 transition-transform duration-300 group-hover:translate-x-3 group-hover:translate-y-3" />
-        {/* Front layer */}
-        <div className="absolute inset-0 bg-secondary rounded-lg flex items-center justify-center transition-all duration-300 group-hover:shadow-lg">
-          <span className="text-section text-muted-foreground/30 select-none">
+      {/* Card with image area */}
+      <div className={`relative rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-lg ${accentColors[index % accentColors.length]}`}>
+        {/* Header with title and arrow */}
+        <div className="flex items-start justify-between p-5 pb-0">
+          <h3 className="text-lg font-semibold text-foreground">
+            {title}
+          </h3>
+          <div className="w-8 h-8 rounded-full bg-card flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+            <ArrowUpRight className="w-4 h-4 text-foreground" />
+          </div>
+        </div>
+
+        {/* Placeholder image area */}
+        <div className="relative h-48 m-5 mt-4 rounded-2xl bg-card/80 flex items-center justify-center overflow-hidden">
+          <span className="text-6xl font-bold text-muted-foreground/20 select-none">
             {title.charAt(0)}
           </span>
         </div>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 px-5 pb-5">
+          <span className="text-xs px-3 py-1.5 bg-card text-foreground rounded-full font-medium">
+            {role}
+          </span>
+          {tools.slice(0, 2).map((tool) => (
+            <span 
+              key={tool} 
+              className="text-xs px-3 py-1.5 bg-card/60 text-muted-foreground rounded-full"
+            >
+              {tool}
+            </span>
+          ))}
+        </div>
       </div>
 
-      {/* Content */}
-      <h3 className="text-xl font-semibold mb-2 transition-colors duration-300 group-hover:text-primary">
-        {title}
-      </h3>
-      <p className="text-body text-muted-foreground mb-4">
+      {/* Outcome text below card */}
+      <p className="text-body text-muted-foreground mt-4 px-1">
         {outcome}
       </p>
-      
-      {/* Tags */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        <span className="text-caption px-3 py-1 bg-primary/10 text-primary rounded-full">
-          {role}
-        </span>
-        {tools.slice(0, 2).map((tool) => (
-          <span 
-            key={tool} 
-            className="text-caption px-3 py-1 bg-muted text-muted-foreground rounded-full"
-          >
-            {tool}
-          </span>
-        ))}
-      </div>
-
-      <Button 
-        variant="ghost" 
-        className="p-0 h-auto text-primary link-underline hover:bg-transparent"
-        onClick={(e) => {
-          e.stopPropagation();
-          onViewCase();
-        }}
-      >
-        View Case Study
-      </Button>
     </div>
   );
 };
