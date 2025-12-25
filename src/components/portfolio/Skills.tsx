@@ -1,35 +1,37 @@
+import { Users, Layers, PenTool, Grid, Eye, Palette, FileCode, Code, FileText, Smartphone, Zap, Play, FlaskConical, TrendingUp, BarChart3, Layout, Mail, Search } from 'lucide-react';
+
 const skillCategories = [
   {
     title: 'Design & UX',
     skills: [
-      'User Research & Testing',
-      'Information Architecture',
-      'Wireframing & Prototyping',
-      'Design Systems',
-      'Accessibility (WCAG)',
-      'Visual Design',
+      { name: 'User Research & Testing', icon: Users, color: '#6366F1' },
+      { name: 'Information Architecture', icon: Layers, color: '#8B5CF6' },
+      { name: 'Wireframing & Prototyping', icon: PenTool, color: '#EC4899' },
+      { name: 'Design Systems', icon: Grid, color: '#14B8A6' },
+      { name: 'Accessibility (WCAG)', icon: Eye, color: '#F59E0B' },
+      { name: 'Visual Design', icon: Palette, color: '#EF4444' },
     ],
   },
   {
     title: 'Front-End & Web',
     skills: [
-      'React & TypeScript',
-      'Vue.js',
-      'HTML5 & CSS3',
-      'Responsive Design',
-      'Performance Optimization',
-      'Animation & Motion',
+      { name: 'React & TypeScript', icon: FileCode, color: '#61DAFB' },
+      { name: 'Vue.js', icon: Code, color: '#42B883' },
+      { name: 'HTML5 & CSS3', icon: FileText, color: '#E34F26' },
+      { name: 'Responsive Design', icon: Smartphone, color: '#3B82F6' },
+      { name: 'Performance Optimization', icon: Zap, color: '#FBBF24' },
+      { name: 'Animation & Motion', icon: Play, color: '#A855F7' },
     ],
   },
   {
     title: 'Marketing & Growth',
     skills: [
-      'A/B Testing',
-      'Conversion Optimization',
-      'Analytics & Data',
-      'Landing Page Design',
-      'Email Templates',
-      'SEO Best Practices',
+      { name: 'A/B Testing', icon: FlaskConical, color: '#10B981' },
+      { name: 'Conversion Optimization', icon: TrendingUp, color: '#F97316' },
+      { name: 'Analytics & Data', icon: BarChart3, color: '#6366F1' },
+      { name: 'Landing Page Design', icon: Layout, color: '#EC4899' },
+      { name: 'Email Templates', icon: Mail, color: '#EF4444' },
+      { name: 'SEO Best Practices', icon: Search, color: '#22C55E' },
     ],
   },
 ];
@@ -105,14 +107,18 @@ const Skills = () => {
                 {category.title}
               </h3>
               <ul className="space-y-3">
-                {category.skills.map((skill) => (
-                  <li 
-                    key={skill} 
-                    className="text-body text-muted-foreground"
-                  >
-                    {skill}
-                  </li>
-                ))}
+                {category.skills.map((skill) => {
+                  const IconComponent = skill.icon;
+                  return (
+                    <li 
+                      key={skill.name} 
+                      className="text-body text-muted-foreground flex items-center gap-3"
+                    >
+                      <IconComponent className="w-4 h-4 flex-shrink-0" style={{ color: skill.color }} />
+                      {skill.name}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
