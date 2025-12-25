@@ -1,12 +1,30 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useScrollReveal } from '@/hooks/useScrollReveal';
+import Hero from '@/components/portfolio/Hero';
+import ImpactHighlights from '@/components/portfolio/ImpactHighlights';
+import Portfolio from '@/components/portfolio/Portfolio';
+import Skills from '@/components/portfolio/Skills';
+import About from '@/components/portfolio/About';
+import Process from '@/components/portfolio/Process';
+import Contact from '@/components/portfolio/Contact';
+import Footer from '@/components/portfolio/Footer';
+import ThemeToggle from '@/components/portfolio/ThemeToggle';
 
 const Index = () => {
+  const containerRef = useScrollReveal();
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div ref={containerRef} className="min-h-screen">
+      <main>
+        <Hero />
+        <ImpactHighlights />
+        <Portfolio />
+        <Skills />
+        <About />
+        <Process />
+        <Contact />
+      </main>
+      <Footer />
+      <ThemeToggle />
     </div>
   );
 };
