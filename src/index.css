@@ -42,6 +42,11 @@
     --clay: 220 10% 18%;
     --olive: 160 15% 45%;
     --warm-gray: 220 5% 70%;
+    
+    /* Accent blobs from drawing inspiration */
+    --blob-orange: 24 85% 60%;
+    --blob-green: 145 55% 42%;
+    --blob-yellow: 48 85% 75%;
 
     /* Dark section background */
     --dark-section: 220 10% 18%;
@@ -92,6 +97,11 @@
     --clay: 210 20% 85%;
     --olive: 160 12% 40%;
     --warm-gray: 220 5% 45%;
+    
+    /* Accent blobs - slightly muted for dark mode */
+    --blob-orange: 24 75% 55%;
+    --blob-green: 145 45% 38%;
+    --blob-yellow: 48 75% 65%;
 
     /* Dark section in dark mode becomes lighter */
     --dark-section: 220 10% 15%;
