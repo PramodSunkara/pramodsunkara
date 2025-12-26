@@ -21,7 +21,7 @@ const Hero = () => {
 
         <button 
           onClick={() => scrollToSection('portfolio')} 
-          className="reveal reveal-delay-2 flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer"
+          className="reveal reveal-delay-2 mx-auto flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer"
           aria-label="Scroll to portfolio"
         >
           <ChevronDown className="w-8 h-8 animate-bounce" />
