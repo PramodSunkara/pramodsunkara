@@ -1,5 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
-
 const steps = [
   {
     title: 'Discover',
@@ -28,35 +26,6 @@ const steps = [
 ];
 
 const Process = () => {
-  const [visibleSteps, setVisibleSteps] = useState<number[]>([]);
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-
-    stepRefs.current.forEach((ref, index) => {
-      if (!ref) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setVisibleSteps((prev) => 
-                prev.includes(index) ? prev : [...prev, index]
-              );
-            }
-          });
-        },
-        { threshold: 0.2, rootMargin: '0px 0px -100px 0px' }
-      );
-
-      observer.observe(ref);
-      observers.push(observer);
-    });
-
-    return () => observers.forEach((obs) => obs.disconnect());
-  }, []);
-
   return (
     <section id="process" className="section-padding">
       <div className="container-narrow">
@@ -65,71 +34,39 @@ const Process = () => {
           A flexible, user-centered approach adapted to each project's unique needs.
         </p>
 
-        {/* Stacking sticky cards */}
-        <div className="relative">
-          {steps.map((step, index) => {
-            const isVisible = visibleSteps.includes(index);
-            
-            return (
-              <div
-                key={step.title}
-                ref={(el) => (stepRefs.current[index] = el)}
-                className="sticky"
-                style={{
-                  top: `${120 + index * 20}px`,
-                  marginBottom: index === steps.length - 1 ? '0' : '60px',
-                  zIndex: index + 1,
-                }}
-              >
-                <div 
-                  className="p-6 md:p-8 rounded-2xl bg-card border border-border transition-all duration-700 ease-out"
-                  style={{
-                    transform: isVisible 
-                      ? 'translateY(0) scale(1)' 
-                      : 'translateY(100px) scale(0.9)',
-                    opacity: isVisible ? 1 : 0,
-                    boxShadow: `0 ${10 + index * 4}px ${30 + index * 8}px -15px hsl(var(--foreground) / ${0.08 + index * 0.02})`,
-                  }}
-                >
-                  <div className="flex items-start gap-5">
-                    <div 
-                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg font-semibold flex-shrink-0 transition-all duration-500"
-                      style={{
-                        transform: isVisible ? 'scale(1) rotate(0deg)' : 'scale(0.5) rotate(-180deg)',
-                        transitionDelay: '0.1s',
-                      }}
-                    >
-                      {index + 1}
-                    </div>
-                    <div className="flex-1">
-                      <h3 
-                        className="font-semibold text-xl text-foreground mb-2 transition-all duration-500"
-                        style={{
-                          transform: isVisible ? 'translateX(0)' : 'translateX(-20px)',
-                          opacity: isVisible ? 1 : 0,
-                          transitionDelay: '0.15s',
-                        }}
-                      >
-                        {step.title}
-                      </h3>
-                      <p 
-                        className="text-body text-muted-foreground transition-all duration-500"
-                        style={{
-                          transform: isVisible ? 'translateX(0)' : 'translateX(-20px)',
-                          opacity: isVisible ? 1 : 0,
-                          transitionDelay: '0.25s',
-                        }}
-                      >
-                        {step.description}
-                      </p>
-                    </div>
-                  </div>
+        {/* Desktop: Horizontal flow */}
+        <div className="hidden md:grid md:grid-cols-6 gap-4 reveal reveal-delay-2">
+          {steps.map((step, index) => (
+            <div key={step.title} className="relative">
+              <div className="p-5 rounded-2xl bg-secondary/50 h-full transition-colors duration-300 hover:bg-secondary">
+                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold mb-4">
+                  {index + 1}
                 </div>
+                <h3 className="font-semibold text-foreground mb-2">{step.title}</h3>
+                <p className="text-caption text-muted-foreground">
+                  {step.description}
+                </p>
               </div>
-            );
-          })}
-          {/* Spacer for last card to scroll past */}
-          <div className="h-32" />
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile: Vertical flow */}
+        <div className="md:hidden grid grid-cols-2 gap-4">
+          {steps.map((step, index) => (
+            <div 
+              key={step.title} 
+              className={`reveal reveal-delay-${index + 1} p-5 rounded-2xl bg-secondary/50`}
+            >
+              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold mb-3">
+                {index + 1}
+              </div>
+              <h3 className="font-semibold text-foreground mb-1">{step.title}</h3>
+              <p className="text-caption text-muted-foreground">
+                {step.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
