@@ -103,16 +103,16 @@ const Skills = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-16">
           {skillCategories.map((category, index) => (
             <div key={category.title} className={`reveal reveal-delay-${index + 1}`}>
-              <h3 className="font-semibold text-lg mb-6 text-foreground">
+              <h3 className="font-medium text-base mb-5 text-foreground">
                 {category.title}
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2.5">
                 {category.skills.map((skill) => {
                   const IconComponent = skill.icon;
                   return (
                     <li 
                       key={skill.name} 
-                      className="text-body text-muted-foreground flex items-center gap-3"
+                      className="text-sm text-muted-foreground flex items-center gap-2.5"
                     >
                       <IconComponent className="w-4 h-4 flex-shrink-0" style={{ color: skill.color }} />
                       {skill.name}
@@ -126,19 +126,82 @@ const Skills = () => {
 
         {/* AI Tools */}
         <div className="reveal reveal-delay-4 border-t border-border pt-12">
-          <h3 className="font-semibold text-lg mb-6">
+          <h3 className="font-medium text-base mb-5">
             AI-Enhanced Workflow
           </h3>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2.5">
             {aiTools.map((tool) => (
               <span 
                 key={tool.name}
-                className="text-sm px-5 py-2.5 bg-secondary text-foreground rounded-full transition-colors duration-300 hover:bg-primary hover:text-primary-foreground flex items-center gap-2"
+                className="text-sm px-4 py-2 bg-secondary text-foreground rounded-full transition-colors duration-300 hover:bg-primary hover:text-primary-foreground flex items-center gap-2"
               >
                 {tool.icon}
                 {tool.name}
               </span>
             ))}
+          </div>
+        </div>
+
+        {/* Education & Certifications */}
+        <div className="reveal reveal-delay-5 border-t border-border pt-12 mt-12">
+          {/* Certifications */}
+          <div className="mb-12">
+            <h3 className="font-semibold text-lg mb-1 text-foreground uppercase tracking-wide">
+              Professional Certification Courses
+            </h3>
+            <div className="w-16 h-0.5 bg-primary/60 mb-6" />
+            <ul className="space-y-2 list-disc list-inside text-sm text-muted-foreground">
+              <li>Generative AI: Introduction and Applications by IBM</li>
+              <li>User Experience Fundamentals for Web Design</li>
+              <li>Microsoft Professional Program in Front-End Web Development</li>
+              <li>WordPress Essential Training</li>
+            </ul>
+          </div>
+
+          {/* Education & Awards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            {/* Educational History */}
+            <div>
+              <h3 className="font-semibold text-lg mb-1 text-foreground uppercase tracking-wide">
+                Educational History
+              </h3>
+              <div className="w-16 h-0.5 bg-primary/60 mb-6" />
+              <div className="space-y-6">
+                <div>
+                  <p className="font-semibold text-foreground text-sm">
+                    Pursuing Micro Master's degree in Leadership and Service Innovation
+                  </p>
+                  <p className="text-sm text-muted-foreground">UQ Business School, Australia</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground text-sm">Bachelor's Degree</p>
+                  <p className="text-sm text-muted-foreground">Computer Science / Information Technology</p>
+                  <p className="text-sm text-muted-foreground">Andhra University 2006</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Awards */}
+            <div>
+              <h3 className="font-semibold text-lg mb-1 text-foreground uppercase tracking-wide">
+                Awards
+              </h3>
+              <div className="w-16 h-0.5 bg-primary/60 mb-6" />
+              <div className="space-y-4">
+                <div>
+                  <p className="font-semibold text-foreground text-sm">Above & Beyond Award</p>
+                  <p className="text-sm text-muted-foreground">SumTotal Systems</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground text-sm">Employee Achievement Award</p>
+                  <p className="text-sm text-muted-foreground">Skillsoft</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground text-sm">Spot Award</p>
+                  <p className="text-sm text-muted-foreground">SumTotal Systems</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
