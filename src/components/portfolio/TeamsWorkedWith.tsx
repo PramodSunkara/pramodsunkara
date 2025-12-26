@@ -2,17 +2,22 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { experiences } from '@/data/experience';
+import { GlowingShadow } from '@/components/ui/glowing-shadow';
 import camundaLogo from '@/assets/camunda-logo.svg';
 import sumtotalLogo from '@/assets/sumtotal-logo.svg';
 import skillsoftLogo from '@/assets/skillsoft-logo.svg';
+
 const logoMap: Record<string, string> = {
   'camunda-logo.svg': camundaLogo,
   'sumtotal-logo.svg': sumtotalLogo,
   'skillsoft-logo.svg': skillsoftLogo
 };
+
 const TeamsWorkedWith = () => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  return <section id="teams" className="py-24 md:py-32 reveal">
+  
+  return (
+    <section id="teams" className="py-24 md:py-32 reveal">
       <div className="container max-w-6xl mx-auto px-6 md:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-display mb-6 font-light lg:text-4xl">
@@ -33,59 +38,58 @@ const TeamsWorkedWith = () => {
               onMouseEnter={() => setHoveredId(exp.id)} 
               onMouseLeave={() => setHoveredId(null)}
             >
-              <div className={`
-                  relative overflow-hidden rounded-2xl p-6 lg:p-8
-                  bg-card border border-border
-                  transition-all duration-500 ease-out cursor-pointer
-                  ${hoveredId === exp.id ? 'scale-105 shadow-2xl shadow-primary/20 border-primary/30' : 'shadow-lg hover:shadow-xl'}
-                `}>
-                {/* Background gradient on hover */}
-                <div className={`
-                    absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10
-                    transition-opacity duration-500
-                    ${hoveredId === exp.id ? 'opacity-100' : 'opacity-0'}
-                  `} />
-
-                <div className="relative z-10 flex flex-col h-full min-h-[180px]">
-                  {/* Logos - aligned to top */}
-                  <div className="flex items-center gap-3 h-5 lg:h-6">
-                    {exp.logos.map((logo, idx) => <img key={idx} src={logoMap[logo]} alt={`${exp.company} logo`} className="h-full w-auto object-contain dark:invert-0 invert" />)}
-                  </div>
-
-                  {/* Spacer to push content to bottom */}
-                  <div className="flex-1" />
-
-                  {/* Company Info and Button - aligned to bottom */}
-                  <div className="flex items-end justify-between gap-4">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-1 lg:text-xl">
-                        {exp.company}
-                      </h3>
-                      <p className="text-primary font-medium mb-1 text-sm">
-                        {exp.currentTitle}
-                      </p>
-                      <p className="text-muted-foreground text-xs">
-                        {exp.duration} · {exp.yearsWorked}
-                      </p>
+              <GlowingShadow>
+                <div className="w-full p-6 lg:p-8">
+                  <div className="flex flex-col h-full min-h-[180px]">
+                    {/* Logos - aligned to top */}
+                    <div className="flex items-center gap-3 h-5 lg:h-6">
+                      {exp.logos.map((logo, idx) => (
+                        <img 
+                          key={idx} 
+                          src={logoMap[logo]} 
+                          alt={`${exp.company} logo`} 
+                          className="h-full w-auto object-contain dark:invert-0 invert" 
+                        />
+                      ))}
                     </div>
 
-                    {/* Know More Button - appears on hover */}
-                    <div className={`
-                        transition-all duration-500 ease-out flex-shrink-0
-                        ${hoveredId === exp.id ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
-                      `}>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-primary text-primary-foreground rounded-full font-medium">
-                        Know More
-                        <ArrowRight className="w-3 h-3" />
-                      </span>
+                    {/* Spacer to push content to bottom */}
+                    <div className="flex-1" />
+
+                    {/* Company Info and Button - aligned to bottom */}
+                    <div className="flex items-end justify-between gap-4">
+                      <div>
+                        <h3 className="text-lg font-semibold mb-1 lg:text-xl">
+                          {exp.company}
+                        </h3>
+                        <p className="text-primary font-medium mb-1 text-sm">
+                          {exp.currentTitle}
+                        </p>
+                        <p className="text-muted-foreground text-xs">
+                          {exp.duration} · {exp.yearsWorked}
+                        </p>
+                      </div>
+
+                      {/* Know More Button - appears on hover */}
+                      <div className={`
+                          transition-all duration-500 ease-out flex-shrink-0
+                          ${hoveredId === exp.id ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
+                        `}>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-primary text-primary-foreground rounded-full font-medium">
+                          Know More
+                          <ArrowRight className="w-3 h-3" />
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </GlowingShadow>
             </Link>
           ))}
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default TeamsWorkedWith;
