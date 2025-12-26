@@ -22,6 +22,7 @@ const ExperienceSumTotal = () => {
           <div className="container max-w-5xl mx-auto px-6 md:px-8">
             <Link 
               to="/#teams" 
+              onClick={() => setTimeout(() => document.getElementById('teams')?.scrollIntoView({ behavior: 'smooth' }), 100)}
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
