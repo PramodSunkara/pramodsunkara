@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { MousePointer2 } from 'lucide-react';
 import { experiences } from '@/data/experience';
 import { GlowingShadow } from '@/components/ui/glowing-shadow';
+import { MouseTrackerProvider, Pointer, PointerFollower } from '@/components/ui/cursor';
 import camundaLogo from '@/assets/camunda-logo.svg';
 import sumtotalLogo from '@/assets/sumtotal-logo.svg';
 import skillsoftLogo from '@/assets/skillsoft-logo.svg';
@@ -14,8 +14,6 @@ const logoMap: Record<string, string> = {
 };
 
 const TeamsWorkedWith = () => {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-  
   return (
     <section id="teams" className="py-24 md:py-32 reveal">
       <div className="container max-w-6xl mx-auto px-6 md:px-8">
@@ -35,29 +33,27 @@ const TeamsWorkedWith = () => {
               to={`/experience/${exp.id}`}
               onClick={() => window.scrollTo(0, 0)}
               className="relative group block"
-              onMouseEnter={() => setHoveredId(exp.id)} 
-              onMouseLeave={() => setHoveredId(null)}
             >
-              <GlowingShadow>
-                <div className="w-full p-6 lg:p-8">
-                  <div className="flex flex-col h-full min-h-[180px]">
-                    {/* Logos - aligned to top */}
-                    <div className="flex items-center gap-3 h-5 lg:h-6">
-                      {exp.logos.map((logo, idx) => (
-                        <img 
-                          key={idx} 
-                          src={logoMap[logo]} 
-                          alt={`${exp.company} logo`} 
-                          className="h-full w-auto object-contain dark:invert-0 invert" 
-                        />
-                      ))}
-                    </div>
+              <MouseTrackerProvider>
+                <GlowingShadow>
+                  <div className="w-full p-6 lg:p-8">
+                    <div className="flex flex-col h-full min-h-[180px]">
+                      {/* Logos - aligned to top */}
+                      <div className="flex items-center gap-3 h-5 lg:h-6">
+                        {exp.logos.map((logo, idx) => (
+                          <img 
+                            key={idx} 
+                            src={logoMap[logo]} 
+                            alt={`${exp.company} logo`} 
+                            className="h-full w-auto object-contain dark:invert-0 invert" 
+                          />
+                        ))}
+                      </div>
 
-                    {/* Spacer to push content to bottom */}
-                    <div className="flex-1" />
+                      {/* Spacer to push content to bottom */}
+                      <div className="flex-1" />
 
-                    {/* Company Info and Button - aligned to bottom */}
-                    <div className="flex items-end justify-between gap-4">
+                      {/* Company Info - aligned to bottom */}
                       <div>
                         <h3 className="text-lg font-semibold mb-1 lg:text-xl">
                           {exp.company}
@@ -69,21 +65,19 @@ const TeamsWorkedWith = () => {
                           {exp.duration} · {exp.yearsWorked}
                         </p>
                       </div>
-
-                      {/* Know More Button - appears on hover */}
-                      <div className={`
-                          transition-all duration-500 ease-out flex-shrink-0
-                          ${hoveredId === exp.id ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
-                        `}>
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-primary text-primary-foreground rounded-full font-medium">
-                          Know More
-                          <ArrowRight className="w-3 h-3" />
-                        </span>
-                      </div>
                     </div>
                   </div>
-                </div>
-              </GlowingShadow>
+                </GlowingShadow>
+                
+                <Pointer>
+                  <MousePointer2 className="h-5 w-5 text-primary" />
+                </Pointer>
+                <PointerFollower>
+                  <div className="px-3 py-1.5 bg-primary text-primary-foreground rounded-full text-xs font-medium shadow-lg">
+                    Know More
+                  </div>
+                </PointerFollower>
+              </MouseTrackerProvider>
             </Link>
           ))}
         </div>
