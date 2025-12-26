@@ -42,40 +42,47 @@ export const experiences: CompanyExperience[] = [
     roles: [
       {
         title: 'Senior Web Developer',
-        duration: 'Jan 2021 - Present',
-        description: 'Leading web development initiatives and building scalable solutions for process automation platform.'
+        duration: 'April 2023 - Present',
+        description: 'Lead UX and visual execution across Camunda\'s global marketing websites, landing pages, and campaign microsites, with a focus on optimizing user flows and demo conversions.'
+      },
+      {
+        title: 'Senior Web Marketing Manager',
+        duration: 'January 2021 - March 2023',
+        description: 'Owned the web channel strategy supporting global demand generation and brand initiatives. Partnered with stakeholders across Product Marketing, Sales, and Leadership to align web UX with business objectives.'
       }
     ],
     responsibilities: [
-      'Lead development of customer-facing web applications',
-      'Architect and implement scalable frontend solutions',
-      'Collaborate with cross-functional teams to deliver product features',
-      'Mentor junior developers and conduct code reviews',
-      'Optimize application performance and user experience'
+      'Lead UX and visual execution across global marketing websites, landing pages, and campaign microsites',
+      'Act as the primary liaison between Creative, Marketing, and Development teams',
+      'Analyze web performance and user behavior using Google Analytics to identify friction points',
+      'Design and implement responsive, accessible page templates aligned with WCAG standards',
+      'Oversee special web initiatives including campaign microsites, event platforms, and system integrations',
+      'Maintain and evolve reusable components and page patterns to improve consistency and delivery speed',
+      'Guide designers and developers on UX best practices, accessibility, and responsive design standards'
     ],
     projects: [
       {
-        name: 'Camunda Platform UI',
-        description: 'Developed and maintained the core platform user interface',
-        impact: 'Improved user engagement by 40%'
+        name: 'Camunda Website Redesign',
+        description: 'Introduced Elementor-based design system on WordPress, rebuilt navigation, mega menu, and page transitions',
+        impact: 'Improved demo conversion rates by 3x'
       },
       {
-        name: 'Design System Implementation',
-        description: 'Led the implementation of a cohesive design system across products',
-        impact: 'Reduced development time by 30%'
+        name: 'HubSpot Demo Flows',
+        description: 'Designed high-conversion HubSpot demo flows with advanced animations and interaction patterns',
+        impact: 'Increased engagement across event and campaign pages'
       },
       {
-        name: 'Performance Optimization',
-        description: 'Optimized web application performance and loading times',
-        impact: 'Achieved 50% faster page load times'
+        name: 'Marketing Page Templates',
+        description: 'Created reusable page patterns enabling faster page creation for marketing teams',
+        impact: 'Delivered pixel-perfect mobile experiences'
       }
     ],
-    skills: ['React', 'TypeScript', 'Node.js', 'GraphQL', 'REST APIs', 'Design Systems', 'Agile/Scrum', 'Git', 'CI/CD'],
+    skills: ['UI/UX Design', 'Web Design', 'Front-End Development', 'WordPress', 'Elementor', 'HTML5', 'CSS3', 'JavaScript', 'Figma', 'Google Analytics', 'HubSpot', 'WCAG Accessibility', 'Responsive Design', 'A/B Testing'],
     achievements: [
-      'Successfully delivered 15+ major feature releases',
-      'Improved platform performance metrics by 50%',
-      'Established coding standards adopted across teams',
-      'Mentored 5 junior developers to senior positions'
+      'Improved demo conversion rates by 3x through UX optimization',
+      'Increased engagement across event and campaign pages',
+      'Enabled faster page creation for marketing teams',
+      'Delivered pixel-perfect mobile experiences across all devices'
     ],
     testimonials: [
       {
@@ -90,55 +97,66 @@ export const experiences: CompanyExperience[] = [
     company: 'SumTotal Systems & Skillsoft',
     logos: ['sumtotal-logo.svg', 'skillsoft-logo.svg'],
     currentTitle: 'Digital Marketing Manager',
-    duration: 'Nov 2006 - Dec 2020',
+    duration: 'Nov 2006 - Jan 2021',
     yearsWorked: '14+ years',
     roles: [
       {
         title: 'Digital Marketing Manager',
-        duration: '2015 - Dec 2020',
-        description: 'Led digital marketing strategies and managed cross-functional teams to drive brand awareness and lead generation.'
+        duration: 'December 2017 - January 2021',
+        description: 'Led digital marketing operations with a strong emphasis on web experience, conversion optimization, and performance reporting. Directed UX improvements across enterprise websites supporting multiple geographies and languages.'
       },
       {
-        title: 'Senior Marketing Specialist',
-        duration: '2010 - 2015',
-        description: 'Developed and executed marketing campaigns, analyzed performance metrics, and optimized conversion funnels.'
+        title: 'Lead – Digital Marketing Operations',
+        duration: 'April 2014 - December 2017',
+        description: 'Managed large-scale website initiatives, microsites, and campaign-focused properties. Established UX and design standards to improve consistency and scalability.'
       },
       {
-        title: 'Marketing Coordinator',
-        duration: 'Nov 2006 - 2010',
-        description: 'Supported marketing initiatives, managed content creation, and coordinated events and campaigns.'
+        title: 'Senior Specialist – Digital Marketing Operations',
+        duration: 'April 2013 - April 2014',
+        description: 'Executed website updates, landing pages, and UX enhancements aligned with marketing goals.'
+      },
+      {
+        title: 'Webmaster',
+        duration: 'September 2010 - March 2013',
+        description: 'Owned day-to-day management of enterprise web properties, ensuring performance, usability, and accessibility.'
+      },
+      {
+        title: 'Graphic Designer',
+        duration: 'November 2006 - September 2010',
+        description: 'Designed visual assets and early web interfaces, building a strong foundation in visual design and interaction principles.'
       }
     ],
     responsibilities: [
-      'Developed and executed comprehensive digital marketing strategies',
-      'Managed marketing automation and CRM systems',
-      'Led a team of marketing professionals',
-      'Analyzed marketing metrics and optimized campaigns',
-      'Collaborated with sales teams to align marketing efforts'
+      'Led digital marketing operations with emphasis on web experience and conversion optimization',
+      'Directed UX improvements across enterprise websites supporting multiple geographies and languages',
+      'Managed large-scale website initiatives, microsites, and campaign-focused properties',
+      'Established UX and design standards to improve consistency and scalability',
+      'Supported lead generation and marketing programs with conversion-focused landing pages',
+      'Maintained content consistency and technical integrity across large, multi-page web ecosystems'
     ],
     projects: [
       {
-        name: 'Global Brand Refresh',
+        name: 'Enterprise Website Redesign',
         description: 'Led the digital transformation of brand presence across all channels',
-        impact: 'Increased brand recognition by 60%'
+        impact: 'Improved user engagement and brand consistency globally'
       },
       {
-        name: 'Marketing Automation Platform',
-        description: 'Implemented and optimized marketing automation workflows',
-        impact: 'Generated 200% more qualified leads'
+        name: 'Multi-Region Website Management',
+        description: 'Managed websites supporting multiple geographies and languages',
+        impact: 'Ensured high standards for responsiveness, accessibility, and brand alignment'
       },
       {
-        name: 'Content Strategy Overhaul',
-        description: 'Redesigned content strategy to improve engagement and SEO',
-        impact: 'Achieved 150% increase in organic traffic'
+        name: 'Conversion Optimization Initiative',
+        description: 'Optimized landing pages and lead flows for better engagement',
+        impact: 'Significantly improved conversion performance'
       }
     ],
-    skills: ['Digital Marketing', 'SEO/SEM', 'Marketing Automation', 'Analytics', 'CRM', 'Content Strategy', 'Team Leadership', 'Project Management', 'A/B Testing'],
+    skills: ['Digital Marketing', 'UI/UX Design', 'Web Design', 'WordPress', 'HTML5', 'CSS3', 'JavaScript', 'PHP', 'SEO/SEM', 'Marketing Automation', 'HubSpot', 'Marketo', 'Google Analytics', 'A/B Testing', 'Accessibility'],
     achievements: [
-      'Grew digital marketing ROI by 300% over 5 years',
-      'Built and managed a team of 8 marketing professionals',
-      'Launched 50+ successful marketing campaigns',
-      'Established data-driven marketing practices'
+      'Grew from Graphic Designer to Digital Marketing Manager over 14+ years',
+      'Managed global marketing and multi-region website operations',
+      'Established UX and design standards adopted across the organization',
+      'Led successful digital transformation initiatives'
     ],
     testimonials: [
       {
