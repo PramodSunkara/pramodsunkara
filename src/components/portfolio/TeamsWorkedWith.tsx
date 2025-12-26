@@ -68,9 +68,9 @@ const TeamsWorkedWith = () => {
                       mt-6 transition-all duration-500 ease-out
                       ${hoveredId === exp.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}
                     `}>
-                    <Link to={`/experience/${exp.id}`} className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium transition-all duration-300 hover:gap-4 hover:shadow-lg hover:shadow-primary/30">
+                    <Link to={`/experience/${exp.id}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-primary text-primary-foreground rounded-full font-medium transition-all duration-300 hover:gap-2 hover:shadow-lg hover:shadow-primary/30">
                       Know More
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-3 h-3" />
                     </Link>
                   </div>
                 </div>
