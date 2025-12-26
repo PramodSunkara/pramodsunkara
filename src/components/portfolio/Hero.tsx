@@ -1,14 +1,13 @@
 import { Button } from '@/components/ui/button';
-
 const Hero = () => {
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(id)?.scrollIntoView({
+      behavior: 'smooth'
+    });
   };
-
-  return (
-    <section className="min-h-screen flex items-center justify-center section-padding pt-32">
+  return <section className="min-h-screen flex items-center justify-center section-padding pt-32">
       <div className="container-narrow text-center">
-        <h1 className="text-hero text-foreground reveal mb-8">
+        <h1 className="text-hero text-foreground reveal mb-8 text-6xl font-extralight">
           I'm Pramod, designing and building web experiences that <em className="font-normal italic">connect,</em> <em className="font-normal italic">engage,</em> and <em className="font-normal italic">convert.</em>
         </h1>
         
@@ -16,10 +15,7 @@ const Hero = () => {
           Your project deserves a design-focused web developer who empowers you to overcome business challenges. With 19+ years of experience, I create smart websites, effective strategies, and impactful interfaces that drive results.
         </p>
 
-        <Button 
-          onClick={() => scrollToSection('portfolio')}
-          className="reveal reveal-delay-2 rounded-full px-8 py-6 text-base bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300"
-        >
+        <Button onClick={() => scrollToSection('portfolio')} className="reveal reveal-delay-2 rounded-full px-8 py-6 text-base bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300">
           View my work
         </Button>
 
@@ -51,8 +47,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
