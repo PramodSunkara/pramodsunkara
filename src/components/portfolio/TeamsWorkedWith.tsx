@@ -24,11 +24,19 @@ const TeamsWorkedWith = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {experiences.map(exp => <div key={exp.id} className="relative group" onMouseEnter={() => setHoveredId(exp.id)} onMouseLeave={() => setHoveredId(null)}>
+          {experiences.map(exp => (
+            <Link 
+              key={exp.id} 
+              to={`/experience/${exp.id}`}
+              onClick={() => window.scrollTo(0, 0)}
+              className="relative group block"
+              onMouseEnter={() => setHoveredId(exp.id)} 
+              onMouseLeave={() => setHoveredId(null)}
+            >
               <div className={`
-                  relative overflow-hidden rounded-2xl p-8 lg:p-10
+                  relative overflow-hidden rounded-2xl p-6 lg:p-8
                   bg-card border border-border
-                  transition-all duration-500 ease-out
+                  transition-all duration-500 ease-out cursor-pointer
                   ${hoveredId === exp.id ? 'scale-105 shadow-2xl shadow-primary/20 border-primary/30' : 'shadow-lg hover:shadow-xl'}
                 `}>
                 {/* Background gradient on hover */}
@@ -38,7 +46,7 @@ const TeamsWorkedWith = () => {
                     ${hoveredId === exp.id ? 'opacity-100' : 'opacity-0'}
                   `} />
 
-                <div className="relative z-10 flex flex-col h-full min-h-[280px]">
+                <div className="relative z-10 flex flex-col h-full min-h-[180px]">
                   {/* Logos - aligned to top */}
                   <div className="flex items-center gap-3 h-5 lg:h-6">
                     {exp.logos.map((logo, idx) => <img key={idx} src={logoMap[logo]} alt={`${exp.company} logo`} className="h-full w-auto object-contain dark:invert-0 invert" />)}
@@ -47,39 +55,35 @@ const TeamsWorkedWith = () => {
                   {/* Spacer to push content to bottom */}
                   <div className="flex-1" />
 
-                  {/* Company Info - aligned to bottom */}
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2 lg:text-xl">
-                      {exp.company}
-                    </h3>
-                    <p className="text-primary font-medium mb-1 text-sm">
-                      {exp.currentTitle}
-                    </p>
-                    <p className="text-muted-foreground mb-2 text-xs">
-                      {exp.duration}
-                    </p>
-                    <p className="text-muted-foreground/80 text-xs">
-                      {exp.yearsWorked}
-                    </p>
-                  </div>
+                  {/* Company Info and Button - aligned to bottom */}
+                  <div className="flex items-end justify-between gap-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-1 lg:text-xl">
+                        {exp.company}
+                      </h3>
+                      <p className="text-primary font-medium mb-1 text-sm">
+                        {exp.currentTitle}
+                      </p>
+                      <p className="text-muted-foreground text-xs">
+                        {exp.duration} · {exp.yearsWorked}
+                      </p>
+                    </div>
 
-                  {/* Know More Button - appears on hover */}
-                  <div className={`
-                      mt-6 transition-all duration-500 ease-out
-                      ${hoveredId === exp.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}
-                    `}>
-                    <Link 
-                      to={`/experience/${exp.id}`} 
-                      onClick={() => window.scrollTo(0, 0)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-primary text-primary-foreground rounded-full font-medium transition-all duration-300 hover:gap-2 hover:shadow-lg hover:shadow-primary/30"
-                    >
-                      Know More
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
+                    {/* Know More Button - appears on hover */}
+                    <div className={`
+                        transition-all duration-500 ease-out flex-shrink-0
+                        ${hoveredId === exp.id ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
+                      `}>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-primary text-primary-foreground rounded-full font-medium">
+                        Know More
+                        <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>)}
+            </Link>
+          ))}
         </div>
       </div>
     </section>;
