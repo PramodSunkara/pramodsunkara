@@ -16,9 +16,9 @@ export const useTheme = () => {
     if (!isScrollBased) return;
 
     const handleScroll = () => {
-      const portfolioSection = document.getElementById('portfolio');
-      if (portfolioSection) {
-        const rect = portfolioSection.getBoundingClientRect();
+      const skillsSection = document.getElementById('skills');
+      if (skillsSection) {
+        const rect = skillsSection.getBoundingClientRect();
         const triggerPoint = window.innerHeight * 0.3;
         
         if (rect.top <= triggerPoint) {
