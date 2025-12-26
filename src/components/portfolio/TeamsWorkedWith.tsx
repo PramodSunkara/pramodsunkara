@@ -54,36 +54,37 @@ const TeamsWorkedWith = () => {
                   `}
                 />
 
-                <div className="relative z-10">
-                  {/* Logos */}
-                  <div className="flex items-center gap-4 mb-6 h-16">
+                <div className="relative z-10 flex flex-col h-full min-h-[280px]">
+                  {/* Logos - aligned to top */}
+                  <div className="flex items-center gap-4 h-10 lg:h-11">
                     {exp.logos.map((logo, idx) => (
-                      <div
+                      <img
                         key={idx}
-                        className="h-12 lg:h-14 flex items-center bg-foreground/90 dark:bg-foreground/10 rounded-lg px-4 py-2"
-                      >
-                        <img
-                          src={logoMap[logo]}
-                          alt={`${exp.company} logo`}
-                          className="h-full w-auto object-contain dark:invert-0 invert"
-                        />
-                      </div>
+                        src={logoMap[logo]}
+                        alt={`${exp.company} logo`}
+                        className="h-full w-auto object-contain dark:invert-0 invert"
+                      />
                     ))}
                   </div>
 
-                  {/* Company Info */}
-                  <h3 className="text-xl lg:text-2xl font-semibold mb-2">
-                    {exp.company}
-                  </h3>
-                  <p className="text-lg text-primary font-medium mb-1">
-                    {exp.currentTitle}
-                  </p>
-                  <p className="text-muted-foreground mb-2">
-                    {exp.duration}
-                  </p>
-                  <p className="text-sm text-muted-foreground/80">
-                    {exp.yearsWorked}
-                  </p>
+                  {/* Spacer to push content to bottom */}
+                  <div className="flex-1" />
+
+                  {/* Company Info - aligned to bottom */}
+                  <div>
+                    <h3 className="text-xl lg:text-2xl font-semibold mb-2">
+                      {exp.company}
+                    </h3>
+                    <p className="text-lg text-primary font-medium mb-1">
+                      {exp.currentTitle}
+                    </p>
+                    <p className="text-muted-foreground mb-2">
+                      {exp.duration}
+                    </p>
+                    <p className="text-sm text-muted-foreground/80">
+                      {exp.yearsWorked}
+                    </p>
+                  </div>
 
                   {/* Know More Button - appears on hover */}
                   <div
