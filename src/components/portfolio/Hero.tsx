@@ -1,4 +1,6 @@
 import { Button } from '@/components/ui/button';
+import profileImage from '@/assets/pramod-profile.jpg';
+
 const Hero = () => {
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({
@@ -7,6 +9,11 @@ const Hero = () => {
   };
   return <section className="min-h-screen flex items-center justify-center section-padding pt-32">
       <div className="container-narrow text-center">
+        <img 
+          src={profileImage} 
+          alt="Pramod" 
+          className="w-32 h-32 rounded-full object-cover mx-auto mb-8 reveal border-4 border-primary/20"
+        />
         <h1 className="text-hero text-foreground reveal mb-4 text-6xl font-extralight">
           I'm Pramod, designing and building web experiences that <em className="font-normal italic">connect,</em> <em className="font-normal italic">engage,</em> and <em className="font-normal italic">convert.</em>
         </h1>
