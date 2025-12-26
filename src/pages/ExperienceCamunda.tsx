@@ -28,7 +28,7 @@ const ExperienceCamunda = () => {
             </Link>
 
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8">
-              <div className="h-16 md:h-20 flex items-center bg-foreground/90 dark:bg-foreground/10 rounded-xl px-6 py-3">
+              <div className="h-8 md:h-10 flex items-center">
                 <img
                   src={camundaLogo}
                   alt="Camunda logo"

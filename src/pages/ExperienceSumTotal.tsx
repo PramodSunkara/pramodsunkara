@@ -29,21 +29,17 @@ const ExperienceSumTotal = () => {
             </Link>
 
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8">
-              <div className="flex items-center gap-4">
-                <div className="h-14 md:h-16 flex items-center bg-background rounded-xl px-4 py-2 border border-border">
-                  <img
-                    src={sumtotalLogo}
-                    alt="SumTotal logo"
-                    className="h-full w-auto object-contain"
-                  />
-                </div>
-                <div className="h-14 md:h-16 flex items-center bg-background rounded-xl px-4 py-2 border border-border">
-                  <img
-                    src={skillsoftLogo}
-                    alt="Skillsoft logo"
-                    className="h-full w-auto object-contain"
-                  />
-                </div>
+              <div className="flex items-center gap-4 h-7 md:h-8">
+                <img
+                  src={sumtotalLogo}
+                  alt="SumTotal logo"
+                  className="h-full w-auto object-contain dark:invert-0 invert"
+                />
+                <img
+                  src={skillsoftLogo}
+                  alt="Skillsoft logo"
+                  className="h-full w-auto object-contain dark:invert-0 invert"
+                />
               </div>
               <div>
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-2">
