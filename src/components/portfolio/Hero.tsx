@@ -9,7 +9,7 @@ const Hero = () => {
     });
   };
   return <>
-    <section className="h-screen flex flex-col section-padding pt-40 relative">
+    <section className="h-screen flex flex-col pt-40 relative">
       <div className="container-narrow text-center flex-1 flex flex-col justify-center">
         <img src={profileImage} alt="Pramod" className="w-32 h-32 rounded-full object-cover mx-auto mb-8 reveal border-4 border-primary/20" />
         <h1 className="text-hero text-foreground reveal mb-4 text-6xl font-extralight">
