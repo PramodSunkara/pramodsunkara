@@ -9,8 +9,8 @@ const Hero = () => {
     });
   };
   return <>
-    <section className="h-screen flex items-center justify-center section-padding pt-40">
-      <div className="container-narrow text-center">
+    <section className="h-screen flex flex-col section-padding pt-40 relative">
+      <div className="container-narrow text-center flex-1 flex flex-col justify-center">
         <img src={profileImage} alt="Pramod" className="w-32 h-32 rounded-full object-cover mx-auto mb-8 reveal border-4 border-primary/20" />
         <h1 className="text-hero text-foreground reveal mb-4 text-6xl font-extralight">
           I'm Pramod, designing and building web experiences that <em className="font-normal italic">connect,</em> <em className="font-normal italic">engage,</em> and <em className="font-normal italic">convert.</em>
@@ -29,11 +29,14 @@ const Hero = () => {
           <ChevronDown className="w-8 h-8 animate-bounce" />
         </button>
       </div>
+      
+      <div className="pb-8">
+        <LogoStrip />
+      </div>
     </section>
 
     <section className="section-padding">
       <div className="container-narrow">
-        <LogoStrip />
 
         {/* Value propositions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-32 reveal reveal-delay-3">
