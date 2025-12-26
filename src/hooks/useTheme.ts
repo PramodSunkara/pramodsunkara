@@ -1,27 +1,44 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 type Theme = 'light' | 'dark';
 
 export const useTheme = () => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('theme') as Theme;
-      if (stored) return stored;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    return 'light';
-  });
+  const [theme, setTheme] = useState<Theme>('dark');
+  const [isScrollBased, setIsScrollBased] = useState(true);
 
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
-    localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const toggleTheme = () => {
+  useEffect(() => {
+    if (!isScrollBased) return;
+
+    const handleScroll = () => {
+      const portfolioSection = document.getElementById('portfolio');
+      if (portfolioSection) {
+        const rect = portfolioSection.getBoundingClientRect();
+        const triggerPoint = window.innerHeight * 0.3;
+        
+        if (rect.top <= triggerPoint) {
+          setTheme('light');
+        } else {
+          setTheme('dark');
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Check initial position
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isScrollBased]);
+
+  const toggleTheme = useCallback(() => {
+    setIsScrollBased(false);
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
+  }, []);
 
   return { theme, toggleTheme };
 };
