@@ -31,7 +31,7 @@ const Hero = () => {
       </div>
     </section>
 
-    <div className="py-8 reveal">
+    <div className="reveal">
       <LogoStrip />
     </div>
 
