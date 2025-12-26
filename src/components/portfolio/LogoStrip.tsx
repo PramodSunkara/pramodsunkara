@@ -36,7 +36,7 @@ const ToolItem = ({ tool, index }: { tool: typeof tools[0]; index: number }) => 
           </span>
         </div>
       </TooltipTrigger>
-      <TooltipContent className="bg-yellow-400 text-black border-yellow-400 font-medium">
+      <TooltipContent className="bg-yellow-400 text-black border-yellow-400 font-medium z-50">
         {tool.years}+ years experience
       </TooltipContent>
     </Tooltip>
