@@ -47,7 +47,7 @@ const Process = () => {
             }
           });
         },
-        { threshold: 0.3, rootMargin: '0px 0px -50px 0px' }
+        { threshold: 0.2, rootMargin: '0px 0px -100px 0px' }
       );
 
       observer.observe(ref);
@@ -65,41 +65,38 @@ const Process = () => {
           A flexible, user-centered approach adapted to each project's unique needs.
         </p>
 
-        {/* Stacking cards */}
+        {/* Stacking sticky cards */}
         <div className="relative">
           {steps.map((step, index) => {
             const isVisible = visibleSteps.includes(index);
-            const stackOffset = Math.min(visibleSteps.filter(v => v < index).length * 4, 20);
             
             return (
               <div
                 key={step.title}
                 ref={(el) => (stepRefs.current[index] = el)}
-                className="mb-4 last:mb-0"
+                className="sticky"
                 style={{
-                  transform: isVisible 
-                    ? `translateY(0) scale(1)` 
-                    : `translateY(40px) scale(0.95)`,
-                  opacity: isVisible ? 1 : 0,
-                  transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`,
+                  top: `${120 + index * 20}px`,
+                  marginBottom: index === steps.length - 1 ? '0' : '60px',
+                  zIndex: index + 1,
                 }}
               >
                 <div 
-                  className={`p-6 md:p-8 rounded-2xl bg-secondary/50 backdrop-blur-sm border border-border/50 transition-all duration-500 hover:bg-secondary hover:shadow-lg ${
-                    isVisible ? 'hover:scale-[1.02]' : ''
-                  }`}
+                  className="p-6 md:p-8 rounded-2xl bg-card border border-border transition-all duration-700 ease-out"
                   style={{
-                    boxShadow: isVisible 
-                      ? `0 ${4 + index * 2}px ${20 + index * 5}px -10px hsl(var(--foreground) / 0.1)` 
-                      : 'none',
+                    transform: isVisible 
+                      ? 'translateY(0) scale(1)' 
+                      : 'translateY(100px) scale(0.9)',
+                    opacity: isVisible ? 1 : 0,
+                    boxShadow: `0 ${10 + index * 4}px ${30 + index * 8}px -15px hsl(var(--foreground) / ${0.08 + index * 0.02})`,
                   }}
                 >
                   <div className="flex items-start gap-5">
                     <div 
-                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg font-semibold flex-shrink-0 transition-transform duration-500"
+                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg font-semibold flex-shrink-0 transition-all duration-500"
                       style={{
                         transform: isVisible ? 'scale(1) rotate(0deg)' : 'scale(0.5) rotate(-180deg)',
-                        transitionDelay: `${index * 0.1 + 0.2}s`,
+                        transitionDelay: '0.1s',
                       }}
                     >
                       {index + 1}
@@ -110,7 +107,7 @@ const Process = () => {
                         style={{
                           transform: isVisible ? 'translateX(0)' : 'translateX(-20px)',
                           opacity: isVisible ? 1 : 0,
-                          transitionDelay: `${index * 0.1 + 0.15}s`,
+                          transitionDelay: '0.15s',
                         }}
                       >
                         {step.title}
@@ -120,7 +117,7 @@ const Process = () => {
                         style={{
                           transform: isVisible ? 'translateX(0)' : 'translateX(-20px)',
                           opacity: isVisible ? 1 : 0,
-                          transitionDelay: `${index * 0.1 + 0.25}s`,
+                          transitionDelay: '0.25s',
                         }}
                       >
                         {step.description}
@@ -131,6 +128,8 @@ const Process = () => {
               </div>
             );
           })}
+          {/* Spacer for last card to scroll past */}
+          <div className="h-32" />
         </div>
       </div>
     </section>
