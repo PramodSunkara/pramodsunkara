@@ -15,7 +15,7 @@ const TeamsWorkedWith = () => {
   return <section id="teams" className="py-24 md:py-32 reveal">
       <div className="container max-w-6xl mx-auto px-6 md:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl font-display mb-6 font-light lg:text-4xl">
             Awesome Teams I've Worked With
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
