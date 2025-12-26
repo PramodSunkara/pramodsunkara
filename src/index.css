@@ -119,6 +119,12 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    transition: background-color 0.5s ease-in-out, color 0.3s ease-in-out;
+  }
+
+  /* Smooth theme transitions */
+  .dark, :root {
+    transition: background-color 0.5s ease-in-out;
   }
 
   /* Typography Scale */
