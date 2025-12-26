@@ -76,8 +76,8 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
           --hue: 0;
           --hue-speed: 1;
           --rotate: 0;
-          --animation-speed: 4s;
-          --interaction-speed: 0.55s;
+          --animation-speed: 8s;
+          --interaction-speed: 0.8s;
           --glow-scale: 1.5;
           --scale-factor: 1;
           --glow-blur: 6;
