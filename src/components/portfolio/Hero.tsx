@@ -9,11 +9,7 @@ const Hero = () => {
     <section className="min-h-screen flex items-center justify-center section-padding pt-32">
       <div className="container-narrow text-center">
         <h1 className="text-hero text-foreground reveal mb-8">
-          Building web experiences
-          <br />
-          that <em className="font-normal italic">resonate,</em> products
-          <br />
-          that <em className="font-normal italic">convert.</em>
+          I'm Pramod, designing and building web experiences that <em className="font-normal italic">connect,</em> <em className="font-normal italic">engage,</em> and <em className="font-normal italic">convert.</em>
         </h1>
         
         <p className="text-body text-muted-foreground max-w-2xl mx-auto mb-16 reveal reveal-delay-1">
