@@ -56,7 +56,7 @@ const TeamsWorkedWith = () => {
 
                 <div className="relative z-10 flex flex-col h-full min-h-[280px]">
                   {/* Logos - aligned to top */}
-                  <div className="flex items-center gap-4 h-10 lg:h-11">
+                  <div className="flex items-center gap-3 h-5 lg:h-6">
                     {exp.logos.map((logo, idx) => (
                       <img
                         key={idx}
