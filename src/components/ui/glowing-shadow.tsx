@@ -126,6 +126,8 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
           box-shadow: 0 0 20px black;
           mix-blend-mode: color-burn;
           z-index: -1;
+          opacity: 0;
+          transition: opacity 0.3s ease;
           background: hsl(0deg 0% 16%) radial-gradient(
             30% 30% at calc(var(--bg-x) * 1%) calc(var(--bg-y) * 1%),
             hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 90%) calc(0% * var(--bg-size)),
@@ -133,9 +135,6 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
             hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 60%) calc(40% * var(--bg-size)),
             transparent 100%
           );
-          animation: hue-animation var(--animation-speed) linear infinite,
-                     rotate-bg var(--animation-speed) linear infinite;
-          transition: --bg-size var(--interaction-speed) ease;
         }
 
         .glow {
@@ -144,10 +143,11 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
           position: absolute;
           width: 60px;
           height: 60px;
-          animation: rotate var(--animation-speed) linear infinite;
           transform: rotateZ(calc(var(--rotate) * var(--glow-rotate-unit)));
           transform-origin: center;
           border-radius: calc(var(--glow-radius) * 10vw);
+          opacity: 0;
+          transition: opacity 0.3s ease;
         }
 
         .glow:after {
@@ -162,7 +162,6 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
           background: hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 60%);
           position: relative;
           border-radius: calc(var(--glow-radius) * 10vw);
-          animation: hue-animation var(--animation-speed) linear infinite;
           transform: scaleY(calc(var(--glow-scale) * var(--scale-factor) / 1.1))
                      scaleX(calc(var(--glow-scale) * var(--scale-factor) * 1.2))
                      translateY(calc(var(--glow-translate-y) * 1%));
@@ -176,28 +175,23 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
         }
 
         .glow-container:hover .glow-content:before {
+          opacity: 1;
           --bg-size: 15;
-          animation-play-state: paused;
-          transition: --bg-size var(--interaction-speed) ease;
+          animation: hue-animation var(--animation-speed) linear infinite,
+                     rotate-bg var(--animation-speed) linear infinite;
         }
 
         .glow-container:hover .glow {
+          opacity: 1;
           --glow-blur: 1.5;
           --glow-opacity: 0.6;
           --glow-scale: 2.5;
           --glow-radius: 0;
-          --rotate: 900;
-          --glow-rotate-unit: 0;
-          --scale-factor: 1.25;
-          animation-play-state: paused;
+          animation: rotate var(--animation-speed) linear infinite;
         }
 
         .glow-container:hover .glow:after {
-          --glow-translate-y: 0;
-          animation-play-state: paused;
-          transition: --glow-translate-y 0s ease, --glow-blur 0.05s ease,
-                      --glow-opacity 0.05s ease, --glow-scale 0.05s ease,
-                      --glow-radius 0.05s ease;
+          animation: hue-animation var(--animation-speed) linear infinite;
         }
 
         @keyframes shadow-pulse {
