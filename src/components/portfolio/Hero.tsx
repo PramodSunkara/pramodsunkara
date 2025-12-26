@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import profileImage from '@/assets/pramod-profile.jpg';
-
 const Hero = () => {
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({
@@ -9,11 +8,7 @@ const Hero = () => {
   };
   return <section className="min-h-screen flex items-center justify-center section-padding pt-32">
       <div className="container-narrow text-center">
-        <img 
-          src={profileImage} 
-          alt="Pramod" 
-          className="w-32 h-32 rounded-full object-cover mx-auto mb-8 reveal border-4 border-primary/20"
-        />
+        <img src={profileImage} alt="Pramod" className="w-32 h-32 rounded-full object-cover mx-auto mb-8 reveal border-4 border-primary/20" />
         <h1 className="text-hero text-foreground reveal mb-4 text-6xl font-extralight">
           I'm Pramod, designing and building web experiences that <em className="font-normal italic">connect,</em> <em className="font-normal italic">engage,</em> and <em className="font-normal italic">convert.</em>
         </h1>
@@ -21,9 +16,7 @@ const Hero = () => {
           Senior Web Developer · UI/UX Designer · Digital Experience Leader
         </p>
         
-        <p className="text-body text-muted-foreground max-w-2xl mx-auto mb-16 reveal reveal-delay-1">
-          Your project deserves a design-focused web developer who empowers you to overcome business challenges. With 19+ years of experience, I create smart websites, effective strategies, and impactful interfaces that drive results.
-        </p>
+        <p className="text-body text-muted-foreground max-w-2xl mx-auto mb-16 reveal reveal-delay-1 font-light text-base">With 19+ years of experience, I lead the design and development of smart, scalable websites and interfaces that align business strategy with meaningful user experiences.</p>
 
         <Button onClick={() => scrollToSection('portfolio')} className="reveal reveal-delay-2 rounded-full px-8 py-6 text-base bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300">
           View my work
