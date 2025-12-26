@@ -9,31 +9,31 @@ const Hero = () => {
     });
   };
   return <>
-    <section className="h-screen flex flex-col pt-40 relative">
-      <div className="container-narrow text-center flex-1 flex flex-col justify-center">
-        <img src={profileImage} alt="Pramod" className="w-32 h-32 rounded-full object-cover mx-auto mb-8 reveal border-4 border-primary/20" />
-        <h1 className="text-hero text-foreground reveal mb-4 text-6xl font-extralight">
+    <section className="min-h-screen flex flex-col pt-20 md:pt-40 relative pb-8">
+      <div className="container-narrow text-center flex-1 flex flex-col justify-center px-4 md:px-6">
+        <img src={profileImage} alt="Pramod" className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover mx-auto mb-6 md:mb-8 reveal border-4 border-primary/20" />
+        <h1 className="text-foreground reveal mb-4 text-3xl md:text-5xl lg:text-6xl font-extralight leading-tight">
           I'm Pramod, designing and building web experiences that <em className="font-normal italic">connect,</em> <em className="font-normal italic">engage,</em> and <em className="font-normal italic">convert.</em>
         </h1>
-        <p className="text-sm tracking-wide reveal reveal-delay-1 mb-8 text-yellow-500">
+        <p className="text-xs md:text-sm tracking-wide reveal reveal-delay-1 mb-6 md:mb-8 text-yellow-500">
           Senior Web Developer · UI/UX Designer · Digital Experience Leader
         </p>
         
-        <p className="text-body text-muted-foreground max-w-2xl mx-auto mb-16 reveal reveal-delay-1 font-light text-base">With 19+ years of experience, I lead the design and development of smart, scalable websites and interfaces that align business strategy with meaningful user experiences.</p>
+        <p className="text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-12 reveal reveal-delay-1 font-light text-sm md:text-base">With 19+ years of experience, I lead the design and development of smart, scalable websites and interfaces that align business strategy with meaningful user experiences.</p>
+
+        <div className="reveal reveal-delay-2">
+          <LogoStrip />
+        </div>
 
         <button 
           onClick={() => scrollToSection('portfolio')} 
-          className="reveal reveal-delay-2 mx-auto flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer"
+          className="reveal reveal-delay-3 mx-auto flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer mt-8 md:mt-12 relative z-20"
           aria-label="Scroll to portfolio"
         >
           <ChevronDown className="w-8 h-8 animate-bounce" />
         </button>
       </div>
     </section>
-
-    <div className="reveal">
-      <LogoStrip />
-    </div>
 
     <section className="section-padding">
       <div className="container-narrow">
