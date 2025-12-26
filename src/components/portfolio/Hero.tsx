@@ -1,5 +1,6 @@
 import { ChevronDown } from 'lucide-react';
 import profileImage from '@/assets/pramod-profile.jpg';
+import LogoStrip from './LogoStrip';
 
 const Hero = () => {
   const scrollToSection = (id: string) => {
@@ -26,6 +27,8 @@ const Hero = () => {
         >
           <ChevronDown className="w-8 h-8 animate-bounce" />
         </button>
+
+        <LogoStrip />
 
         {/* Value propositions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-32 reveal reveal-delay-3">
