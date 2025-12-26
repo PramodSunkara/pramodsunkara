@@ -1,5 +1,6 @@
-import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
 import profileImage from '@/assets/pramod-profile.jpg';
+
 const Hero = () => {
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({
@@ -18,9 +19,13 @@ const Hero = () => {
         
         <p className="text-body text-muted-foreground max-w-2xl mx-auto mb-16 reveal reveal-delay-1 font-light text-base">With 19+ years of experience, I lead the design and development of smart, scalable websites and interfaces that align business strategy with meaningful user experiences.</p>
 
-        <Button onClick={() => scrollToSection('portfolio')} className="reveal reveal-delay-2 rounded-full px-8 py-6 text-base bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300">
-          View my work
-        </Button>
+        <button 
+          onClick={() => scrollToSection('portfolio')} 
+          className="reveal reveal-delay-2 flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer"
+          aria-label="Scroll to portfolio"
+        >
+          <ChevronDown className="w-8 h-8 animate-bounce" />
+        </button>
 
         {/* Value propositions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-32 reveal reveal-delay-3">
