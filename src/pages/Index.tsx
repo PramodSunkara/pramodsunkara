@@ -3,7 +3,6 @@ import Navigation from '@/components/portfolio/Navigation';
 import Hero from '@/components/portfolio/Hero';
 import ImpactHighlights from '@/components/portfolio/ImpactHighlights';
 import TeamsWorkedWith from '@/components/portfolio/TeamsWorkedWith';
-import Portfolio from '@/components/portfolio/Portfolio';
 import Skills from '@/components/portfolio/Skills';
 import About from '@/components/portfolio/About';
 import Process from '@/components/portfolio/Process';
@@ -21,7 +20,6 @@ const Index = () => {
         <Hero />
         <ImpactHighlights />
         <TeamsWorkedWith />
-        <Portfolio />
         <Skills />
         <About />
         <Process />
