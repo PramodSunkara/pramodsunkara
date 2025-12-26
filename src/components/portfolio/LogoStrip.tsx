@@ -17,27 +17,34 @@ const tools = [
   { name: 'Webflow', icon: Globe, color: '#4353FF' },
 ];
 
+const ToolItem = ({ tool, index }: { tool: typeof tools[0]; index: number }) => {
+  const Icon = tool.icon;
+  return (
+    <div
+      key={index}
+      className="flex-shrink-0 px-6 flex items-center gap-2 group cursor-default"
+    >
+      <Icon 
+        className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" 
+        style={{ color: tool.color }}
+      />
+      <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300 whitespace-nowrap">
+        {tool.name}
+      </span>
+    </div>
+  );
+};
+
 const LogoStrip = () => {
   return (
     <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] overflow-hidden py-12 mt-12 reveal reveal-delay-3">
-      <div className="flex animate-scroll hover:pause">
-        {[...tools, ...tools, ...tools, ...tools].map((tool, index) => {
-          const Icon = tool.icon;
-          return (
-            <div
-              key={index}
-              className="flex-shrink-0 mx-6 flex items-center gap-2 group cursor-default"
-            >
-              <Icon 
-                className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" 
-                style={{ color: tool.color }}
-              />
-              <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-                {tool.name}
-              </span>
-            </div>
-          );
-        })}
+      <div className="flex w-max animate-scroll">
+        {tools.map((tool, index) => (
+          <ToolItem key={`first-${index}`} tool={tool} index={index} />
+        ))}
+        {tools.map((tool, index) => (
+          <ToolItem key={`second-${index}`} tool={tool} index={index} />
+        ))}
       </div>
     </div>
   );
