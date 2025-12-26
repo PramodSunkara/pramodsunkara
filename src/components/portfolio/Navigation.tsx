@@ -1,6 +1,4 @@
-import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/useTheme';
-
 const navItems = [
   { label: 'Work', href: '#portfolio' },
   { label: 'Skills', href: '#skills' },
@@ -39,19 +37,6 @@ const Navigation = () => {
           </button>
         ))}
       </nav>
-      
-      <Button
-        onClick={() => scrollToSection('#contact')}
-        className={`fixed top-6 right-6 rounded-full px-5 py-2 border shadow-md transition-all duration-500 ${
-          theme === 'dark'
-            ? 'bg-white/10 backdrop-blur-md text-white border-white/20 hover:bg-white/20'
-            : 'bg-card text-foreground border-border hover:bg-secondary'
-        }`}
-        variant="ghost"
-      >
-        <span className="w-2 h-2 rounded-full bg-olive mr-2" />
-        Get in touch
-      </Button>
     </header>
   );
 };

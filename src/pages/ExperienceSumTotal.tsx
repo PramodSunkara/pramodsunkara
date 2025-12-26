@@ -5,7 +5,7 @@ import sumtotalLogo from '@/assets/sumtotal-logo.svg';
 import skillsoftLogo from '@/assets/skillsoft-logo.svg';
 import Navigation from '@/components/portfolio/Navigation';
 import Footer from '@/components/portfolio/Footer';
-import ThemeToggle from '@/components/portfolio/ThemeToggle';
+
 
 const ExperienceSumTotal = () => {
   const experience = experiences.find(exp => exp.id === 'sumtotal');
@@ -173,7 +173,7 @@ const ExperienceSumTotal = () => {
       </main>
 
       <Footer />
-      <ThemeToggle />
+      
     </div>
   );
 };

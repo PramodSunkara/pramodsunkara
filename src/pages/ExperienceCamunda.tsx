@@ -4,7 +4,7 @@ import { experiences } from '@/data/experience';
 import camundaLogo from '@/assets/camunda-logo.svg';
 import Navigation from '@/components/portfolio/Navigation';
 import Footer from '@/components/portfolio/Footer';
-import ThemeToggle from '@/components/portfolio/ThemeToggle';
+
 
 const ExperienceCamunda = () => {
   const experience = experiences.find(exp => exp.id === 'camunda');
@@ -167,7 +167,7 @@ const ExperienceCamunda = () => {
       </main>
 
       <Footer />
-      <ThemeToggle />
+      
     </div>
   );
 };

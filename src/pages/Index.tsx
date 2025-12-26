@@ -7,7 +7,7 @@ import Skills from '@/components/portfolio/Skills';
 import About from '@/components/portfolio/About';
 import Contact from '@/components/portfolio/Contact';
 import Footer from '@/components/portfolio/Footer';
-import ThemeToggle from '@/components/portfolio/ThemeToggle';
+
 
 const Index = () => {
   const containerRef = useScrollReveal();
@@ -24,7 +24,7 @@ const Index = () => {
         <Contact />
       </main>
       <Footer />
-      <ThemeToggle />
+      
     </div>
   );
 };

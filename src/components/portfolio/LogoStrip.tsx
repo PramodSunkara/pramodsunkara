@@ -52,7 +52,7 @@ const LogoStrip = () => {
         {/* Right fade gradient */}
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
         
-        <div className="flex w-max animate-scroll">
+        <div className="flex w-max animate-scroll hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]">
           {tools.map((tool, index) => (
             <ToolItem key={`first-${index}`} tool={tool} index={index} />
           ))}
