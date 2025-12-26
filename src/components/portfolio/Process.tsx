@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+
 const steps = [
   {
     title: 'Discover',
@@ -26,6 +28,35 @@ const steps = [
 ];
 
 const Process = () => {
+  const [visibleSteps, setVisibleSteps] = useState<number[]>([]);
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    stepRefs.current.forEach((ref, index) => {
+      if (!ref) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setVisibleSteps((prev) => 
+                prev.includes(index) ? prev : [...prev, index]
+              );
+            }
+          });
+        },
+        { threshold: 0.3, rootMargin: '0px 0px -50px 0px' }
+      );
+
+      observer.observe(ref);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((obs) => obs.disconnect());
+  }, []);
+
   return (
     <section id="process" className="section-padding">
       <div className="container-narrow">
@@ -34,39 +65,72 @@ const Process = () => {
           A flexible, user-centered approach adapted to each project's unique needs.
         </p>
 
-        {/* Desktop: Horizontal flow */}
-        <div className="hidden md:grid md:grid-cols-6 gap-4 reveal reveal-delay-2">
-          {steps.map((step, index) => (
-            <div key={step.title} className="relative">
-              <div className="p-5 rounded-2xl bg-secondary/50 h-full transition-colors duration-300 hover:bg-secondary">
-                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold mb-4">
-                  {index + 1}
+        {/* Stacking cards */}
+        <div className="relative">
+          {steps.map((step, index) => {
+            const isVisible = visibleSteps.includes(index);
+            const stackOffset = Math.min(visibleSteps.filter(v => v < index).length * 4, 20);
+            
+            return (
+              <div
+                key={step.title}
+                ref={(el) => (stepRefs.current[index] = el)}
+                className="mb-4 last:mb-0"
+                style={{
+                  transform: isVisible 
+                    ? `translateY(0) scale(1)` 
+                    : `translateY(40px) scale(0.95)`,
+                  opacity: isVisible ? 1 : 0,
+                  transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`,
+                }}
+              >
+                <div 
+                  className={`p-6 md:p-8 rounded-2xl bg-secondary/50 backdrop-blur-sm border border-border/50 transition-all duration-500 hover:bg-secondary hover:shadow-lg ${
+                    isVisible ? 'hover:scale-[1.02]' : ''
+                  }`}
+                  style={{
+                    boxShadow: isVisible 
+                      ? `0 ${4 + index * 2}px ${20 + index * 5}px -10px hsl(var(--foreground) / 0.1)` 
+                      : 'none',
+                  }}
+                >
+                  <div className="flex items-start gap-5">
+                    <div 
+                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg font-semibold flex-shrink-0 transition-transform duration-500"
+                      style={{
+                        transform: isVisible ? 'scale(1) rotate(0deg)' : 'scale(0.5) rotate(-180deg)',
+                        transitionDelay: `${index * 0.1 + 0.2}s`,
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+                    <div className="flex-1">
+                      <h3 
+                        className="font-semibold text-xl text-foreground mb-2 transition-all duration-500"
+                        style={{
+                          transform: isVisible ? 'translateX(0)' : 'translateX(-20px)',
+                          opacity: isVisible ? 1 : 0,
+                          transitionDelay: `${index * 0.1 + 0.15}s`,
+                        }}
+                      >
+                        {step.title}
+                      </h3>
+                      <p 
+                        className="text-body text-muted-foreground transition-all duration-500"
+                        style={{
+                          transform: isVisible ? 'translateX(0)' : 'translateX(-20px)',
+                          opacity: isVisible ? 1 : 0,
+                          transitionDelay: `${index * 0.1 + 0.25}s`,
+                        }}
+                      >
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">{step.title}</h3>
-                <p className="text-caption text-muted-foreground">
-                  {step.description}
-                </p>
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Mobile: Vertical flow */}
-        <div className="md:hidden grid grid-cols-2 gap-4">
-          {steps.map((step, index) => (
-            <div 
-              key={step.title} 
-              className={`reveal reveal-delay-${index + 1} p-5 rounded-2xl bg-secondary/50`}
-            >
-              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold mb-3">
-                {index + 1}
-              </div>
-              <h3 className="font-semibold text-foreground mb-1">{step.title}</h3>
-              <p className="text-caption text-muted-foreground">
-                {step.description}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
