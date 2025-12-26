@@ -8,7 +8,8 @@ const Hero = () => {
       behavior: 'smooth'
     });
   };
-  return <section className="min-h-screen flex items-center justify-center section-padding pt-32">
+  return <>
+    <section className="h-screen flex items-center justify-center section-padding pt-40">
       <div className="container-narrow text-center">
         <img src={profileImage} alt="Pramod" className="w-32 h-32 rounded-full object-cover mx-auto mb-8 reveal border-4 border-primary/20" />
         <h1 className="text-hero text-foreground reveal mb-4 text-6xl font-extralight">
@@ -27,7 +28,11 @@ const Hero = () => {
         >
           <ChevronDown className="w-8 h-8 animate-bounce" />
         </button>
+      </div>
+    </section>
 
+    <section className="section-padding">
+      <div className="container-narrow">
         <LogoStrip />
 
         {/* Value propositions */}
@@ -58,6 +63,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  </>;
 };
 export default Hero;
