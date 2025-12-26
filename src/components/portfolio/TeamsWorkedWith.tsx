@@ -49,7 +49,7 @@ const TeamsWorkedWith = () => {
 
                   {/* Company Info - aligned to bottom */}
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 lg:text-base">
+                    <h3 className="text-xl font-semibold mb-2 lg:text-xl">
                       {exp.company}
                     </h3>
                     <p className="text-primary font-medium mb-1 text-sm">
