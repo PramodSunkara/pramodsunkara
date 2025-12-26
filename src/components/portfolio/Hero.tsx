@@ -29,17 +29,16 @@ const Hero = () => {
           <ChevronDown className="w-8 h-8 animate-bounce" />
         </button>
       </div>
-      
-      <div className="pb-8">
-        <LogoStrip />
-      </div>
     </section>
+
+    <div className="py-8 reveal">
+      <LogoStrip />
+    </div>
 
     <section className="section-padding">
       <div className="container-narrow">
-
         {/* Value propositions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-32 reveal reveal-delay-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 reveal reveal-delay-3">
           <div className="text-left">
             <h3 className="font-semibold text-foreground mb-2">
               Helping you understand your users
