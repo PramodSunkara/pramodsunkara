@@ -96,7 +96,7 @@ const Skills = () => {
     <section id="skills" className="section-padding">
       <div className="container-narrow">
         <h2 className="text-section mb-4 reveal">Skills & Tools</h2>
-        <p className="text-body text-muted-foreground max-w-2xl mb-16 reveal reveal-delay-1">
+        <p className="text-base text-muted-foreground max-w-2xl mb-16 reveal reveal-delay-1">
           A blend of design thinking, technical expertise, and marketing savvy.
         </p>
 
@@ -146,11 +146,10 @@ const Skills = () => {
         <div className="reveal reveal-delay-5 border-t border-border pt-12 mt-12">
           {/* Certifications */}
           <div className="mb-12">
-            <h3 className="font-semibold text-lg mb-1 text-foreground uppercase tracking-wide">
+            <h3 className="font-semibold text-lg mb-4 text-foreground">
               Professional Certification Courses
             </h3>
-            <div className="w-16 h-0.5 bg-primary/60 mb-6" />
-            <ul className="space-y-2 list-disc list-inside text-sm text-muted-foreground">
+            <ul className="space-y-2 list-disc list-inside text-base text-muted-foreground">
               <li>Generative AI: Introduction and Applications by IBM</li>
               <li>User Experience Fundamentals for Web Design</li>
               <li>Microsoft Professional Program in Front-End Web Development</li>
@@ -158,48 +157,22 @@ const Skills = () => {
             </ul>
           </div>
 
-          {/* Education & Awards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Educational History */}
-            <div>
-              <h3 className="font-semibold text-lg mb-1 text-foreground uppercase tracking-wide">
-                Educational History
-              </h3>
-              <div className="w-16 h-0.5 bg-primary/60 mb-6" />
-              <div className="space-y-6">
-                <div>
-                  <p className="font-semibold text-foreground text-sm">
-                    Pursuing Micro Master's degree in Leadership and Service Innovation
-                  </p>
-                  <p className="text-sm text-muted-foreground">UQ Business School, Australia</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground text-sm">Bachelor's Degree</p>
-                  <p className="text-sm text-muted-foreground">Computer Science / Information Technology</p>
-                  <p className="text-sm text-muted-foreground">Andhra University 2006</p>
-                </div>
+          {/* Educational History */}
+          <div>
+            <h3 className="font-semibold text-lg mb-4 text-foreground">
+              Educational History
+            </h3>
+            <div className="space-y-6">
+              <div>
+                <p className="font-medium text-foreground text-base">
+                  Pursuing Micro Master's degree in Leadership and Service Innovation
+                </p>
+                <p className="text-sm text-muted-foreground">UQ Business School, Australia</p>
               </div>
-            </div>
-
-            {/* Awards */}
-            <div>
-              <h3 className="font-semibold text-lg mb-1 text-foreground uppercase tracking-wide">
-                Awards
-              </h3>
-              <div className="w-16 h-0.5 bg-primary/60 mb-6" />
-              <div className="space-y-4">
-                <div>
-                  <p className="font-semibold text-foreground text-sm">Above & Beyond Award</p>
-                  <p className="text-sm text-muted-foreground">SumTotal Systems</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground text-sm">Employee Achievement Award</p>
-                  <p className="text-sm text-muted-foreground">Skillsoft</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground text-sm">Spot Award</p>
-                  <p className="text-sm text-muted-foreground">SumTotal Systems</p>
-                </div>
+              <div>
+                <p className="font-medium text-foreground text-base">Bachelor's Degree</p>
+                <p className="text-sm text-muted-foreground">Computer Science / Information Technology</p>
+                <p className="text-sm text-muted-foreground">Andhra University 2006</p>
               </div>
             </div>
           </div>
