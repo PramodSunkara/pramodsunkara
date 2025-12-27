@@ -45,7 +45,7 @@ const ToolItem = ({ tool, index }: { tool: typeof tools[0]; index: number }) => 
 
 const LogoStrip = () => {
   return (
-    <TooltipProvider delayDuration={200}>
+    <TooltipProvider delayDuration={0}>
       <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] overflow-hidden pt-0 pb-12 mt-0 reveal reveal-delay-3">
         {/* Left fade gradient */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
