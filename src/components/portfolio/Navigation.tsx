@@ -1,4 +1,6 @@
 import { useTheme } from '@/hooks/useTheme';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 const navItems = [
   { label: 'Work', href: '#teams' },
   { label: 'Skills', href: '#skills' },
@@ -8,10 +10,21 @@ const navItems = [
 
 const Navigation = () => {
   const { theme } = useTheme();
+  const location = useLocation();
+  const navigate = useNavigate();
   
   const scrollToSection = (href: string) => {
     const id = href.replace('#', '');
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    
+    // If not on home page, navigate to home first then scroll
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
