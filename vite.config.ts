@@ -6,10 +6,9 @@ import { componentTagger } from "lovable-tagger";
 export default defineConfig(({ mode }) => ({
   base: "/pramodsunkara/",
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
-  resolve: {
-    alias: { "@": path.resolve(__dirname, "./src") },
-  },
+  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
   build: {
-    outDir: "dist",
+    outDir: "docs",
+    emptyOutDir: true,
   },
 }));
