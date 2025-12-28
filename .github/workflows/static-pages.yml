@@ -1,9 +1,8 @@
-# Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
 
 on:
   push:
-    branches: ["main"]   # <-- use your real branch name (no spaces)
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -17,25 +16,31 @@ concurrency:
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install
         run: npm ci
 
-      - name: Build project
+      - name: Build
         run: npm run build
+
+      - name: Verify dist has index.html
+        run: |
+          test -f dist/index.html
+          echo "dist/index.html exists"
+          grep -n "src/main.tsx" -n dist/index.html && (echo "ERROR: dist still references src/main.tsx" && exit 1) || echo "OK: dist does not reference src/main.tsx"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -43,10 +48,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # IMPORTANT: set this to your build output folder
-          # Vite: dist | CRA: build | Next static export: out
           path: dist
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
