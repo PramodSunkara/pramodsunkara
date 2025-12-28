@@ -16,7 +16,7 @@ const ExperienceCamunda = () => {
     navigate('/');
     setTimeout(() => {
       document.getElementById('teams')?.scrollIntoView({ behavior: 'smooth' });
-    }, 300);
+    }, 500);
   };
 
   if (!experience) return null;

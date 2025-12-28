@@ -9,7 +9,7 @@ const FloatingBackButton = () => {
     navigate('/');
     setTimeout(() => {
       document.getElementById('teams')?.scrollIntoView({ behavior: 'smooth' });
-    }, 300);
+    }, 500);
   };
 
   return (
