@@ -59,7 +59,7 @@ const TeamsWorkedWith = () => {
                     {/* Company Info and Button - aligned to bottom */}
                     <div className="flex items-end justify-between gap-4">
                       <div>
-                        <h3 className="text-lg font-semibold mb-1 lg:text-xl">
+                        <h3 className="text-sm sm:text-lg font-semibold mb-1 lg:text-xl leading-tight">
                           {exp.company}
                         </h3>
                         <p className="text-primary font-medium mb-1 text-sm">
