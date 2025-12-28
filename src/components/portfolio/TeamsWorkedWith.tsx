@@ -59,7 +59,7 @@ const TeamsWorkedWith = () => {
                     {/* Company Info and Button - aligned to bottom */}
                     <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-4">
                       <div>
-                        <h3 className="text-base sm:text-xl font-semibold mb-1 lg:text-2xl leading-tight">
+                        <h3 className="text-base sm:text-xl font-semibold mb-3 lg:text-2xl leading-tight">
                           {exp.company}
                         </h3>
                         <p className="text-primary font-medium mb-1 text-xs sm:text-sm">
@@ -72,9 +72,9 @@ const TeamsWorkedWith = () => {
 
                       {/* Know More Button - text only */}
                       <div className="flex-shrink-0">
-                        <span className="inline-flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm text-primary font-medium transition-colors duration-300 hover:text-primary/80">
+                        <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs text-primary font-medium transition-colors duration-300 hover:text-primary/80">
                           Know More
-                          <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                          <ArrowRight className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
                         </span>
                       </div>
                     </div>
