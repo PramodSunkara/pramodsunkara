@@ -70,12 +70,14 @@ const TeamsWorkedWith = () => {
                         </p>
                       </div>
 
-                      {/* Know More Button - appears on hover */}
-                      <div className={`
-                          transition-all duration-500 ease-out flex-shrink-0
-                          ${hoveredId === exp.id ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
+                      {/* Know More Button - always visible */}
+                      <div className="flex-shrink-0">
+                        <span className={`
+                          inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full font-medium transition-all duration-300
+                          ${hoveredId === exp.id 
+                            ? 'bg-primary text-primary-foreground' 
+                            : 'bg-primary/10 text-primary border border-primary/20'}
                         `}>
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-primary text-primary-foreground rounded-full font-medium">
                           Know More
                           <ArrowRight className="w-3 h-3" />
                         </span>
