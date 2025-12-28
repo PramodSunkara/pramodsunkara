@@ -1,7 +1,6 @@
 import { ChevronDown } from 'lucide-react';
 import profileImage from '@/assets/pramod-profile.jpg';
 import LogoStrip from './LogoStrip';
-
 const Hero = () => {
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({
@@ -21,11 +20,7 @@ const Hero = () => {
         
         <p className="text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-16 reveal reveal-delay-1 font-light text-sm md:text-base">With 19+ years of experience, I lead the design and development of smart, scalable websites and interfaces that align business strategy with meaningful user experiences.</p>
 
-        <button 
-          onClick={() => scrollToSection('portfolio')} 
-          className="reveal reveal-delay-2 mx-auto flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer"
-          aria-label="Scroll to portfolio"
-        >
+        <button onClick={() => scrollToSection('portfolio')} className="reveal reveal-delay-2 mx-auto flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer" aria-label="Scroll to portfolio">
           <ChevronDown className="w-6 h-6 md:w-8 md:h-8 animate-bounce" />
         </button>
       </div>
@@ -35,7 +30,7 @@ const Hero = () => {
       <LogoStrip />
     </div>
 
-    <section className="py-8 md:py-16">
+    <section className="py-8 md:py-16 px-0 pt-[100px]">
       <div className="container-narrow px-4 md:px-8">
         {/* Value propositions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 reveal reveal-delay-3">
