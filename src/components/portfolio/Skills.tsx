@@ -149,11 +149,23 @@ const Skills = () => {
             <h3 className="font-semibold text-lg mb-4 text-foreground">
               Professional Certification Courses
             </h3>
-            <ul className="space-y-2 list-disc list-inside text-base text-muted-foreground">
-              <li>Generative AI: Introduction and Applications by IBM</li>
-              <li>User Experience Fundamentals for Web Design</li>
-              <li>Microsoft Professional Program in Front-End Web Development</li>
-              <li>WordPress Essential Training</li>
+            <ul className="space-y-3 text-base text-muted-foreground">
+              <li className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
+                <span>Generative AI: Introduction and Applications by IBM</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
+                <span>User Experience Fundamentals for Web Design</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
+                <span>Microsoft Professional Program in Front-End Web Development</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
+                <span>WordPress Essential Training</span>
+              </li>
             </ul>
           </div>
 

@@ -31,19 +31,19 @@ const Hero = () => {
       </div>
     </section>
 
-    <div className="reveal py-8 md:py-12">
+    <div className="reveal py-4 md:py-12">
       <LogoStrip />
     </div>
 
-    <section className="section-padding">
+    <section className="py-8 md:py-16">
       <div className="container-narrow px-4 md:px-8">
         {/* Value propositions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 reveal reveal-delay-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 reveal reveal-delay-3">
           <div className="text-left">
             <h3 className="font-semibold text-foreground mb-2 text-base">
               Helping you understand your users
             </h3>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-base leading-relaxed">
               No matter the industry or sector, my first task is always to understand your offering better than you. By uncovering what makes your business exceptional, I craft experiences that connect.
             </p>
           </div>
@@ -51,7 +51,7 @@ const Hero = () => {
             <h3 className="font-semibold text-foreground mb-2 text-base">
               Don't worry, I've got this
             </h3>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-base leading-relaxed">
               I take full ownership of your projects, so you can focus on what matters most. With expertise delivering real results, you gain a competitive edge without the added hassle.
             </p>
           </div>
@@ -59,7 +59,7 @@ const Hero = () => {
             <h3 className="font-semibold text-foreground mb-2 text-base">
               Stay ahead, don't follow
             </h3>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-base leading-relaxed">
               Forget chasing competitors, you'll be too busy outpacing them. True market leaders thrive by embracing change, and I'll position you at the forefront with smart strategies.
             </p>
           </div>
