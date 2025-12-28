@@ -46,7 +46,35 @@ const ToolItem = ({ tool, index }: { tool: typeof tools[0]; index: number }) => 
 const LogoStrip = () => {
   return (
     <TooltipProvider delayDuration={200}>
-      <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] overflow-hidden pt-0 pb-12 mt-0 reveal reveal-delay-3">
+      {/* Mobile: 3-row grid */}
+      <div className="md:hidden px-4 py-4 reveal reveal-delay-3">
+        <div className="grid grid-cols-3 gap-4">
+          {tools.map((tool, index) => {
+            const Icon = tool.icon;
+            return (
+              <Tooltip key={index}>
+                <TooltipTrigger asChild>
+                  <div className="flex flex-col items-center gap-1.5 group cursor-default">
+                    <Icon 
+                      className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" 
+                      style={{ color: tool.color }}
+                    />
+                    <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300 text-center">
+                      {tool.name}
+                    </span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="bg-yellow-400 text-black border-yellow-400 font-medium z-50">
+                  {tool.years}+ years experience
+                </TooltipContent>
+              </Tooltip>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Desktop: Scrolling animation */}
+      <div className="hidden md:block w-screen relative left-1/2 right-1/2 -mx-[50vw] overflow-hidden pt-0 pb-12 mt-0 reveal reveal-delay-3">
         {/* Left fade gradient */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
         {/* Right fade gradient */}
