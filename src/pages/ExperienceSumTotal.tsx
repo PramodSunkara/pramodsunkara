@@ -40,8 +40,20 @@ const ExperienceSumTotal = () => {
               Back to Home
             </a>
 
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8">
-              <div className="flex items-center gap-4 h-7 md:h-8">
+            <div className="flex flex-col-reverse md:flex-row items-start md:items-center justify-between gap-6 md:gap-8">
+              <div>
+                <h1 className="text-xl md:text-2xl lg:text-3xl font-display font-bold mb-2">
+                  {experience.company}
+                </h1>
+                <p className="text-base md:text-lg text-primary font-medium mb-1">
+                  {experience.currentTitle}
+                </p>
+                <p className="text-muted-foreground flex items-center gap-2 text-sm">
+                  <Calendar className="w-4 h-4" />
+                  {experience.duration} · {experience.yearsWorked}
+                </p>
+              </div>
+              <div className="flex items-center gap-4 h-7 md:h-8 flex-shrink-0">
                 <img
                   src={sumtotalLogo}
                   alt="SumTotal logo"
@@ -52,18 +64,6 @@ const ExperienceSumTotal = () => {
                   alt="Skillsoft logo"
                   className="h-full w-auto object-contain dark:invert-0 invert"
                 />
-              </div>
-              <div>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-2">
-                  {experience.company}
-                </h1>
-                <p className="text-xl text-primary font-medium mb-1">
-                  {experience.currentTitle}
-                </p>
-                <p className="text-muted-foreground flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  {experience.duration} · {experience.yearsWorked}
-                </p>
               </div>
             </div>
           </div>
