@@ -30,7 +30,7 @@ const Hero = () => {
       <LogoStrip />
     </div>
 
-    <section className="py-8 md:py-16 px-0 pt-[100px] pb-[100px]">
+    <section className="py-8 md:py-16 px-0 pb-[100px] pt-[50px]">
       <div className="container-narrow px-4 md:px-8">
         {/* Value propositions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 reveal reveal-delay-3">
