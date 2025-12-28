@@ -19,7 +19,8 @@ export const useTheme = () => {
       const skillsSection = document.getElementById('skills');
       if (skillsSection) {
         const rect = skillsSection.getBoundingClientRect();
-        const triggerPoint = window.innerHeight * 0.3;
+        // Switch theme only when skills section reaches the top of viewport
+        const triggerPoint = 50;
         
         if (rect.top <= triggerPoint) {
           setTheme('light');
