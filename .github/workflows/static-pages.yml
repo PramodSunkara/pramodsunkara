@@ -45,7 +45,7 @@ jobs:
         with:
           # IMPORTANT: set this to your build output folder
           # Vite: dist | CRA: build | Next static export: out
-          path: /docs
+          path: /dist
 
       - name: Deploy to GitHub Pages
         id: deployment
