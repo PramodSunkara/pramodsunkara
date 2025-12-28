@@ -5,6 +5,7 @@ import sumtotalLogo from '@/assets/sumtotal-logo.svg';
 import skillsoftLogo from '@/assets/skillsoft-logo.svg';
 import Navigation from '@/components/portfolio/Navigation';
 import Footer from '@/components/portfolio/Footer';
+import FloatingBackButton from '@/components/FloatingBackButton';
 
 
 const ExperienceSumTotal = () => {
@@ -24,6 +25,7 @@ const ExperienceSumTotal = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
+      <FloatingBackButton />
       
       <main className="pt-24 pb-16">
         {/* Hero Section */}
