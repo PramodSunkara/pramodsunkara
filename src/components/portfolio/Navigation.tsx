@@ -1,9 +1,9 @@
 import { useTheme } from '@/hooks/useTheme';
 const navItems = [
-  { label: 'Work', href: '#portfolio' },
+  { label: 'Work', href: '#teams' },
   { label: 'Skills', href: '#skills' },
   { label: 'About', href: '#about' },
-  { label: 'Process', href: '#process' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 const Navigation = () => {
