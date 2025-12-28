@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, Briefcase, Target, Award, MessageSquareQuote, Wrench } from 'lucide-react';
 import { experiences } from '@/data/experience';
 import sumtotalLogo from '@/assets/sumtotal-logo.svg';
@@ -8,7 +8,16 @@ import Footer from '@/components/portfolio/Footer';
 
 
 const ExperienceSumTotal = () => {
+  const navigate = useNavigate();
   const experience = experiences.find(exp => exp.id === 'sumtotal');
+
+  const handleBackClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate('/');
+    setTimeout(() => {
+      document.getElementById('teams')?.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+  };
 
   if (!experience) return null;
 
@@ -20,14 +29,14 @@ const ExperienceSumTotal = () => {
         {/* Hero Section */}
         <section className="py-16 md:py-24 bg-gradient-to-b from-primary/5 to-background">
           <div className="container max-w-5xl mx-auto px-6 md:px-8">
-            <Link 
-              to="/#teams" 
-              onClick={() => setTimeout(() => document.getElementById('teams')?.scrollIntoView({ behavior: 'smooth' }), 100)}
+            <a 
+              href="/#teams" 
+              onClick={handleBackClick}
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Home
-            </Link>
+            </a>
 
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8">
               <div className="flex items-center gap-4 h-7 md:h-8">
