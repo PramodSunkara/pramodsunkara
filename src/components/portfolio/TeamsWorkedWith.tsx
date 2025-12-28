@@ -17,18 +17,18 @@ const TeamsWorkedWith = () => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   
   return (
-    <section id="teams" className="py-12 md:py-20 reveal">
-      <div className="container max-w-6xl mx-auto px-4 md:px-8">
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-display mb-4 font-light">
+    <section id="teams" className="py-24 md:py-32 reveal">
+      <div className="container max-w-6xl mx-auto px-6 md:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-display mb-6 font-light lg:text-4xl">
             Awesome Teams I've Worked With
           </h2>
-          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Proud to have contributed to these amazing organizations over the years.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4 md:gap-8 lg:gap-12">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           {experiences.map(exp => (
             <Link 
               key={exp.id} 

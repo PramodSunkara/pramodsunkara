@@ -94,13 +94,13 @@ const aiTools = [
 const Skills = () => {
   return (
     <section id="skills" className="section-padding">
-      <div className="container-narrow px-4 md:px-8">
+      <div className="container-narrow">
         <h2 className="text-section mb-4 reveal">Skills & Tools</h2>
-        <p className="text-sm md:text-base text-muted-foreground max-w-2xl mb-8 md:mb-12 reveal reveal-delay-1">
+        <p className="text-base text-muted-foreground max-w-2xl mb-16 reveal reveal-delay-1">
           A blend of design thinking, technical expertise, and marketing savvy.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-8 md:mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-16">
           {skillCategories.map((category, index) => (
             <div key={category.title} className={`reveal reveal-delay-${index + 1}`}>
               <h3 className="font-medium text-base mb-5 text-foreground">
@@ -125,15 +125,15 @@ const Skills = () => {
         </div>
 
         {/* AI Tools */}
-        <div className="reveal reveal-delay-4 border-t border-border pt-8 md:pt-12">
-          <h3 className="font-medium text-base mb-4">
+        <div className="reveal reveal-delay-4 border-t border-border pt-12">
+          <h3 className="font-medium text-base mb-5">
             AI-Enhanced Workflow
           </h3>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2.5">
             {aiTools.map((tool) => (
               <span 
                 key={tool.name}
-                className="text-xs md:text-sm px-3 py-1.5 md:px-4 md:py-2 bg-secondary text-foreground rounded-full transition-colors duration-300 hover:bg-primary hover:text-primary-foreground flex items-center gap-2"
+                className="text-sm px-4 py-2 bg-secondary text-foreground rounded-full transition-colors duration-300 hover:bg-primary hover:text-primary-foreground flex items-center gap-2"
               >
                 {tool.icon}
                 {tool.name}
@@ -143,7 +143,7 @@ const Skills = () => {
         </div>
 
         {/* Education & Certifications */}
-        <div className="reveal reveal-delay-5 border-t border-border pt-8 md:pt-12 mt-8 md:mt-12">
+        <div className="reveal reveal-delay-5 border-t border-border pt-12 mt-12">
           {/* Certifications */}
           <div className="mb-12">
             <h3 className="font-semibold text-lg mb-4 text-foreground">
