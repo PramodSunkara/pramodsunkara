@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       base: "/pramodsunkuara/"
+      build: { outDir: 'dist' }
     },
   },
 }));
