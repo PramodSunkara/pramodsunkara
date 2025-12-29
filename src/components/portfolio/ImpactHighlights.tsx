@@ -25,7 +25,7 @@ const ImpactHighlights = () => {
           {highlights.map((item, index) => (
             <div 
               key={item.category}
-              className={`reveal reveal-delay-${index + 1} p-6 rounded-2xl bg-card transition-all duration-300 hover:shadow-md`}
+              className={`reveal reveal-delay-${Math.min(index + 1, 2)} p-6 rounded-2xl bg-card transition-all duration-200 hover:shadow-md`}
             >
               <p className="text-caption uppercase tracking-widest text-muted-foreground mb-3">
                 {item.category}
