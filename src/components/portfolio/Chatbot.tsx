@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, Send, X, User } from 'lucide-react';
+import { Send, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 
-// Animated Dog Head Component
-const AnimatedDogHead = ({ size = 24, className = '' }: { size?: number; className?: string }) => (
+// Animated Dog Head Component - exported for use in Footer
+export const AnimatedDogHead = ({ size = 24, className = '' }: { size?: number; className?: string }) => (
   <svg 
     width={size} 
     height={size} 
@@ -41,10 +41,6 @@ interface Message {
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-about-pramod`;
 
 const Chatbot = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showHint, setShowHint] = useState(false);
-  const [hintDismissed, setHintDismissed] = useState(false);
-  const [isOnAboutSection, setIsOnAboutSection] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: "Hi! I'm here to answer any questions about Pramod's experience, skills, and background. What would you like to know?" }
   ]);
@@ -53,75 +49,13 @@ const Chatbot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Show hint when user scrolls OR reaches about section
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!hintDismissed && !isOpen && window.scrollY > 50) {
-        setShowHint(true);
-      }
-    };
-
-    // Observe the about section
-    const aboutSection = document.getElementById('about');
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsOnAboutSection(true);
-            if (!isOpen) {
-              setShowHint(true);
-            }
-          } else {
-            setIsOnAboutSection(false);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    if (aboutSection) {
-      observer.observe(aboutSection);
-    }
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (aboutSection) {
-        observer.unobserve(aboutSection);
-      }
-    };
-  }, [hintDismissed, isOpen]);
-
-  // Auto-dismiss hint after 5 seconds, but only if NOT on about section
-  useEffect(() => {
-    if (showHint && !isOnAboutSection) {
-      const timer = setTimeout(() => {
-        setShowHint(false);
-        setHintDismissed(true);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [showHint, isOnAboutSection]);
-
-  // Hide hint when chat opens
-  useEffect(() => {
-    if (isOpen) {
-      setShowHint(false);
-      setHintDismissed(true);
-    }
-  }, [isOpen]);
-
   const scrollToBottom = () => {
-    // Use scrollIntoView with block: 'nearest' to prevent page scroll
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
 
   useEffect(() => {
-    // Only scroll to bottom when chat is open
-    if (isOpen) {
-      scrollToBottom();
-    }
-  }, [messages, isOpen]);
+    scrollToBottom();
+  }, [messages]);
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
@@ -220,171 +154,84 @@ const Chatbot = () => {
   };
 
   return (
-    <>
-      {/* Floating Chat Button with Hint */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-2">
-        {showHint && !isOpen && (
-          <div className="flex items-end gap-2 animate-fade-in">
-            {/* Animated Dog */}
-            <div className="relative">
-              <div className="animate-bounce" style={{ animationDuration: '1s' }}>
-                <svg 
-                  width="48" 
-                  height="48" 
-                  viewBox="0 0 64 64" 
-                  className="drop-shadow-md"
-                >
-                  {/* Dog body */}
-                  <ellipse cx="32" cy="42" rx="18" ry="14" fill="#D2691E" />
-                  {/* Dog head */}
-                  <circle cx="32" cy="24" r="14" fill="#D2691E" />
-                  {/* Snout */}
-                  <ellipse cx="32" cy="30" rx="8" ry="6" fill="#F4A460" />
-                  {/* Nose */}
-                  <ellipse cx="32" cy="28" rx="3" ry="2.5" fill="#2C1810" />
-                  {/* Left eye */}
-                  <circle cx="26" cy="22" r="3" fill="#2C1810" />
-                  <circle cx="27" cy="21" r="1" fill="white" />
-                  {/* Right eye */}
-                  <circle cx="38" cy="22" r="3" fill="#2C1810" />
-                  <circle cx="39" cy="21" r="1" fill="white" />
-                  {/* Left ear */}
-                  <ellipse cx="20" cy="16" rx="6" ry="10" fill="#8B4513" transform="rotate(-20 20 16)" />
-                  {/* Right ear */}
-                  <ellipse cx="44" cy="16" rx="6" ry="10" fill="#8B4513" transform="rotate(20 44 16)" />
-                  {/* Tongue */}
-                  <ellipse cx="32" cy="35" rx="3" ry="4" fill="#FF6B6B" className="animate-pulse" />
-                  {/* Tail */}
-                  <path d="M 50 42 Q 58 35 55 28" stroke="#D2691E" strokeWidth="5" fill="none" strokeLinecap="round" className="origin-bottom-left" style={{ animation: 'wag 0.3s ease-in-out infinite alternate' }} />
-                  {/* Front paws */}
-                  <ellipse cx="24" cy="54" rx="5" ry="4" fill="#D2691E" />
-                  <ellipse cx="40" cy="54" rx="5" ry="4" fill="#D2691E" />
-                </svg>
-              </div>
-            </div>
-            {/* Speech bubble */}
-            <div className="bg-card text-foreground text-xs sm:text-sm px-3 py-2 rounded-full shadow-md border border-border relative">
-              Ask me about Pramod! 🐾
-              <div className="absolute -left-2 bottom-2 w-0 h-0 border-t-[6px] border-t-transparent border-r-[8px] border-r-card border-b-[6px] border-b-transparent" />
-            </div>
+    <div className="mt-8 reveal reveal-delay-2">
+      <div className="bg-card/50 backdrop-blur-sm rounded-2xl border border-border overflow-hidden max-w-md">
+        {/* Chat Header */}
+        <div className="bg-primary/10 px-4 py-3 flex items-center gap-3 border-b border-border">
+          <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+            <AnimatedDogHead size={28} />
           </div>
-        )}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-16 h-16 sm:w-14 sm:h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center ${
-            !isOpen ? 'animate-pulse' : ''
-          }`}
-          aria-label={isOpen ? 'Close chat' : 'Open chat'}
-        >
-          {isOpen ? <X className="w-7 h-7 sm:w-6 sm:h-6" /> : <MessageCircle className="w-7 h-7 sm:w-6 sm:h-6" />}
-        </button>
-      </div>
+          <div className="flex-1">
+            <p className="font-medium text-foreground text-sm">Ask about Pramod</p>
+            <p className="text-xs text-muted-foreground">AI-powered assistant</p>
+          </div>
+        </div>
 
-      {/* Tail wag animation */}
-      <style>{`
-        @keyframes wag {
-          from { transform: rotate(-10deg); }
-          to { transform: rotate(10deg); }
-        }
-      `}</style>
-
-      {/* Chat Window */}
-      <div
-        className={`fixed bottom-24 sm:bottom-24 right-2 sm:right-6 z-50 w-[calc(100vw-16px)] sm:w-[380px] max-w-[400px] transition-all duration-300 ${
-          isOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'
-        }`}
-      >
-        <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-2xl">
-          {/* Chat Header */}
-          <div className="bg-primary/10 px-4 py-4 sm:py-3 flex items-center gap-3 border-b border-border">
-            <div className="w-11 h-11 sm:w-9 sm:h-9 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
-              <AnimatedDogHead size={32} className="sm:hidden" />
-              <AnimatedDogHead size={28} className="hidden sm:block" />
-            </div>
-            <div className="flex-1">
-              <p className="font-medium text-foreground text-base sm:text-sm">Pramod's AI Assistant</p>
-              <p className="text-sm sm:text-xs text-muted-foreground">Ask me anything</p>
-            </div>
-            <button 
-              onClick={() => setIsOpen(false)} 
-              className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 active:bg-muted transition-colors"
-              aria-label="Close chat"
+        {/* Messages */}
+        <div className="h-64 overflow-y-auto p-3 space-y-3 bg-background/30">
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`flex items-start gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
             >
-              <X className="w-6 h-6 sm:w-5 sm:h-5" />
-            </button>
-          </div>
-
-          {/* Messages */}
-          <div className="h-[50vh] sm:h-80 overflow-y-auto p-4 sm:p-3 space-y-4 sm:space-y-3 bg-background/50">
-            {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`flex items-start gap-3 sm:gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
-              >
-                <div className={`w-9 h-9 sm:w-7 sm:h-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
-                  msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary'
-                }`}>
-                  {msg.role === 'user' ? (
-                    <User className="w-5 h-5 sm:w-3.5 sm:h-3.5" />
-                  ) : (
-                    <>
-                      <AnimatedDogHead size={28} className="sm:hidden" />
-                      <AnimatedDogHead size={22} className="hidden sm:block" />
-                    </>
-                  )}
-                </div>
-                <div className={`max-w-[80%] rounded-2xl px-4 py-3 sm:px-3 sm:py-2 ${
-                  msg.role === 'user' 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'bg-secondary text-secondary-foreground'
-                }`}>
-                  <p className="text-base sm:text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
-                </div>
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary'
+              }`}>
+                {msg.role === 'user' ? (
+                  <User className="w-3.5 h-3.5" />
+                ) : (
+                  <AnimatedDogHead size={22} />
+                )}
               </div>
-            ))}
-            {isLoading && messages[messages.length - 1]?.role === 'user' && (
-              <div className="flex items-start gap-3 sm:gap-2">
-                <div className="w-9 h-9 sm:w-7 sm:h-7 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
-                  <AnimatedDogHead size={28} className="sm:hidden" />
-                  <AnimatedDogHead size={22} className="hidden sm:block" />
-                </div>
-                <div className="bg-secondary rounded-2xl px-4 py-3 sm:px-3 sm:py-2">
-                  <div className="flex gap-1.5 sm:gap-1">
-                    <span className="w-2 h-2 sm:w-1.5 sm:h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-2 h-2 sm:w-1.5 sm:h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-2 h-2 sm:w-1.5 sm:h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                  </div>
-                </div>
+              <div className={`max-w-[80%] rounded-2xl px-3 py-2 ${
+                msg.role === 'user' 
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'bg-secondary text-secondary-foreground'
+              }`}>
+                <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
               </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Input */}
-          <div className="p-4 sm:p-3 border-t border-border bg-card">
-            <div className="flex gap-3 sm:gap-2">
-              <Textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask about experience, skills..."
-                className="min-h-[48px] sm:min-h-[40px] max-h-24 resize-none bg-background text-base"
-                style={{ fontSize: '16px' }}
-                disabled={isLoading}
-              />
-              <Button
-                onClick={sendMessage}
-                disabled={!input.trim() || isLoading}
-                size="icon"
-                className="h-12 w-12 sm:h-10 sm:w-10 flex-shrink-0 active:scale-95 transition-transform"
-              >
-                <Send className="w-5 h-5 sm:w-4 sm:h-4" />
-              </Button>
             </div>
+          ))}
+          {isLoading && messages[messages.length - 1]?.role === 'user' && (
+            <div className="flex items-start gap-2">
+              <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
+                <AnimatedDogHead size={22} />
+              </div>
+              <div className="bg-secondary rounded-2xl px-3 py-2">
+                <div className="flex gap-1">
+                  <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+              </div>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input */}
+        <div className="p-3 border-t border-border bg-card/50">
+          <div className="flex gap-2">
+            <Textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Ask about experience, skills..."
+              className="min-h-[40px] max-h-24 resize-none bg-background text-sm"
+              disabled={isLoading}
+            />
+            <Button
+              onClick={sendMessage}
+              disabled={!input.trim() || isLoading}
+              size="icon"
+              className="h-10 w-10 flex-shrink-0"
+            >
+              <Send className="w-4 h-4" />
+            </Button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

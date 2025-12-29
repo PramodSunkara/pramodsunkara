@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { AnimatedDogHead } from "./Chatbot";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -15,9 +16,12 @@ const Footer = () => {
     <>
       <footer className="bg-dark-section text-dark-section-foreground py-8 border-t border-dark-section-foreground/10">
         <div className="container-narrow flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-caption opacity-60">
-            {currentYear} All rights reserved — © Pramod Sunkara
-          </p>
+          <div className="flex items-center gap-3">
+            <AnimatedDogHead size={32} />
+            <p className="text-caption opacity-60">
+              {currentYear} All rights reserved — © Pramod Sunkara
+            </p>
+          </div>
           <div className="flex items-center gap-6">
             <button
               onClick={() => setPrivacyOpen(true)}
