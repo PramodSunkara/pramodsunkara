@@ -3,8 +3,10 @@ import Navigation from '@/components/portfolio/Navigation';
 import Hero from '@/components/portfolio/Hero';
 import ImpactHighlights from '@/components/portfolio/ImpactHighlights';
 import TeamsWorkedWith from '@/components/portfolio/TeamsWorkedWith';
+import Skills from '@/components/portfolio/Skills';
+import About from '@/components/portfolio/About';
+import Contact from '@/components/portfolio/Contact';
 import Footer from '@/components/portfolio/Footer';
-import LazySection from '@/components/portfolio/LazySection';
 
 const Index = () => {
   const containerRef = useScrollReveal();
@@ -16,18 +18,9 @@ const Index = () => {
         <Hero />
         <ImpactHighlights />
         <TeamsWorkedWith />
-        <LazySection 
-          importFn={() => import('@/components/portfolio/Skills')} 
-          fallbackHeight="600px" 
-        />
-        <LazySection 
-          importFn={() => import('@/components/portfolio/About')} 
-          fallbackHeight="500px" 
-        />
-        <LazySection 
-          importFn={() => import('@/components/portfolio/Contact')} 
-          fallbackHeight="400px" 
-        />
+        <Skills />
+        <About />
+        <Contact />
       </main>
       <Footer />
     </div>
