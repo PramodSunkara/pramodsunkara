@@ -17,15 +17,15 @@ const Index = () => {
         <ImpactHighlights />
         <TeamsWorkedWith />
         <LazySection 
-          component={() => import('@/components/portfolio/Skills')} 
+          importFn={() => import('@/components/portfolio/Skills')} 
           fallbackHeight="600px" 
         />
         <LazySection 
-          component={() => import('@/components/portfolio/About')} 
+          importFn={() => import('@/components/portfolio/About')} 
           fallbackHeight="500px" 
         />
         <LazySection 
-          component={() => import('@/components/portfolio/Contact')} 
+          importFn={() => import('@/components/portfolio/Contact')} 
           fallbackHeight="400px" 
         />
       </main>
