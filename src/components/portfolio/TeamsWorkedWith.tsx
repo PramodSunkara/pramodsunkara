@@ -17,8 +17,8 @@ const TeamsWorkedWith = () => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   
   return (
-    <section id="teams" className="py-24 md:py-32 reveal">
-      <div className="container max-w-6xl mx-auto px-6 md:px-8">
+    <section id="teams" className="py-24 md:py-32 reveal overflow-visible">
+      <div className="container max-w-6xl mx-auto px-6 md:px-8 overflow-visible">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-display mb-6 font-light lg:text-4xl">
             Awesome Teams I've Worked With
@@ -28,7 +28,7 @@ const TeamsWorkedWith = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 overflow-visible">
           {experiences.map(exp => (
             <Link 
               key={exp.id} 

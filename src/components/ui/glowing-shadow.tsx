@@ -94,6 +94,7 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
           z-index: 2;
           border-radius: var(--card-radius);
           cursor: pointer;
+          overflow: visible;
         }
 
         .glow-container:before,

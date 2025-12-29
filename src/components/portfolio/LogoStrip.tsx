@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Figma, GitBranch, Code2, FileCode, Palette, Layers, PenTool, Box, Globe, Blocks } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 const tools = [
   { name: 'Photoshop', icon: Palette, color: '#31A8FF', years: 19 },
@@ -42,33 +44,47 @@ const ToolItem = ({ tool, index }: { tool: typeof tools[0]; index: number }) => 
   );
 };
 
+// Mobile-friendly tool item with tap-to-show popover
+const MobileToolItem = ({ tool }: { tool: typeof tools[0] }) => {
+  const Icon = tool.icon;
+  const [open, setOpen] = useState(false);
+  
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button 
+          className="flex flex-col items-center gap-1.5 group cursor-pointer"
+          onClick={() => setOpen(!open)}
+        >
+          <Icon 
+            className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" 
+            style={{ color: tool.color }}
+          />
+          <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300 text-center">
+            {tool.name}
+          </span>
+        </button>
+      </PopoverTrigger>
+      <PopoverContent 
+        className="bg-yellow-400 text-black border-yellow-400 font-medium z-50 w-auto px-3 py-1.5 text-sm"
+        side="top"
+        sideOffset={4}
+      >
+        {tool.years}+ years experience
+      </PopoverContent>
+    </Popover>
+  );
+};
+
 const LogoStrip = () => {
   return (
     <TooltipProvider delayDuration={200}>
-      {/* Mobile: 3-row grid */}
+      {/* Mobile: 3-row grid with tap-to-show popovers */}
       <div className="md:hidden px-4 py-4 reveal reveal-delay-3">
         <div className="grid grid-cols-3 gap-4">
-          {tools.map((tool, index) => {
-            const Icon = tool.icon;
-            return (
-              <Tooltip key={index}>
-                <TooltipTrigger asChild>
-                  <div className="flex flex-col items-center gap-1.5 group cursor-default">
-                    <Icon 
-                      className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" 
-                      style={{ color: tool.color }}
-                    />
-                    <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300 text-center">
-                      {tool.name}
-                    </span>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent className="bg-yellow-400 text-black border-yellow-400 font-medium z-50">
-                  {tool.years}+ years experience
-                </TooltipContent>
-              </Tooltip>
-            );
-          })}
+          {tools.map((tool, index) => (
+            <MobileToolItem key={index} tool={tool} />
+          ))}
         </div>
       </div>
 
