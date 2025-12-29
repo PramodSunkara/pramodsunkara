@@ -2,8 +2,8 @@ import { Linkedin, Mail, Phone, ArrowUpRight } from 'lucide-react';
 
 const Contact = () => {
   const contactInfo = {
-    email: 'pramod.sunkara@gmail.com',
-    phone: '+1 (555) 123-4567',
+    email: 'sunkara.pramod@gmail.com',
+    phone: '817-437-4139',
     linkedin: 'https://linkedin.com/in/pramodsunkara'
   };
 
