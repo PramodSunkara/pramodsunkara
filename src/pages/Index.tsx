@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import Navigation from '@/components/portfolio/Navigation';
 import Hero from '@/components/portfolio/Hero';
@@ -11,6 +12,11 @@ import Footer from '@/components/portfolio/Footer';
 
 const Index = () => {
   const containerRef = useScrollReveal();
+
+  // Scroll to top on page load/refresh
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div ref={containerRef} className="min-h-screen">
