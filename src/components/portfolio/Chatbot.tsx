@@ -23,7 +23,7 @@ const Chatbot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Show hint when user starts scrolling
+  // Show hint when user scrolls OR reaches about section
   useEffect(() => {
     const handleScroll = () => {
       if (!hintDismissed && !isOpen && window.scrollY > 50) {
@@ -31,8 +31,30 @@ const Chatbot = () => {
       }
     };
 
+    // Observe the about section
+    const aboutSection = document.getElementById('about');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hintDismissed && !isOpen) {
+            setShowHint(true);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (aboutSection) {
+      observer.observe(aboutSection);
+    }
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (aboutSection) {
+        observer.unobserve(aboutSection);
+      }
+    };
   }, [hintDismissed, isOpen]);
 
   // Auto-dismiss hint after 5 seconds
