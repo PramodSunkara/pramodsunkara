@@ -6,6 +6,7 @@ import TeamsWorkedWith from '@/components/portfolio/TeamsWorkedWith';
 import Skills from '@/components/portfolio/Skills';
 import About from '@/components/portfolio/About';
 import Contact from '@/components/portfolio/Contact';
+import Chatbot from '@/components/portfolio/Chatbot';
 import Footer from '@/components/portfolio/Footer';
 
 const Index = () => {
@@ -21,6 +22,7 @@ const Index = () => {
         <Skills />
         <About />
         <Contact />
+        <Chatbot />
       </main>
       <Footer />
     </div>
