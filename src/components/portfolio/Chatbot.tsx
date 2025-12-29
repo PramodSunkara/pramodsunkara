@@ -355,7 +355,8 @@ const Chatbot = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask about experience, skills..."
-                className="min-h-[40px] max-h-24 resize-none bg-background text-sm"
+                className="min-h-[40px] max-h-24 resize-none bg-background text-base"
+                style={{ fontSize: '16px' }}
                 disabled={isLoading}
               />
               <Button
