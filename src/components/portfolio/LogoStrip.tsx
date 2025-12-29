@@ -2,19 +2,19 @@ import { Figma, GitBranch, Code2, FileCode, Palette, Layers, PenTool, Box, Globe
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const tools = [
-  { name: 'Figma', icon: Figma, color: '#F24E1E', years: 4 },
-  { name: 'React', icon: Blocks, color: '#61DAFB', years: 1 },
-  { name: 'WordPress', icon: Globe, color: '#21759B', years: 10 },
-  { name: 'JavaScript', icon: FileCode, color: '#F7DF1E', years: 10 },
-  { name: 'TypeScript', icon: FileCode, color: '#3178C6', years: 1 },
-  { name: 'Tailwind', icon: Layers, color: '#06B6D4', years: 1 },
-  { name: 'Adobe XD', icon: PenTool, color: '#FF61F6', years: 4 },
   { name: 'Photoshop', icon: Palette, color: '#31A8FF', years: 19 },
-  { name: 'Framer', icon: Box, color: '#0055FF', years: 1 },
   { name: 'HTML5', icon: Code2, color: '#E34F26', years: 19 },
   { name: 'CSS3', icon: Code2, color: '#1572B6', years: 19 },
+  { name: 'WordPress', icon: Globe, color: '#21759B', years: 10 },
+  { name: 'JavaScript', icon: FileCode, color: '#F7DF1E', years: 10 },
   { name: 'Git', icon: GitBranch, color: '#F05032', years: 5 },
+  { name: 'Figma', icon: Figma, color: '#F24E1E', years: 4 },
+  { name: 'Adobe XD', icon: PenTool, color: '#FF61F6', years: 4 },
+  { name: 'React', icon: Blocks, color: '#61DAFB', years: 2 },
+  { name: 'TypeScript', icon: FileCode, color: '#3178C6', years: 2 },
+  { name: 'Tailwind', icon: Layers, color: '#06B6D4', years: 2 },
   { name: 'Webflow', icon: Globe, color: '#4353FF', years: 2 },
+  { name: 'Framer', icon: Box, color: '#0055FF', years: 1 },
 ];
 
 const ToolItem = ({ tool, index }: { tool: typeof tools[0]; index: number }) => {
