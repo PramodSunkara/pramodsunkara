@@ -229,7 +229,11 @@ const Skills = () => {
             <ul className="space-y-3 text-base text-muted-foreground">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
-                <span>Generative AI: Introduction and Applications by IBM</span>
+                <span className="font-semibold text-foreground">Google UX Design Professional Certificate, 2025</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
+                <span className="font-semibold text-foreground">Generative AI: Introduction and Applications by IBM</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
