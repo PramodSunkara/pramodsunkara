@@ -222,7 +222,7 @@ const Chatbot = () => {
   return (
     <>
       {/* Floating Chat Button with Hint */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-2">
         {showHint && !isOpen && (
           <div className="flex items-end gap-2 animate-fade-in">
             {/* Animated Dog */}
@@ -263,7 +263,7 @@ const Chatbot = () => {
               </div>
             </div>
             {/* Speech bubble */}
-            <div className="bg-card text-foreground text-xs px-3 py-1.5 rounded-full shadow-md border border-border relative">
+            <div className="bg-card text-foreground text-xs sm:text-sm px-3 py-2 rounded-full shadow-md border border-border relative">
               Ask me about Pramod! 🐾
               <div className="absolute -left-2 bottom-2 w-0 h-0 border-t-[6px] border-t-transparent border-r-[8px] border-r-card border-b-[6px] border-b-transparent" />
             </div>
@@ -271,12 +271,12 @@ const Chatbot = () => {
         )}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 transition-transform flex items-center justify-center ${
+          className={`w-16 h-16 sm:w-14 sm:h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center ${
             !isOpen ? 'animate-pulse' : ''
           }`}
           aria-label={isOpen ? 'Close chat' : 'Open chat'}
         >
-          {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+          {isOpen ? <X className="w-7 h-7 sm:w-6 sm:h-6" /> : <MessageCircle className="w-7 h-7 sm:w-6 sm:h-6" />}
         </button>
       </div>
 
@@ -290,56 +290,69 @@ const Chatbot = () => {
 
       {/* Chat Window */}
       <div
-        className={`fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-48px)] transition-all duration-300 ${
+        className={`fixed bottom-24 sm:bottom-24 right-2 sm:right-6 z-50 w-[calc(100vw-16px)] sm:w-[380px] max-w-[400px] transition-all duration-300 ${
           isOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'
         }`}
       >
         <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-2xl">
           {/* Chat Header */}
-          <div className="bg-primary/10 px-4 py-3 flex items-center gap-3 border-b border-border">
-            <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
-              <AnimatedDogHead size={28} />
+          <div className="bg-primary/10 px-4 py-4 sm:py-3 flex items-center gap-3 border-b border-border">
+            <div className="w-11 h-11 sm:w-9 sm:h-9 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+              <AnimatedDogHead size={32} className="sm:hidden" />
+              <AnimatedDogHead size={28} className="hidden sm:block" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-foreground text-sm">Pramod's AI Assistant</p>
-              <p className="text-xs text-muted-foreground">Ask me anything</p>
+              <p className="font-medium text-foreground text-base sm:text-sm">Pramod's AI Assistant</p>
+              <p className="text-sm sm:text-xs text-muted-foreground">Ask me anything</p>
             </div>
-            <button onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-foreground transition-colors">
-              <X className="w-5 h-5" />
+            <button 
+              onClick={() => setIsOpen(false)} 
+              className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 active:bg-muted transition-colors"
+              aria-label="Close chat"
+            >
+              <X className="w-6 h-6 sm:w-5 sm:h-5" />
             </button>
           </div>
 
           {/* Messages */}
-          <div className="h-80 overflow-y-auto p-3 space-y-3 bg-background/50">
+          <div className="h-[50vh] sm:h-80 overflow-y-auto p-4 sm:p-3 space-y-4 sm:space-y-3 bg-background/50">
             {messages.map((msg, i) => (
               <div
                 key={i}
-                className={`flex items-start gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+                className={`flex items-start gap-3 sm:gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
               >
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                <div className={`w-9 h-9 sm:w-7 sm:h-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
                   msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary'
                 }`}>
-                  {msg.role === 'user' ? <User className="w-3.5 h-3.5" /> : <AnimatedDogHead size={22} />}
+                  {msg.role === 'user' ? (
+                    <User className="w-5 h-5 sm:w-3.5 sm:h-3.5" />
+                  ) : (
+                    <>
+                      <AnimatedDogHead size={28} className="sm:hidden" />
+                      <AnimatedDogHead size={22} className="hidden sm:block" />
+                    </>
+                  )}
                 </div>
-                <div className={`max-w-[80%] rounded-2xl px-3 py-2 ${
+                <div className={`max-w-[80%] rounded-2xl px-4 py-3 sm:px-3 sm:py-2 ${
                   msg.role === 'user' 
                     ? 'bg-primary text-primary-foreground' 
                     : 'bg-secondary text-secondary-foreground'
                 }`}>
-                  <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                  <p className="text-base sm:text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
                 </div>
               </div>
             ))}
             {isLoading && messages[messages.length - 1]?.role === 'user' && (
-              <div className="flex items-start gap-2">
-                <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
-                  <AnimatedDogHead size={22} />
+              <div className="flex items-start gap-3 sm:gap-2">
+                <div className="w-9 h-9 sm:w-7 sm:h-7 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
+                  <AnimatedDogHead size={28} className="sm:hidden" />
+                  <AnimatedDogHead size={22} className="hidden sm:block" />
                 </div>
-                <div className="bg-secondary rounded-2xl px-3 py-2">
-                  <div className="flex gap-1">
-                    <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <div className="bg-secondary rounded-2xl px-4 py-3 sm:px-3 sm:py-2">
+                  <div className="flex gap-1.5 sm:gap-1">
+                    <span className="w-2 h-2 sm:w-1.5 sm:h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-2 h-2 sm:w-1.5 sm:h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-2 h-2 sm:w-1.5 sm:h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
               </div>
@@ -348,14 +361,14 @@ const Chatbot = () => {
           </div>
 
           {/* Input */}
-          <div className="p-3 border-t border-border bg-card">
-            <div className="flex gap-2">
+          <div className="p-4 sm:p-3 border-t border-border bg-card">
+            <div className="flex gap-3 sm:gap-2">
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask about experience, skills..."
-                className="min-h-[40px] max-h-24 resize-none bg-background text-base"
+                className="min-h-[48px] sm:min-h-[40px] max-h-24 resize-none bg-background text-base"
                 style={{ fontSize: '16px' }}
                 disabled={isLoading}
               />
@@ -363,9 +376,9 @@ const Chatbot = () => {
                 onClick={sendMessage}
                 disabled={!input.trim() || isLoading}
                 size="icon"
-                className="h-10 w-10 flex-shrink-0"
+                className="h-12 w-12 sm:h-10 sm:w-10 flex-shrink-0 active:scale-95 transition-transform"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-5 h-5 sm:w-4 sm:h-4" />
               </Button>
             </div>
           </div>
