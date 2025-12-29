@@ -86,9 +86,14 @@ export const experiences: CompanyExperience[] = [
     ],
     testimonials: [
       {
-        quote: 'An exceptional developer who consistently delivers high-quality work and brings innovative solutions to complex problems.',
-        author: 'Team Lead',
-        role: 'Engineering Manager at Camunda'
+        quote: 'Pramod brings an incredible level of care and ownership to everything he touches. He steps in quickly to make sure things are fixed and the site is performing at its best. He takes a strategic approach to web development, partnering closely with marketing and brand teams to improve the customer journey and strengthen calls to action.',
+        author: '',
+        role: 'Director, Demand Generation'
+      },
+      {
+        quote: 'Pramod is a standout web partner. He moved quickly, owned the work from start to finish, and consistently offered suggestions for improvements. His webpages helped support a near 3x lift in win rates for BFSI industry alone. I\'d happily work with him again and recommend him to any SaaS team that cares about best practices, clean UX/UI, and solid collaboration.',
+        author: '',
+        role: 'Branding | User-focused Design | Content Production'
       }
     ]
   },
