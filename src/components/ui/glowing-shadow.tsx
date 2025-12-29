@@ -201,6 +201,13 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
                       --glow-radius 0.05s ease;
         }
 
+        /* Touch devices don't have hover; increase border fill so it doesn't look cut off */
+        @media (hover: none) and (pointer: coarse) {
+          .glow-container {
+            --bg-size: 12;
+          }
+        }
+
         @keyframes shadow-pulse {
           0%, 24%, 46%, 73%, 96% {
             --white-shadow: 0.5;
