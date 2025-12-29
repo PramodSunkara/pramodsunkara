@@ -11,60 +11,63 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
   return (
     <>
       <style>{`
-        @property --hue {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0;
-        }
-        @property --rotate {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0;
-        }
-        @property --bg-y {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0;
-        }
-        @property --bg-x {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0;
-        }
-        @property --glow-translate-y {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0;
-        }
-        @property --bg-size {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0;
-        }
-        @property --glow-opacity {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0;
-        }
-        @property --glow-blur {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0;
-        }
-        @property --glow-scale {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 2;
-        }
-        @property --glow-radius {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 2;
-        }
-        @property --white-shadow {
-          syntax: "<number>";
-          inherits: true;
-          initial-value: 0;
+        /* @property declarations - Safari doesn't support these, so we use fallbacks */
+        @supports (background: paint(id)) {
+          @property --hue {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0;
+          }
+          @property --rotate {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0;
+          }
+          @property --bg-y {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0;
+          }
+          @property --bg-x {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0;
+          }
+          @property --glow-translate-y {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0;
+          }
+          @property --bg-size {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0;
+          }
+          @property --glow-opacity {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0;
+          }
+          @property --glow-blur {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0;
+          }
+          @property --glow-scale {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 2;
+          }
+          @property --glow-radius {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 2;
+          }
+          @property --white-shadow {
+            syntax: "<number>";
+            inherits: true;
+            initial-value: 0;
+          }
         }
 
         .glow-container {
@@ -127,16 +130,33 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
           box-shadow: 0 0 20px black;
           mix-blend-mode: color-burn;
           z-index: -1;
-          background: hsl(0deg 0% 16%) radial-gradient(
-            30% 30% at calc(var(--bg-x) * 1%) calc(var(--bg-y) * 1%),
-            hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 90%) calc(0% * var(--bg-size)),
-            hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 80%) calc(20% * var(--bg-size)),
-            hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 60%) calc(40% * var(--bg-size)),
-            transparent 100%
-          );
-          animation: hue-animation var(--animation-speed) linear infinite,
-                     rotate-bg var(--animation-speed) linear infinite;
-          transition: --bg-size var(--interaction-speed) ease;
+          /* Safari fallback - simple animated gradient */
+          background: linear-gradient(135deg, hsl(280 60% 50%), hsl(200 60% 50%), hsl(160 60% 50%), hsl(280 60% 50%));
+          background-size: 400% 400%;
+          animation: safari-gradient 8s ease infinite;
+        }
+
+        /* Chrome/Firefox with @property support - enhanced gradient */
+        @supports (background: paint(id)) {
+          .glow-content:before {
+            background: hsl(0deg 0% 16%) radial-gradient(
+              30% 30% at calc(var(--bg-x) * 1%) calc(var(--bg-y) * 1%),
+              hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 90%) calc(0% * var(--bg-size)),
+              hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 80%) calc(20% * var(--bg-size)),
+              hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 60%) calc(40% * var(--bg-size)),
+              transparent 100%
+            );
+            background-size: 100% 100%;
+            animation: hue-animation var(--animation-speed) linear infinite,
+                       rotate-bg var(--animation-speed) linear infinite;
+            transition: --bg-size var(--interaction-speed) ease;
+          }
+        }
+
+        @keyframes safari-gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
         }
 
         .glow {
