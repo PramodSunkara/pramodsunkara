@@ -13,6 +13,8 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-about-p
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+  const [hintDismissed, setHintDismissed] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: "Hi! I'm here to answer any questions about Pramod's experience, skills, and background. What would you like to know?" }
   ]);
@@ -20,6 +22,40 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  // Show hint after scrolling to half of the page
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const halfPage = document.documentElement.scrollHeight / 2 - window.innerHeight / 2;
+      
+      if (scrollPosition >= halfPage && !hintDismissed && !isOpen) {
+        setShowHint(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hintDismissed, isOpen]);
+
+  // Auto-dismiss hint after 4 seconds
+  useEffect(() => {
+    if (showHint) {
+      const timer = setTimeout(() => {
+        setShowHint(false);
+        setHintDismissed(true);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [showHint]);
+
+  // Hide hint when chat opens
+  useEffect(() => {
+    if (isOpen) {
+      setShowHint(false);
+      setHintDismissed(true);
+    }
+  }, [isOpen]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -129,7 +165,7 @@ const Chatbot = () => {
     <>
       {/* Floating Chat Button with Hint */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
-        {!isOpen && (
+        {showHint && !isOpen && (
           <div className="bg-card text-foreground text-xs px-3 py-1.5 rounded-full shadow-md border border-border animate-fade-in">
             Ask me about Pramod ✨
           </div>
