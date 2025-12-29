@@ -23,8 +23,15 @@ const Chatbot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Show hint after scrolling to half of the page
+  // Show hint after scrolling to half of the page OR after 3 seconds
   useEffect(() => {
+    // Show after 3 seconds as fallback
+    const initialTimer = setTimeout(() => {
+      if (!hintDismissed && !isOpen) {
+        setShowHint(true);
+      }
+    }, 3000);
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const halfPage = document.documentElement.scrollHeight / 2 - window.innerHeight / 2;
@@ -35,7 +42,10 @@ const Chatbot = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(initialTimer);
+    };
   }, [hintDismissed, isOpen]);
 
   // Auto-dismiss hint after 4 seconds
