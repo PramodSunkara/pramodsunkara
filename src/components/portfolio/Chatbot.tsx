@@ -15,6 +15,7 @@ const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [hintDismissed, setHintDismissed] = useState(false);
+  const [isOnAboutSection, setIsOnAboutSection] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: "Hi! I'm here to answer any questions about Pramod's experience, skills, and background. What would you like to know?" }
   ]);
@@ -36,8 +37,13 @@ const Chatbot = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !hintDismissed && !isOpen) {
-            setShowHint(true);
+          if (entry.isIntersecting) {
+            setIsOnAboutSection(true);
+            if (!isOpen) {
+              setShowHint(true);
+            }
+          } else {
+            setIsOnAboutSection(false);
           }
         });
       },
@@ -57,16 +63,16 @@ const Chatbot = () => {
     };
   }, [hintDismissed, isOpen]);
 
-  // Auto-dismiss hint after 5 seconds
+  // Auto-dismiss hint after 5 seconds, but only if NOT on about section
   useEffect(() => {
-    if (showHint) {
+    if (showHint && !isOnAboutSection) {
       const timer = setTimeout(() => {
         setShowHint(false);
         setHintDismissed(true);
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [showHint]);
+  }, [showHint, isOnAboutSection]);
 
   // Hide hint when chat opens
   useEffect(() => {
