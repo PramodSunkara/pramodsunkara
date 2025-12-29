@@ -28,12 +28,9 @@ const Contact = () => {
             {/* Right side - Contact card */}
             <div className="reveal reveal-delay-1">
               <div className="bg-card text-card-foreground p-8 rounded-3xl">
-                <h3 className="text-lg font-semibold mb-2">
+                <h3 className="text-lg font-semibold mb-6">
                   Get in touch
                 </h3>
-                <p className="text-caption text-muted-foreground mb-8">
-                  Drop me a line and let's discuss your project.
-                </p>
                 
                 {/* Contact Links */}
                 <div className="space-y-4">
