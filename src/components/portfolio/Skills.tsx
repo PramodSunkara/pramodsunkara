@@ -225,51 +225,53 @@ const Skills = () => {
 
         {/* Education & Certifications */}
         <div className="reveal reveal-delay-5 border-t border-border pt-12 mt-12">
-          {/* Certifications */}
-          <div className="mb-12">
-            <h3 className="font-semibold text-lg mb-4 text-foreground">
-              Professional Certification Courses
-            </h3>
-            <ul className="space-y-3 text-base text-muted-foreground">
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
-                <span className="font-semibold text-foreground">Google UX Design Professional Certificate, 2025</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
-                <span className="font-semibold text-foreground">Generative AI: Introduction and Applications by IBM, 2025</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
-                <span>User Experience Fundamentals for Web Design</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
-                <span>Microsoft Professional Program in Front-End Web Development</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
-                <span>WordPress Essential Training</span>
-              </li>
-            </ul>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Certifications */}
+            <div>
+              <h3 className="font-semibold text-lg mb-4 text-foreground">
+                Professional Certification Courses
+              </h3>
+              <ul className="space-y-3 text-base text-muted-foreground">
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
+                  <span className="font-semibold text-foreground">Google UX Design Professional Certificate, 2025</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
+                  <span className="font-semibold text-foreground">Generative AI: Introduction and Applications by IBM, 2025</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
+                  <span>User Experience Fundamentals for Web Design</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
+                  <span>Microsoft Professional Program in Front-End Web Development</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"></span>
+                  <span>WordPress Essential Training</span>
+                </li>
+              </ul>
+            </div>
 
-          {/* Educational History */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4 text-foreground">
-              Educational History
-            </h3>
-            <div className="space-y-6">
-              <div>
-                <p className="font-medium text-foreground text-base">
-                  Pursuing Micro Master's degree in Leadership and Service Innovation
-                </p>
-                <p className="text-sm text-muted-foreground">UQ Business School, Australia</p>
-              </div>
-              <div>
-                <p className="font-medium text-foreground text-base">Bachelor's Degree</p>
-                <p className="text-sm text-muted-foreground">Computer Science / Information Technology</p>
-                <p className="text-sm text-muted-foreground">Andhra University 2006</p>
+            {/* Educational History */}
+            <div>
+              <h3 className="font-semibold text-lg mb-4 text-foreground">
+                Educational History
+              </h3>
+              <div className="space-y-6">
+                <div>
+                  <p className="font-medium text-foreground text-base">
+                    Pursuing Micro Master's degree in Leadership and Service Innovation
+                  </p>
+                  <p className="text-sm text-muted-foreground">UQ Business School, Australia</p>
+                </div>
+                <div>
+                  <p className="font-medium text-foreground text-base">Bachelor's Degree</p>
+                  <p className="text-sm text-muted-foreground">Computer Science / Information Technology</p>
+                  <p className="text-sm text-muted-foreground">Andhra University 2006</p>
+                </div>
               </div>
             </div>
           </div>
