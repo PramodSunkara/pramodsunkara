@@ -29,7 +29,7 @@ const Hero = () => {
       </div>
     </section>
 
-    <div className="reveal py-4 md:py-12">
+    <div className="reveal py-1 md:py-12">
       <LogoStrip />
     </div>
 
