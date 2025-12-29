@@ -127,14 +127,23 @@ const Chatbot = () => {
 
   return (
     <>
-      {/* Floating Chat Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 transition-transform flex items-center justify-center"
-        aria-label={isOpen ? 'Close chat' : 'Open chat'}
-      >
-        {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
-      </button>
+      {/* Floating Chat Button with Hint */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
+        {!isOpen && (
+          <div className="bg-card text-foreground text-xs px-3 py-1.5 rounded-full shadow-md border border-border animate-fade-in">
+            Ask me about Pramod ✨
+          </div>
+        )}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 transition-transform flex items-center justify-center ${
+            !isOpen ? 'animate-pulse' : ''
+          }`}
+          aria-label={isOpen ? 'Close chat' : 'Open chat'}
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+        </button>
+      </div>
 
       {/* Chat Window */}
       <div
