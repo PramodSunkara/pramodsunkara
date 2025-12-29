@@ -166,8 +166,49 @@ const Chatbot = () => {
       {/* Floating Chat Button with Hint */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
         {showHint && !isOpen && (
-          <div className="bg-card text-foreground text-xs px-3 py-1.5 rounded-full shadow-md border border-border animate-fade-in">
-            Ask me about Pramod ✨
+          <div className="flex items-end gap-2 animate-fade-in">
+            {/* Animated Dog */}
+            <div className="relative">
+              <div className="animate-bounce" style={{ animationDuration: '1s' }}>
+                <svg 
+                  width="48" 
+                  height="48" 
+                  viewBox="0 0 64 64" 
+                  className="drop-shadow-md"
+                >
+                  {/* Dog body */}
+                  <ellipse cx="32" cy="42" rx="18" ry="14" fill="#D2691E" />
+                  {/* Dog head */}
+                  <circle cx="32" cy="24" r="14" fill="#D2691E" />
+                  {/* Snout */}
+                  <ellipse cx="32" cy="30" rx="8" ry="6" fill="#F4A460" />
+                  {/* Nose */}
+                  <ellipse cx="32" cy="28" rx="3" ry="2.5" fill="#2C1810" />
+                  {/* Left eye */}
+                  <circle cx="26" cy="22" r="3" fill="#2C1810" />
+                  <circle cx="27" cy="21" r="1" fill="white" />
+                  {/* Right eye */}
+                  <circle cx="38" cy="22" r="3" fill="#2C1810" />
+                  <circle cx="39" cy="21" r="1" fill="white" />
+                  {/* Left ear */}
+                  <ellipse cx="20" cy="16" rx="6" ry="10" fill="#8B4513" transform="rotate(-20 20 16)" />
+                  {/* Right ear */}
+                  <ellipse cx="44" cy="16" rx="6" ry="10" fill="#8B4513" transform="rotate(20 44 16)" />
+                  {/* Tongue */}
+                  <ellipse cx="32" cy="35" rx="3" ry="4" fill="#FF6B6B" className="animate-pulse" />
+                  {/* Tail */}
+                  <path d="M 50 42 Q 58 35 55 28" stroke="#D2691E" strokeWidth="5" fill="none" strokeLinecap="round" className="origin-bottom-left" style={{ animation: 'wag 0.3s ease-in-out infinite alternate' }} />
+                  {/* Front paws */}
+                  <ellipse cx="24" cy="54" rx="5" ry="4" fill="#D2691E" />
+                  <ellipse cx="40" cy="54" rx="5" ry="4" fill="#D2691E" />
+                </svg>
+              </div>
+            </div>
+            {/* Speech bubble */}
+            <div className="bg-card text-foreground text-xs px-3 py-1.5 rounded-full shadow-md border border-border relative">
+              Ask me about Pramod! 🐾
+              <div className="absolute -left-2 bottom-2 w-0 h-0 border-t-[6px] border-t-transparent border-r-[8px] border-r-card border-b-[6px] border-b-transparent" />
+            </div>
           </div>
         )}
         <button
@@ -180,6 +221,14 @@ const Chatbot = () => {
           {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
         </button>
       </div>
+
+      {/* Tail wag animation */}
+      <style>{`
+        @keyframes wag {
+          from { transform: rotate(-10deg); }
+          to { transform: rotate(10deg); }
+        }
+      `}</style>
 
       {/* Chat Window */}
       <div
