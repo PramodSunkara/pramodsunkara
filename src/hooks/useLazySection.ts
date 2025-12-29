@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-export const useLazySection = (rootMargin = '100px') => {
+export const useLazySection = (rootMargin = '300px') => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 

@@ -7,7 +7,7 @@ interface LazySectionProps {
 }
 
 const LazySection = memo(({ component, fallbackHeight = '400px' }: LazySectionProps) => {
-  const { ref, isVisible } = useLazySection('200px');
+  const { ref, isVisible } = useLazySection('300px');
   
   const Component = isVisible ? lazy(component) : null;
 
