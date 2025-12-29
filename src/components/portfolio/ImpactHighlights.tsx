@@ -5,7 +5,7 @@ const highlights = [
   },
   {
     category: 'Event Platforms',
-    outcome: 'Built event registration systems serving 100K+ attendees',
+    outcome: 'Built multiple event websites with pixel perfect and user friendly UI driving registrations increased by 3X',
   },
   {
     category: 'Conversion UX',
