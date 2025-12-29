@@ -225,7 +225,7 @@ const Skills = () => {
 
         {/* Education & Certifications */}
         <div className="reveal reveal-delay-5 border-t border-border pt-12 mt-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-[65%_1fr] gap-12">
             {/* Certifications */}
             <div>
               <h3 className="font-semibold text-lg mb-4 text-foreground">
