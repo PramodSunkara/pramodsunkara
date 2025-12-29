@@ -165,9 +165,14 @@ export const experiences: CompanyExperience[] = [
     ],
     testimonials: [
       {
-        quote: 'A strategic thinker who transformed our digital marketing approach and delivered exceptional results consistently.',
-        author: 'VP of Marketing',
-        role: 'Executive at SumTotal Systems'
+        quote: 'Pramod is one of the most talented people I have had the pleasure of working with. He is a true rarity — an incredibly creative individual with an astute technical acumen. He is eager to constantly evolve his skills and apply those learnings to the betterment of not just himself, but the entire team.',
+        author: '',
+        role: 'Director of Web Marketing | Global Digital Marketing Professional'
+      },
+      {
+        quote: 'Pramod is a highly experienced and incredibly creative digital marketing expert. He combines modern insight with a deep knowledge of demand generating tactics that come to life on any web project. He continuously advances his skills and provides recommendations that are highly progressive and reflect best practice.',
+        author: '',
+        role: 'Chief Customer Officer | Inclusion Advocate'
       }
     ]
   }
