@@ -37,31 +37,31 @@ const Contact = () => {
                   {/* Email */}
                   <a 
                     href={`mailto:${contactInfo.email}`}
-                    className="group flex items-center gap-4 p-4 rounded-2xl bg-background/50 hover:bg-background transition-all duration-300"
+                    className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-background/50 hover:bg-background transition-all duration-300"
                   >
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Mail className="w-5 h-5 text-primary" />
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <p className="text-sm text-muted-foreground">Email</p>
-                      <p className="font-medium">{contactInfo.email}</p>
+                      <p className="font-medium text-sm sm:text-base truncate">{contactInfo.email}</p>
                     </div>
-                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
                   </a>
 
                   {/* Phone */}
                   <a 
                     href={`tel:${contactInfo.phone.replace(/\D/g, '')}`}
-                    className="group flex items-center gap-4 p-4 rounded-2xl bg-background/50 hover:bg-background transition-all duration-300"
+                    className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-background/50 hover:bg-background transition-all duration-300"
                   >
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Phone className="w-5 h-5 text-primary" />
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <p className="text-sm text-muted-foreground">Phone</p>
-                      <p className="font-medium">{contactInfo.phone}</p>
+                      <p className="font-medium text-sm sm:text-base">{contactInfo.phone}</p>
                     </div>
-                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
                   </a>
 
                   {/* LinkedIn */}
@@ -69,16 +69,16 @@ const Contact = () => {
                     href={contactInfo.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-4 p-4 rounded-2xl bg-background/50 hover:bg-background transition-all duration-300"
+                    className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-background/50 hover:bg-background transition-all duration-300"
                   >
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Linkedin className="w-5 h-5 text-primary" />
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <p className="text-sm text-muted-foreground">LinkedIn</p>
-                      <p className="font-medium">pramodsunkara</p>
+                      <p className="font-medium text-sm sm:text-base">pramodsunkara</p>
                     </div>
-                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
                   </a>
                 </div>
               </div>
