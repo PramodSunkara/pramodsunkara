@@ -10,7 +10,7 @@ const Hero = () => {
     });
   };
   return <>
-    <section className="min-h-screen flex flex-col pt-24 md:pt-40 pb-8 relative">
+    <section className="min-h-screen flex flex-col justify-center pb-8 md:pt-40 relative">
       <HeroBackground />
       <div className="container-narrow text-center flex-1 flex flex-col justify-center px-4 md:px-8">
         <img src={profileImage} alt="Pramod" className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover mx-auto mb-6 md:mb-8 reveal border-4 border-primary/20" />
