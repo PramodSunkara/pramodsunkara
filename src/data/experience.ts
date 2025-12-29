@@ -67,9 +67,9 @@ export const experiences: CompanyExperience[] = [
         impact: 'Improved demo conversion rates by 3x'
       },
       {
-        name: 'HubSpot Demo Flows',
-        description: 'Designed high-conversion HubSpot demo flows with advanced animations and interaction patterns',
-        impact: 'Increased engagement across event and campaign pages'
+        name: 'CamundaCon Events',
+        description: 'Designed multiple event websites with high-quality, pixel-perfect responsive pages',
+        impact: 'Drove high registration numbers across global events'
       },
       {
         name: 'Marketing Page Templates',
