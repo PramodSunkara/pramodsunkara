@@ -38,7 +38,7 @@ const About = () => {
               </p>
 
               <p className="text-base text-muted-foreground leading-relaxed mb-6">
-                My career has spanned agencies, startups, and enterprise organizations. I've led teams, built design systems from scratch, and shipped products used by millions.
+                With extensive experience in enterprise web teams, I lead complex web initiatives, collaborate across marketing and engineering, and translate design systems into scalable, high-impact digital experiences.
               </p>
 
               <p className="text-base text-muted-foreground leading-relaxed">
