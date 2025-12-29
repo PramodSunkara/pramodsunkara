@@ -113,7 +113,7 @@ const aiTools = [
     name: 'Google Gemini', 
     icon: (
       <svg viewBox="0 0 24 24" className="w-4 h-4 transition-colors" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/>
       </svg>
     ),
     color: '#4285F4'
@@ -122,7 +122,7 @@ const aiTools = [
     name: 'NotebookLM', 
     icon: (
       <svg viewBox="0 0 24 24" className="w-4 h-4 transition-colors" fill="currentColor">
-        <path d="M3 5v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2zm12 4c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3zm-9 8c0-2 4-3.1 6-3.1s6 1.1 6 3.1v1H6v-1z"/>
+        <path d="M4 4h2v16H4V4zm4 0h2v16H8V4zm4 0h8c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2h-8V4zm2 2v12h6V6h-6z"/>
       </svg>
     ),
     color: '#EA4335'
@@ -148,8 +148,12 @@ const aiTools = [
   { 
     name: 'Figma AI', 
     icon: (
-      <svg viewBox="0 0 24 24" className="w-4 h-4 transition-colors" fill="currentColor">
-        <path d="M8 24c2.208 0 4-1.792 4-4v-4H8c-2.208 0-4 1.792-4 4s1.792 4 4 4zM4 12c0-2.208 1.792-4 4-4h4v8H8c-2.208 0-4-1.792-4-4zM4 4c0-2.208 1.792-4 4-4h4v8H8C5.792 8 4 6.208 4 4zM12 0h4c2.208 0 4 1.792 4 4s-1.792 4-4 4h-4V0zM20 12c0 2.208-1.792 4-4 4s-4-1.792-4-4 1.792-4 4-4 4 1.792 4 4z"/>
+      <svg viewBox="0 0 38 57" className="w-4 h-4 transition-colors" fill="currentColor">
+        <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
+        <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+        <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
+        <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+        <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
       </svg>
     ),
     color: '#F24E1E'
