@@ -1,8 +1,37 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, Send, X, Bot, User } from 'lucide-react';
+import { MessageCircle, Send, X, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+
+// Animated Dog Head Component
+const AnimatedDogHead = ({ size = 24, className = '' }: { size?: number; className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 64 64" 
+    className={className}
+  >
+    {/* Dog head */}
+    <circle cx="32" cy="32" r="20" fill="#D2691E" />
+    {/* Snout */}
+    <ellipse cx="32" cy="40" rx="10" ry="8" fill="#F4A460" />
+    {/* Nose */}
+    <ellipse cx="32" cy="37" rx="4" ry="3" fill="#2C1810" />
+    {/* Left eye */}
+    <circle cx="24" cy="28" r="4" fill="#2C1810" />
+    <circle cx="25" cy="27" r="1.5" fill="white" />
+    {/* Right eye */}
+    <circle cx="40" cy="28" r="4" fill="#2C1810" />
+    <circle cx="41" cy="27" r="1.5" fill="white" />
+    {/* Left ear */}
+    <ellipse cx="14" cy="20" rx="8" ry="14" fill="#8B4513" transform="rotate(-15 14 20)" />
+    {/* Right ear */}
+    <ellipse cx="50" cy="20" rx="8" ry="14" fill="#8B4513" transform="rotate(15 50 20)" />
+    {/* Tongue */}
+    <ellipse cx="32" cy="48" rx="4" ry="5" fill="#FF6B6B" className="animate-pulse" />
+  </svg>
+);
 
 interface Message {
   role: 'user' | 'assistant';
@@ -264,8 +293,8 @@ const Chatbot = () => {
         <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-2xl">
           {/* Chat Header */}
           <div className="bg-primary/10 px-4 py-3 flex items-center gap-3 border-b border-border">
-            <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
-              <Bot className="w-5 h-5 text-primary" />
+            <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+              <AnimatedDogHead size={28} />
             </div>
             <div className="flex-1">
               <p className="font-medium text-foreground text-sm">Pramod's AI Assistant</p>
@@ -283,10 +312,10 @@ const Chatbot = () => {
                 key={i}
                 className={`flex items-start gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
               >
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
+                <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                  msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary'
                 }`}>
-                  {msg.role === 'user' ? <User className="w-3.5 h-3.5" /> : <Bot className="w-3.5 h-3.5" />}
+                  {msg.role === 'user' ? <User className="w-3.5 h-3.5" /> : <AnimatedDogHead size={22} />}
                 </div>
                 <div className={`max-w-[80%] rounded-2xl px-3 py-2 ${
                   msg.role === 'user' 
@@ -299,8 +328,8 @@ const Chatbot = () => {
             ))}
             {isLoading && messages[messages.length - 1]?.role === 'user' && (
               <div className="flex items-start gap-2">
-                <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center">
-                  <Bot className="w-3.5 h-3.5 text-secondary-foreground" />
+                <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
+                  <AnimatedDogHead size={22} />
                 </div>
                 <div className="bg-secondary rounded-2xl px-3 py-2">
                   <div className="flex gap-1">
