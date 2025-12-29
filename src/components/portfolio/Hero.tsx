@@ -1,6 +1,8 @@
 import { ChevronDown } from 'lucide-react';
 import profileImage from '@/assets/pramod-profile.jpg';
 import LogoStrip from './LogoStrip';
+import HeroBackground from './HeroBackground';
+
 const Hero = () => {
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({
@@ -9,6 +11,7 @@ const Hero = () => {
   };
   return <>
     <section className="min-h-screen flex flex-col pt-24 md:pt-40 pb-8 relative">
+      <HeroBackground />
       <div className="container-narrow text-center flex-1 flex flex-col justify-center px-4 md:px-8">
         <img src={profileImage} alt="Pramod" className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover mx-auto mb-6 md:mb-8 reveal border-4 border-primary/20" />
         <h1 className="text-foreground reveal mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-extralight leading-tight">
