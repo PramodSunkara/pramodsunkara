@@ -5,7 +5,7 @@ const highlights = [
   },
   {
     category: 'Event Platforms',
-    outcome: 'Built multiple event websites with pixel perfect and user friendly UI driving registrations increased by 3X',
+    outcome: 'Created pixel-perfect, user-centric event websites that boosted registrations by 3×.',
   },
   {
     category: 'Conversion UX',
