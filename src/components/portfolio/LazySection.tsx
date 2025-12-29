@@ -1,19 +1,23 @@
-import { Suspense, lazy, ComponentType, memo } from 'react';
+import { Suspense, lazy, ComponentType, memo, useMemo } from 'react';
 import { useLazySection } from '@/hooks/useLazySection';
 
 interface LazySectionProps {
-  component: () => Promise<{ default: ComponentType }>;
+  importFn: () => Promise<{ default: ComponentType }>;
   fallbackHeight?: string;
 }
 
-const LazySection = memo(({ component, fallbackHeight = '400px' }: LazySectionProps) => {
+const LazySection = memo(({ importFn, fallbackHeight = '400px' }: LazySectionProps) => {
   const { ref, isVisible } = useLazySection('300px');
   
-  const Component = isVisible ? lazy(component) : null;
+  // Memoize the lazy component to prevent recreation on each render
+  const LazyComponent = useMemo(() => {
+    if (!isVisible) return null;
+    return lazy(importFn);
+  }, [isVisible, importFn]);
 
   return (
     <div ref={ref}>
-      {isVisible && Component ? (
+      {isVisible && LazyComponent ? (
         <Suspense
           fallback={
             <div 
@@ -24,7 +28,7 @@ const LazySection = memo(({ component, fallbackHeight = '400px' }: LazySectionPr
             </div>
           }
         >
-          <Component />
+          <LazyComponent />
         </Suspense>
       ) : (
         <div style={{ minHeight: fallbackHeight }} className="bg-background" />
