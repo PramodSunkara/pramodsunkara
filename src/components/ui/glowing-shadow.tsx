@@ -205,6 +205,30 @@ export function GlowingShadow({ children, className = "" }: GlowingShadowProps) 
         @media (hover: none) and (pointer: coarse) {
           .glow-container {
             --bg-size: 12;
+            --animation-speed: 16s; /* Slower animation for battery savings */
+          }
+          .glow {
+            display: none; /* Hide extra glow element on mobile */
+          }
+          .glow-content:before {
+            animation: hue-animation 16s linear infinite; /* Single simpler animation */
+          }
+        }
+
+        /* Reduced motion: disable all animations, show static gradient border */
+        @media (prefers-reduced-motion: reduce) {
+          .glow-container {
+            --bg-size: 8;
+          }
+          .glow {
+            display: none;
+          }
+          .glow-content:before {
+            animation: none;
+            background: linear-gradient(135deg, hsl(160 60% 50%), hsl(200 60% 50%), hsl(280 50% 55%));
+          }
+          .glow-container:hover .glow-content {
+            animation: none;
           }
         }
 
