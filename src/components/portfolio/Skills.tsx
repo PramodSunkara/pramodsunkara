@@ -15,11 +15,11 @@ const skillCategories = [
   {
     title: 'Front-End & Web',
     skills: [
-      { name: 'React & TypeScript', icon: FileCode, color: '#61DAFB' },
-      { name: 'Vue.js', icon: Code, color: '#42B883' },
       { name: 'HTML5 & CSS3', icon: FileText, color: '#E34F26' },
       { name: 'Responsive Design', icon: Smartphone, color: '#3B82F6' },
       { name: 'Performance Optimization', icon: Zap, color: '#FBBF24' },
+      { name: 'React & TypeScript', icon: FileCode, color: '#61DAFB' },
+      { name: 'Vue.js', icon: Code, color: '#42B883' },
       { name: 'Animation & Motion', icon: Play, color: '#A855F7' },
     ],
   },
