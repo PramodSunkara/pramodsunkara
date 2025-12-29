@@ -22,9 +22,9 @@ const Index = () => {
         <Skills />
         <About />
         <Contact />
-        <Chatbot />
       </main>
       <Footer />
+      <Chatbot />
     </div>
   );
 };

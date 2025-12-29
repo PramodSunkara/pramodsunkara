@@ -126,93 +126,99 @@ const Chatbot = () => {
   };
 
   return (
-    <section className="section-padding bg-background">
-      <div className="container-narrow">
-        <div className="text-center mb-8 reveal">
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
-            Have questions about me?
-          </h2>
-          <p className="text-muted-foreground">
-            Chat with my AI assistant to learn more about my experience and skills.
-          </p>
-        </div>
+    <>
+      {/* Floating Chat Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 transition-transform flex items-center justify-center"
+        aria-label={isOpen ? 'Close chat' : 'Open chat'}
+      >
+        {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+      </button>
 
-        <div className="max-w-2xl mx-auto reveal reveal-delay-1">
-          <div className="bg-card rounded-3xl border border-border overflow-hidden shadow-lg">
-            {/* Chat Header */}
-            <div className="bg-primary/10 px-6 py-4 flex items-center gap-3 border-b border-border">
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                <Bot className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <p className="font-medium text-foreground">Pramod's AI Assistant</p>
-                <p className="text-xs text-muted-foreground">Ask me anything about Pramod</p>
-              </div>
+      {/* Chat Window */}
+      <div
+        className={`fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-48px)] transition-all duration-300 ${
+          isOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+      >
+        <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-2xl">
+          {/* Chat Header */}
+          <div className="bg-primary/10 px-4 py-3 flex items-center gap-3 border-b border-border">
+            <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
+              <Bot className="w-5 h-5 text-primary" />
             </div>
+            <div className="flex-1">
+              <p className="font-medium text-foreground text-sm">Pramod's AI Assistant</p>
+              <p className="text-xs text-muted-foreground">Ask me anything</p>
+            </div>
+            <button onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-foreground transition-colors">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
-            {/* Messages */}
-            <div className="h-80 overflow-y-auto p-4 space-y-4 bg-background/50">
-              {messages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={`flex items-start gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
-                >
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
-                  }`}>
-                    {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
-                  </div>
-                  <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 ${
-                    msg.role === 'user' 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'bg-secondary text-secondary-foreground'
-                  }`}>
-                    <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+          {/* Messages */}
+          <div className="h-80 overflow-y-auto p-3 space-y-3 bg-background/50">
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`flex items-start gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+              >
+                <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground'
+                }`}>
+                  {msg.role === 'user' ? <User className="w-3.5 h-3.5" /> : <Bot className="w-3.5 h-3.5" />}
+                </div>
+                <div className={`max-w-[80%] rounded-2xl px-3 py-2 ${
+                  msg.role === 'user' 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-secondary text-secondary-foreground'
+                }`}>
+                  <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                </div>
+              </div>
+            ))}
+            {isLoading && messages[messages.length - 1]?.role === 'user' && (
+              <div className="flex items-start gap-2">
+                <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center">
+                  <Bot className="w-3.5 h-3.5 text-secondary-foreground" />
+                </div>
+                <div className="bg-secondary rounded-2xl px-3 py-2">
+                  <div className="flex gap-1">
+                    <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
-              ))}
-              {isLoading && messages[messages.length - 1]?.role === 'user' && (
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-                    <Bot className="w-4 h-4 text-secondary-foreground" />
-                  </div>
-                  <div className="bg-secondary rounded-2xl px-4 py-2.5">
-                    <div className="flex gap-1">
-                      <span className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                    </div>
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input */}
-            <div className="p-4 border-t border-border bg-card">
-              <div className="flex gap-2">
-                <Textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Ask about experience, skills, projects..."
-                  className="min-h-[44px] max-h-32 resize-none bg-background"
-                  disabled={isLoading}
-                />
-                <Button
-                  onClick={sendMessage}
-                  disabled={!input.trim() || isLoading}
-                  size="icon"
-                  className="h-11 w-11 flex-shrink-0"
-                >
-                  <Send className="w-4 h-4" />
-                </Button>
               </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input */}
+          <div className="p-3 border-t border-border bg-card">
+            <div className="flex gap-2">
+              <Textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Ask about experience, skills..."
+                className="min-h-[40px] max-h-24 resize-none bg-background text-sm"
+                disabled={isLoading}
+              />
+              <Button
+                onClick={sendMessage}
+                disabled={!input.trim() || isLoading}
+                size="icon"
+                className="h-10 w-10 flex-shrink-0"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 };
 
