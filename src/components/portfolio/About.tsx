@@ -10,7 +10,7 @@ const About = () => {
             </p>
 
             {/* Awards */}
-            <div className="reveal reveal-delay-2">
+            <div className="reveal reveal-delay-1">
               <h3 className="font-semibold text-lg mb-4 text-foreground">
                 Awards
               </h3>
@@ -31,7 +31,7 @@ const About = () => {
             </div>
           </div>
 
-          <div className="space-y-8 reveal reveal-delay-2">
+          <div className="space-y-8 reveal reveal-delay-1">
             <div className="p-8 rounded-3xl bg-card">
               <p className="text-base text-foreground leading-relaxed mb-6">
                 I'm a design-technologist who believes the best digital experiences emerge at the intersection of aesthetics, usability, and business goals. With 19 years in the industry, I've learned that great work comes from deep collaboration, clear communication, and an unwavering focus on the end user.
