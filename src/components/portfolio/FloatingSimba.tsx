@@ -75,11 +75,11 @@ const FloatingSimba = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-card text-card-foreground text-xs font-medium px-3 py-1.5 rounded-full shadow-lg border border-border"
+            className="absolute -top-10 right-0 whitespace-nowrap bg-card text-card-foreground text-xs font-medium px-3 py-1.5 rounded-full shadow-lg border border-border"
           >
             Hi, I'm Simba
             {/* Speech bubble arrow */}
-            <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-card border-r border-b border-border rotate-45" />
+            <div className="absolute -bottom-1.5 right-5 w-3 h-3 bg-card border-r border-b border-border rotate-45" />
           </motion.div>
 
           {/* Close button */}
