@@ -186,7 +186,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="mt-8 reveal reveal-delay-2">
+    <div className="mt-8">
       {/* Tail wag animation */}
       <style>{`
         @keyframes wag {
