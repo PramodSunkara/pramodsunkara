@@ -198,33 +198,26 @@ const Chatbot = () => {
       {/* Collapsed State - Dog with speech bubble */}
       <AnimatePresence mode="wait">
         {!isExpanded ? (
-          <motion.div 
+          <motion.button 
             key="collapsed"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="flex items-end gap-3"
+            onClick={() => setIsExpanded(true)}
+            className="flex items-end gap-2 cursor-pointer group"
+            aria-label="Open chat"
           >
             {/* Animated Dog */}
-            <div className="animate-bounce" style={{ animationDuration: '2s' }}>
-              <AnimatedDog size={56} />
+            <div className="animate-bounce group-hover:scale-110 transition-transform" style={{ animationDuration: '2s' }}>
+              <AnimatedDog size={40} />
             </div>
             
             {/* Speech bubble */}
-            <div className="relative bg-card text-foreground text-sm px-4 py-2 rounded-full shadow-md border border-border mb-4">
+            <div className="relative bg-card text-foreground text-xs px-3 py-1.5 rounded-full shadow-md border border-border mb-3 group-hover:bg-card/80 transition-colors">
               Ask me about Pramod! 🐾
-              <div className="absolute -left-2 bottom-2 w-0 h-0 border-t-[6px] border-t-transparent border-r-[8px] border-r-card border-b-[6px] border-b-transparent" />
+              <div className="absolute -left-1.5 bottom-1.5 w-0 h-0 border-t-[4px] border-t-transparent border-r-[6px] border-r-card border-b-[4px] border-b-transparent" />
             </div>
-            
-            {/* Expand Button */}
-            <button
-              onClick={() => setIsExpanded(true)}
-              className="w-12 h-12 rounded-full bg-muted-foreground/80 text-background shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center mb-4"
-              aria-label="Open chat"
-            >
-              <MessageCircle className="w-5 h-5" />
-            </button>
-          </motion.div>
+          </motion.button>
         ) : (
           <motion.div 
             key="expanded"
