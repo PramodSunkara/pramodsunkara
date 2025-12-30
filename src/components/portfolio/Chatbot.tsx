@@ -94,10 +94,42 @@ const Chatbot = () => {
     }
   }, [messages, isExpanded]);
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const isTakeMeThereRequest = (text: string) => {
+    const lowerText = text.toLowerCase();
+    return lowerText.includes('take me there') || 
+           lowerText.includes('show me') || 
+           lowerText.includes('go to certifications') || 
+           lowerText.includes('go to education');
+  };
+
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage: Message = { role: 'user', content: input.trim() };
+    
+    // Check if user wants to navigate to certifications section
+    if (isTakeMeThereRequest(input.trim())) {
+      setMessages(prev => [...prev, userMessage]);
+      setInput('');
+      
+      // Add assistant response and scroll
+      setTimeout(() => {
+        setMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: "Taking you there now! 🐾 Scroll down to see Pramod's Certifications and Education." 
+        }]);
+        scrollToSection('certifications');
+      }, 300);
+      return;
+    }
+
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
