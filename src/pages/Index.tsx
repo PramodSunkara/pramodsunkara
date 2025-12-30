@@ -8,6 +8,7 @@ import Skills from '@/components/portfolio/Skills';
 import About from '@/components/portfolio/About';
 import Contact from '@/components/portfolio/Contact';
 import Footer from '@/components/portfolio/Footer';
+import FloatingSimba from '@/components/portfolio/FloatingSimba';
 
 const Index = () => {
   const containerRef = useScrollReveal();
@@ -20,6 +21,7 @@ const Index = () => {
   return (
     <div ref={containerRef} className="min-h-screen">
       <Navigation />
+      <FloatingSimba />
       <main>
         <Hero />
         <ImpactHighlights />
