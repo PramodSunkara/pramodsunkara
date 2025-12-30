@@ -68,7 +68,7 @@ const FloatingSimba = () => {
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-          className="fixed bottom-24 left-6 z-40"
+          className="fixed bottom-24 right-6 z-40"
         >
           {/* Tooltip */}
           <motion.div
