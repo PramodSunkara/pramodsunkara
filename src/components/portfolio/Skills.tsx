@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react';
 import { Users, Layers, PenTool, Grid, Eye, Palette, FileCode, Code, FileText, Smartphone, Zap, Play, FlaskConical, TrendingUp, BarChart3, Layout, Mail, Search } from 'lucide-react';
 
 const skillCategories = [
@@ -170,6 +171,27 @@ const aiTools = [
 ];
 
 const Skills = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const getScale = (index: number) => {
+    if (hoveredIndex === null) return 1;
+    const distance = Math.abs(index - hoveredIndex);
+    if (distance === 0) return 1.25;
+    if (distance === 1) return 1.12;
+    if (distance === 2) return 1.05;
+    return 1;
+  };
+
+  const getTranslateY = (index: number) => {
+    if (hoveredIndex === null) return 0;
+    const distance = Math.abs(index - hoveredIndex);
+    if (distance === 0) return -6;
+    if (distance === 1) return -3;
+    if (distance === 2) return -1;
+    return 0;
+  };
+
   return (
     <section id="skills" className="section-padding">
       <div className="container-narrow">
@@ -207,12 +229,20 @@ const Skills = () => {
           <h3 className="font-medium text-base mb-5">
             AI-Enhanced Workflow
           </h3>
-          <div className="flex flex-wrap gap-2.5">
-            {aiTools.map((tool) => (
+          <div 
+            ref={containerRef}
+            className="flex flex-wrap gap-2.5 items-end pb-2"
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            {aiTools.map((tool, index) => (
               <span 
                 key={tool.name}
-                className="text-sm px-4 py-2 bg-secondary text-foreground rounded-full transition-colors duration-300 hover:bg-primary hover:text-primary-foreground flex items-center gap-2 group"
-                style={{ '--tool-color': tool.color } as React.CSSProperties}
+                onMouseEnter={() => setHoveredIndex(index)}
+                className="text-sm px-4 py-2 bg-secondary text-foreground rounded-full transition-all duration-200 ease-out hover:bg-primary hover:text-primary-foreground flex items-center gap-2 group cursor-default origin-bottom"
+                style={{ 
+                  '--tool-color': tool.color,
+                  transform: `scale(${getScale(index)}) translateY(${getTranslateY(index)}px)`,
+                } as React.CSSProperties}
               >
                 <span className="[&>svg]:transition-colors [&>svg]:duration-300 group-hover:[&>svg]:text-primary-foreground" style={{ color: tool.color }}>
                   {tool.icon}
