@@ -14,12 +14,11 @@ const Hero = () => {
       <HeroBackground />
       <div className="container-narrow text-center flex-1 flex flex-col justify-center px-4 md:px-8">
         {/* Profile image with Open to Work badge */}
-        <div className="relative w-28 h-28 md:w-36 md:h-36 mx-auto mb-6 md:mb-8">
+        <div className="relative w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 md:mb-8">
           {/* Yellow ring badge */}
           <svg 
             className="absolute inset-0 w-full h-full animate-spin-slow"
             viewBox="0 0 100 100"
-            style={{ animationDuration: '20s' }}
           >
             <defs>
               <path
@@ -32,11 +31,15 @@ const Hero = () => {
               cy="50"
               r="46"
               fill="none"
-              stroke="hsl(var(--primary))"
-              strokeWidth="8"
-              className="opacity-90"
+              stroke="#eab308"
+              strokeWidth="10"
             />
-            <text className="text-[8px] font-bold fill-primary-foreground tracking-wider">
+            <text 
+              fill="#1a1a1a" 
+              fontSize="7" 
+              fontWeight="bold"
+              letterSpacing="0.5"
+            >
               <textPath href="#circlePath" startOffset="0%">
                 #OPENTOWORK · #OPENTOWORK · #OPENTOWORK · 
               </textPath>
@@ -45,7 +48,7 @@ const Hero = () => {
           <img 
             src={profileImage} 
             alt="Pramod" 
-            className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-full object-cover border-2 border-background"
+            className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)] rounded-full object-cover border-2 border-background shadow-lg"
           />
         </div>
         <h1 className="text-foreground mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-extralight leading-tight">
