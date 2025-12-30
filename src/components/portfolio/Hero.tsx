@@ -15,7 +15,7 @@ const Hero = () => {
       <div className="container-narrow text-center flex-1 flex flex-col justify-center px-4 md:px-8">
         {/* Profile image with Open to Work badge */}
         <div className="relative w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 md:mb-8">
-          {/* Yellow ring badge */}
+          {/* Open to Work badge */}
           <svg 
             className="absolute inset-0 w-full h-full animate-spin-slow"
             viewBox="0 0 100 100"
@@ -26,22 +26,15 @@ const Hero = () => {
                 d="M 50,50 m -42,0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0"
               />
             </defs>
-            <circle
-              cx="50"
-              cy="50"
-              r="46"
-              fill="none"
-              stroke="#eab308"
-              strokeWidth="10"
-            />
             <text 
-              fill="#1a1a1a" 
-              fontSize="7" 
+              fill="white" 
+              fontSize="9" 
               fontWeight="bold"
-              letterSpacing="0.5"
+              letterSpacing="1"
+              className="uppercase"
             >
-              <textPath href="#circlePath" startOffset="0%">
-                #OPENTOWORK · #OPENTOWORK · #OPENTOWORK · 
+              <textPath href="#circlePath" startOffset="50%" textAnchor="middle">
+                #OPENTOWORK
               </textPath>
             </text>
           </svg>
