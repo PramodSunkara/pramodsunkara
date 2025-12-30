@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,11 +21,12 @@ interface GroupedConversation {
   started_at: string;
 }
 
-const ADMIN_PASSWORD = 'pramod2024'; // Simple password protection
+const ADMIN_API_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-conversations`;
 
 const AdminDashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
+  const [storedPassword, setStoredPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [conversations, setConversations] = useState<GroupedConversation[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,40 +34,66 @@ const AdminDashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [expandedSessions, setExpandedSessions] = useState<Set<string>>(new Set());
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
+    setIsLoading(true);
+    setPasswordError('');
+    
+    try {
+      // Validate password server-side
+      const response = await fetch(ADMIN_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+
+      if (response.status === 401) {
+        setPasswordError('Incorrect password');
+        return;
+      }
+
+      if (!response.ok) {
+        setPasswordError('Failed to authenticate');
+        return;
+      }
+
+      setStoredPassword(password);
       setIsAuthenticated(true);
       setPasswordError('');
-    } else {
-      setPasswordError('Incorrect password');
+    } catch (error) {
+      console.error('Login error:', error);
+      setPasswordError('Failed to connect to server');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const fetchConversations = async () => {
+    if (!storedPassword) return;
+    
     setIsLoading(true);
     try {
-      let query = supabase
-        .from('chatbot_conversations')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const response = await fetch(ADMIN_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          password: storedPassword,
+          dateFilter: dateFilter || undefined,
+        }),
+      });
 
-      if (dateFilter) {
-        const startDate = new Date(dateFilter);
-        startDate.setHours(0, 0, 0, 0);
-        const endDate = new Date(dateFilter);
-        endDate.setHours(23, 59, 59, 999);
-        query = query
-          .gte('created_at', startDate.toISOString())
-          .lte('created_at', endDate.toISOString());
+      if (response.status === 401) {
+        setIsAuthenticated(false);
+        setStoredPassword('');
+        return;
       }
 
-      const { data, error } = await query;
+      if (!response.ok) throw new Error('Failed to fetch');
 
-      if (error) throw error;
+      const { conversations: data } = await response.json();
 
       // Group by session_id
-      const grouped = (data || []).reduce((acc: Record<string, Conversation[]>, msg) => {
+      const grouped = (data || []).reduce((acc: Record<string, Conversation[]>, msg: Conversation) => {
         if (!acc[msg.session_id]) {
           acc[msg.session_id] = [];
         }
@@ -81,10 +107,10 @@ const AdminDashboard = () => {
       // Convert to array and sort by earliest message
       const groupedArray: GroupedConversation[] = Object.entries(grouped).map(([session_id, messages]) => ({
         session_id,
-        messages: messages.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()),
-        started_at: messages.reduce((earliest, msg) => 
+        messages: (messages as Conversation[]).sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()),
+        started_at: (messages as Conversation[]).reduce((earliest, msg) => 
           new Date(msg.created_at) < new Date(earliest) ? msg.created_at : earliest, 
-          messages[0].created_at
+          (messages as Conversation[])[0].created_at
         )
       })).sort((a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime());
 
@@ -97,10 +123,10 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && storedPassword) {
       fetchConversations();
     }
-  }, [isAuthenticated, dateFilter]);
+  }, [isAuthenticated, dateFilter, storedPassword]);
 
   const filteredConversations = conversations.filter(conv => 
     searchQuery === '' || 
@@ -119,6 +145,13 @@ const AdminDashboard = () => {
       }
       return next;
     });
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setStoredPassword('');
+    setPassword('');
+    setConversations([]);
   };
 
   const totalMessages = conversations.reduce((sum, conv) => sum + conv.messages.length, 0);
@@ -144,12 +177,13 @@ const AdminDashboard = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="text-center"
+                disabled={isLoading}
               />
               {passwordError && (
                 <p className="text-destructive text-sm text-center">{passwordError}</p>
               )}
-              <Button type="submit" className="w-full">
-                Access Dashboard
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Authenticating...' : 'Access Dashboard'}
               </Button>
             </form>
           </CardContent>
@@ -169,7 +203,7 @@ const AdminDashboard = () => {
             <h1 className="text-2xl md:text-3xl font-bold">Chatbot Analytics</h1>
             <p className="text-muted-foreground">View and search through conversations</p>
           </div>
-          <Button variant="outline" onClick={() => setIsAuthenticated(false)}>
+          <Button variant="outline" onClick={handleLogout}>
             Logout
           </Button>
         </div>
