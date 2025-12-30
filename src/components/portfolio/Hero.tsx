@@ -13,7 +13,41 @@ const Hero = () => {
     <section className="min-h-screen flex flex-col justify-center pb-8 md:pt-40 relative">
       <HeroBackground />
       <div className="container-narrow text-center flex-1 flex flex-col justify-center px-4 md:px-8">
-        <img src={profileImage} alt="Pramod" className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover mx-auto mb-6 md:mb-8 border-4 border-primary/20" />
+        {/* Profile image with Open to Work badge */}
+        <div className="relative w-28 h-28 md:w-36 md:h-36 mx-auto mb-6 md:mb-8">
+          {/* Yellow ring badge */}
+          <svg 
+            className="absolute inset-0 w-full h-full animate-spin-slow"
+            viewBox="0 0 100 100"
+            style={{ animationDuration: '20s' }}
+          >
+            <defs>
+              <path
+                id="circlePath"
+                d="M 50,50 m -42,0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0"
+              />
+            </defs>
+            <circle
+              cx="50"
+              cy="50"
+              r="46"
+              fill="none"
+              stroke="hsl(var(--primary))"
+              strokeWidth="8"
+              className="opacity-90"
+            />
+            <text className="text-[8px] font-bold fill-primary-foreground tracking-wider">
+              <textPath href="#circlePath" startOffset="0%">
+                #OPENTOWORK · #OPENTOWORK · #OPENTOWORK · 
+              </textPath>
+            </text>
+          </svg>
+          <img 
+            src={profileImage} 
+            alt="Pramod" 
+            className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-full object-cover border-2 border-background"
+          />
+        </div>
         <h1 className="text-foreground mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-extralight leading-tight">
           I'm Pramod, designing and building web experiences that <em className="font-normal italic">connect,</em> <em className="font-normal italic">engage,</em> and <em className="font-normal italic">convert.</em>
         </h1>
