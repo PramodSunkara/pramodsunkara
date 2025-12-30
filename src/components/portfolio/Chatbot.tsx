@@ -215,7 +215,6 @@ const Chatbot = () => {
             {/* Speech bubble */}
             <div className="relative bg-card text-foreground text-xs px-3 py-1.5 rounded-full shadow-md border border-border mb-3 group-hover:bg-card/80 transition-colors">
               Ask me about Pramod! 🐾
-              <div className="absolute -left-1.5 bottom-1.5 w-0 h-0 border-t-[4px] border-t-transparent border-r-[6px] border-r-card border-b-[4px] border-b-transparent" />
             </div>
           </motion.button>
         ) : (

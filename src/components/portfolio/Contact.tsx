@@ -12,9 +12,9 @@ const Contact = () => {
     <section id="contact" className="bg-dark-section text-dark-section-foreground">
       <div className="section-padding">
         <div className="container-narrow">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
             {/* Left side - Headline + Chatbot */}
-            <div className="reveal">
+            <div className="reveal flex flex-col">
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
                 Shall we work
                 <br />
