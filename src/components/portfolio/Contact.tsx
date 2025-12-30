@@ -12,22 +12,20 @@ const Contact = () => {
     <section id="contact" className="bg-dark-section text-dark-section-foreground">
       <div className="section-padding">
         <div className="container-narrow">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
-            {/* Left side - Headline at top, Chatbot aligned with card bottom */}
-            <div className="reveal flex flex-col">
-              <div className="mb-auto">
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                  Shall we work
-                  <br />
-                  <em className="font-normal">together?</em>
-                </h2>
-                
-                <p className="text-body opacity-70">
-                  Open to senior roles in web development, UI/UX engineering, and design leadership.
-                </p>
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            {/* Left side - Headline + Chatbot */}
+            <div className="reveal">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                Shall we work
+                <br />
+                <em className="font-normal">together?</em>
+              </h2>
               
-              {/* Static Chatbot - aligned with bottom of contact card */}
+              <p className="text-body opacity-70 mb-12">
+                Open to senior roles in web development, UI/UX engineering, and design leadership.
+              </p>
+              
+              {/* Static Chatbot */}
               <Chatbot />
             </div>
 
