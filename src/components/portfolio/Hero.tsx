@@ -14,7 +14,7 @@ const Hero = () => {
       <HeroBackground />
       <div className="container-narrow text-center flex-1 flex flex-col justify-center px-4 md:px-8">
         {/* Profile image with Open to Work badge */}
-        <div className="relative w-40 h-40 md:w-48 md:h-48 mx-auto mb-6 md:mb-8">
+        <div className="relative w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 md:mb-8">
           {/* Open to Work badge */}
           <svg 
             className="absolute inset-0 w-full h-full animate-spin-slow"
@@ -28,7 +28,7 @@ const Hero = () => {
               />
             </defs>
             <text 
-              fill="white" 
+              fill="#eab308" 
               fontSize="5.5" 
               fontWeight="bold"
               letterSpacing="0.5"
@@ -39,10 +39,10 @@ const Hero = () => {
               </textPath>
             </text>
           </svg>
-          <img
+          <img 
             src={profileImage} 
             alt="Pramod" 
-            className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)] rounded-full object-cover border-2 border-background shadow-lg"
+            className="absolute inset-5 w-[calc(100%-40px)] h-[calc(100%-40px)] rounded-full object-cover border-2 border-background shadow-lg"
           />
         </div>
         <h1 className="text-foreground mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-extralight leading-tight">
