@@ -83,11 +83,24 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastAssistantMessageRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const prevMessageCountRef = useRef(messages.length);
   const { toast } = useToast();
 
   const scrollToNewMessage = () => {
-    lastAssistantMessageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (scrollContainerRef.current && lastAssistantMessageRef.current) {
+      const container = scrollContainerRef.current;
+      const messageElement = lastAssistantMessageRef.current;
+      
+      // Calculate the offset of the message within the container
+      const messageTop = messageElement.offsetTop;
+      
+      // Scroll container to show the message at the top with some padding
+      container.scrollTo({
+        top: messageTop - 16,
+        behavior: 'smooth'
+      });
+    }
   };
 
   // Scroll to the top of new assistant message when it first appears (not during streaming)
@@ -293,7 +306,7 @@ const Chatbot = () => {
             </button>
 
             {/* Messages */}
-            <div className="h-64 overflow-y-auto p-4 space-y-4 bg-[#151515]">
+            <div ref={scrollContainerRef} className="h-64 overflow-y-auto p-4 space-y-4 bg-[#151515]">
               {messages.map((msg, i) => (
                 <div
                   key={i}
