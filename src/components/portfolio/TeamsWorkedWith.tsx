@@ -20,7 +20,7 @@ const TeamsWorkedWith = () => {
     <section id="teams" className="py-24 md:py-32 reveal overflow-visible">
       <div className="container max-w-6xl mx-auto px-6 md:px-8 overflow-visible">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display mb-6 font-light lg:text-4xl">
+          <h2 className="text-section mb-6">
             Awesome Teams I've Worked With
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
