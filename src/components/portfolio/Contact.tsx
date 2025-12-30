@@ -12,10 +12,10 @@ const Contact = () => {
     <section id="contact" className="bg-dark-section text-dark-section-foreground">
       <div className="section-padding">
         <div className="container-narrow">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch min-h-[500px]">
-            {/* Left side - Headline at top, Chatbot at bottom */}
-            <div className="reveal flex flex-col justify-between">
-              <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
+            {/* Left side - Headline at top, Chatbot aligned with card bottom */}
+            <div className="reveal flex flex-col">
+              <div className="mb-auto">
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                   Shall we work
                   <br />
@@ -27,10 +27,8 @@ const Contact = () => {
                 </p>
               </div>
               
-              {/* Static Chatbot - bottom aligned */}
-              <div className="mt-auto">
-                <Chatbot />
-              </div>
+              {/* Static Chatbot - aligned with bottom of contact card */}
+              <Chatbot />
             </div>
 
             {/* Right side - Contact card */}
