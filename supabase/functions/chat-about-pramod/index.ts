@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -74,13 +75,48 @@ Contact:
 
 Keep responses concise, friendly, and helpful. For professional questions, use the information above. For personal questions, follow the CUSTOM Q&A and PERSONAL QUESTION HANDLING rules.`;
 
+// Initialize Supabase client with service role for server-side inserts
+const getSupabaseClient = () => {
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  
+  if (!supabaseUrl || !supabaseServiceKey) {
+    console.error("Supabase credentials not configured");
+    return null;
+  }
+  
+  return createClient(supabaseUrl, supabaseServiceKey);
+};
+
+// Save message to database (server-side only)
+const saveMessage = async (
+  sessionId: string,
+  role: 'user' | 'assistant',
+  content: string,
+  userAgent: string | null
+) => {
+  const supabase = getSupabaseClient();
+  if (!supabase) return;
+  
+  try {
+    await supabase.from('chatbot_conversations').insert({
+      session_id: sessionId,
+      role,
+      content,
+      user_agent: userAgent
+    });
+  } catch (error) {
+    console.error("Failed to save message:", error);
+  }
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, sessionId, userAgent } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
@@ -89,6 +125,12 @@ serve(async (req) => {
         status: 503,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+
+    // Get the last user message for saving
+    const lastUserMessage = messages[messages.length - 1];
+    if (lastUserMessage?.role === 'user' && sessionId) {
+      await saveMessage(sessionId, 'user', lastUserMessage.content, userAgent || null);
     }
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -108,11 +150,9 @@ serve(async (req) => {
     });
 
     if (!response.ok) {
-      // Log detailed error server-side for debugging
       const errorText = await response.text();
       console.error("AI gateway error:", response.status, errorText);
       
-      // Return user-friendly messages without exposing internal details
       if (response.status === 429) {
         return new Response(JSON.stringify({ error: "Too many requests. Please wait a moment and try again." }), {
           status: 429,
@@ -126,21 +166,76 @@ serve(async (req) => {
         });
       }
       
-      // Generic error for all other cases
       return new Response(JSON.stringify({ error: "Unable to process request. Please try again." }), {
         status: 503,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    return new Response(response.body, {
+    // Create a transform stream to capture and save the full response
+    const reader = response.body?.getReader();
+    if (!reader) {
+      return new Response(JSON.stringify({ error: "Unable to process response." }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    let fullAssistantResponse = '';
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder();
+
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            // Forward the chunk to client
+            controller.enqueue(value);
+
+            // Parse the chunk to extract content for saving
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split('\n');
+            
+            for (const line of lines) {
+              if (line.startsWith('data: ') && !line.includes('[DONE]')) {
+                try {
+                  const jsonStr = line.slice(6).trim();
+                  if (jsonStr) {
+                    const parsed = JSON.parse(jsonStr);
+                    const content = parsed.choices?.[0]?.delta?.content;
+                    if (content) {
+                      fullAssistantResponse += content;
+                    }
+                  }
+                } catch {
+                  // Ignore parse errors for incomplete chunks
+                }
+              }
+            }
+          }
+          
+          // Save the complete assistant response
+          if (fullAssistantResponse && sessionId) {
+            await saveMessage(sessionId, 'assistant', fullAssistantResponse, null);
+          }
+          
+          controller.close();
+        } catch (error) {
+          console.error("Stream processing error:", error);
+          controller.error(error);
+        }
+      }
+    });
+
+    return new Response(stream, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (error) {
-    // Log full error server-side for debugging
     console.error("Chat error:", error);
     
-    // Return generic message to client without exposing internal details
     return new Response(JSON.stringify({ error: "Unable to process request. Please try again." }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
