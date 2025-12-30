@@ -82,17 +82,24 @@ const Chatbot = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const lastAssistantMessageRef = useRef<HTMLDivElement>(null);
+  const prevMessageCountRef = useRef(messages.length);
   const { toast } = useToast();
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const scrollToNewMessage = () => {
+    lastAssistantMessageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  // Scroll to the top of new assistant message when it first appears (not during streaming)
   useEffect(() => {
-    if (isExpanded) {
-      scrollToBottom();
+    if (isExpanded && messages.length > prevMessageCountRef.current) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.role === 'assistant') {
+        setTimeout(scrollToNewMessage, 100);
+      }
     }
-  }, [messages, isExpanded]);
+    prevMessageCountRef.current = messages.length;
+  }, [messages.length, isExpanded]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -290,6 +297,7 @@ const Chatbot = () => {
               {messages.map((msg, i) => (
                 <div
                   key={i}
+                  ref={msg.role === 'assistant' && i === messages.length - 1 ? lastAssistantMessageRef : null}
                   className={`flex items-start gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
                 >
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
