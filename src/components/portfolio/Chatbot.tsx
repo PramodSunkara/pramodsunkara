@@ -223,57 +223,68 @@ const Chatbot = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-card/50 backdrop-blur-sm rounded-2xl border border-border overflow-hidden max-w-md"
+            className="rounded-2xl border border-amber-500/20 overflow-hidden max-w-md shadow-xl"
+            style={{ 
+              background: 'linear-gradient(180deg, hsl(30 20% 18%) 0%, hsl(30 15% 12%) 100%)'
+            }}
           >
             {/* Chat Header */}
             <button 
               onClick={() => setIsExpanded(false)}
-              className="w-full bg-primary/10 px-4 py-3 flex items-center gap-3 border-b border-border hover:bg-primary/15 transition-colors"
+              className="w-full px-4 py-3 flex items-center gap-3 border-b border-amber-500/10 hover:bg-amber-500/5 transition-colors"
+              style={{ background: 'linear-gradient(90deg, hsl(30 30% 20%) 0%, hsl(30 20% 16%) 100%)' }}
             >
-              <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
-                <AnimatedDogHead size={28} />
+              <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center overflow-hidden ring-2 ring-amber-500/30">
+                <AnimatedDogHead size={30} />
               </div>
               <div className="flex-1 text-left">
-                <p className="font-medium text-foreground text-sm">Ask about Pramod</p>
-                <p className="text-xs text-muted-foreground">Click to minimize</p>
+                <p className="font-semibold text-amber-100 text-sm">Ask about Pramod</p>
+                <p className="text-xs text-amber-200/50">Click to minimize</p>
+              </div>
+              <div className="w-6 h-6 rounded-full bg-amber-500/10 flex items-center justify-center">
+                <svg className="w-3 h-3 text-amber-200/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </div>
             </button>
 
             {/* Messages */}
-            <div className="h-64 overflow-y-auto p-3 space-y-3 bg-background/30">
+            <div className="h-64 overflow-y-auto p-4 space-y-4" style={{ background: 'hsl(30 10% 14%)' }}>
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`flex items-start gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+                  className={`flex items-start gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
                 >
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
-                    msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary'
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                    msg.role === 'user' 
+                      ? 'bg-amber-500 text-amber-950 ring-2 ring-amber-400/30' 
+                      : 'bg-amber-500/20 ring-2 ring-amber-500/20'
                   }`}>
                     {msg.role === 'user' ? (
-                      <User className="w-3.5 h-3.5" />
+                      <User className="w-4 h-4" />
                     ) : (
-                      <AnimatedDogHead size={22} />
+                      <AnimatedDogHead size={24} />
                     )}
                   </div>
-                  <div className={`max-w-[80%] rounded-2xl px-3 py-2 ${
+                  <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 ${
                     msg.role === 'user' 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'bg-secondary text-secondary-foreground'
+                      ? 'bg-amber-500 text-amber-950 font-medium' 
+                      : 'bg-amber-500/10 text-amber-100 border border-amber-500/10'
                   }`}>
                     <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
                   </div>
                 </div>
               ))}
               {isLoading && messages[messages.length - 1]?.role === 'user' && (
-                <div className="flex items-start gap-2">
-                  <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
-                    <AnimatedDogHead size={22} />
+                <div className="flex items-start gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center overflow-hidden ring-2 ring-amber-500/20">
+                    <AnimatedDogHead size={24} />
                   </div>
-                  <div className="bg-secondary rounded-2xl px-3 py-2">
-                    <div className="flex gap-1">
-                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div className="bg-amber-500/10 border border-amber-500/10 rounded-2xl px-4 py-3">
+                    <div className="flex gap-1.5">
+                      <span className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 </div>
@@ -282,21 +293,21 @@ const Chatbot = () => {
             </div>
 
             {/* Input */}
-            <div className="p-3 border-t border-border bg-card/50">
+            <div className="p-3 border-t border-amber-500/10" style={{ background: 'hsl(30 15% 16%)' }}>
               <div className="flex gap-2">
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask about experience, skills..."
-                  className="min-h-[40px] max-h-24 resize-none bg-background text-sm"
+                  className="min-h-[44px] max-h-24 resize-none text-sm border-amber-500/20 bg-amber-500/5 text-amber-100 placeholder:text-amber-200/40 focus:border-amber-500/40 focus:ring-amber-500/20"
                   disabled={isLoading}
                 />
                 <Button
                   onClick={sendMessage}
                   disabled={!input.trim() || isLoading}
                   size="icon"
-                  className="h-10 w-10 flex-shrink-0"
+                  className="h-11 w-11 flex-shrink-0 bg-amber-500 hover:bg-amber-400 text-amber-950 disabled:bg-amber-500/30 disabled:text-amber-200/50"
                 >
                   <Send className="w-4 h-4" />
                 </Button>
