@@ -69,10 +69,15 @@ interface Message {
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-about-pramod`;
 
+const suggestedQuestions = [
+  "What kind of problems does Pramod solve?",
+  "What makes Pramod different from other web developers?"
+];
+
 const Chatbot = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: "Hi! I'm here to answer any questions about Pramod's experience, skills, and background. What would you like to know?" }
+    { role: 'assistant', content: "Hi! I'm Simba, here to answer any questions about Pramod's experience, skills, and background. What would you like to know?" }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -185,6 +190,10 @@ const Chatbot = () => {
     }
   };
 
+  const handleSuggestedQuestion = (question: string) => {
+    setInput(question);
+  };
+
   return (
     <div className="mt-8">
       {/* Tail wag animation */}
@@ -271,6 +280,22 @@ const Chatbot = () => {
                   </div>
                 </div>
               ))}
+
+              {/* Suggested Questions - show only when no conversation yet */}
+              {messages.length === 1 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {suggestedQuestions.map((question, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleSuggestedQuestion(question)}
+                      className="text-xs bg-white/10 hover:bg-white/20 text-white/80 hover:text-white px-3 py-1.5 rounded-full transition-colors border border-white/10 hover:border-white/20"
+                    >
+                      {question}
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {isLoading && messages[messages.length - 1]?.role === 'user' && (
                 <div className="flex items-start gap-2.5">
                   <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center overflow-hidden">
