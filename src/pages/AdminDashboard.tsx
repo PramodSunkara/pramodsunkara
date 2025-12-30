@@ -42,7 +42,7 @@ const AdminDashboard = () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
-        navigate('/admin/auth');
+        navigate('/dashboard/auth');
         return;
       }
 
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!session) {
-        navigate('/admin/auth');
+        navigate('/dashboard/auth');
       }
     });
 
@@ -144,7 +144,7 @@ const AdminDashboard = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate('/admin/auth');
+    navigate('/dashboard/auth');
   };
 
   const filteredConversations = conversations.filter(conv => 
