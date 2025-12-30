@@ -1,4 +1,4 @@
-import { Linkedin, Mail, Phone, ArrowUpRight } from 'lucide-react';
+import { Linkedin, Mail, Phone, ArrowUpRight, FileDown } from 'lucide-react';
 import Chatbot from './Chatbot';
 
 const Contact = () => {
@@ -38,6 +38,22 @@ const Contact = () => {
                 
                 {/* Contact Links */}
                 <div className="space-y-4">
+                  {/* Download Resume */}
+                  <a 
+                    href="/Pramod_Sunkara_Resume.pdf"
+                    download="Pramod_Sunkara_Resume.pdf"
+                    className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-background/50 hover:bg-background transition-all duration-300"
+                  >
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <FileDown className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-muted-foreground">Resume</p>
+                      <p className="font-medium text-sm sm:text-base">Download PDF</p>
+                    </div>
+                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
+                  </a>
+
                   {/* Email */}
                   <a 
                     href={`mailto:${contactInfo.email}`}
