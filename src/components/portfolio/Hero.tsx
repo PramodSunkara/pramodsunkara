@@ -13,14 +13,6 @@ const Hero = () => {
     <section className="min-h-screen flex flex-col justify-center pb-8 md:pt-40 relative">
       <HeroBackground />
       <div className="container-narrow text-center flex-1 flex flex-col justify-center px-4 md:px-8">
-        {/* Open to Work Badge */}
-        <div className="flex justify-center mb-4">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/10 border border-green-500/30 text-green-500 text-xs font-medium">
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            Open to Work
-          </span>
-        </div>
-
         <img src={profileImage} alt="Pramod" className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover mx-auto mb-6 md:mb-8 border-4 border-primary/20" />
         <h1 className="text-foreground mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-extralight leading-tight">
           I'm Pramod, designing and building web experiences that <em className="font-normal italic">connect,</em> <em className="font-normal italic">engage,</em> and <em className="font-normal italic">convert.</em>
