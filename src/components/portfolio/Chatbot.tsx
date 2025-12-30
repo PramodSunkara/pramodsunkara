@@ -209,11 +209,11 @@ const Chatbot = () => {
           >
             {/* Animated Dog */}
             <div className="animate-bounce group-hover:scale-110 transition-transform" style={{ animationDuration: '2s' }}>
-              <AnimatedDog size={40} />
+              <AnimatedDog size={64} />
             </div>
             
             {/* Speech bubble */}
-            <div className="relative bg-card text-foreground text-xs px-3 py-1.5 rounded-full shadow-md border border-border mb-3 group-hover:bg-card/80 transition-colors">
+            <div className="relative bg-card text-foreground text-sm px-4 py-2 rounded-full shadow-md border border-border mb-6 group-hover:bg-card/80 transition-colors">
               Ask me about Pramod! 🐾
             </div>
           </motion.button>
