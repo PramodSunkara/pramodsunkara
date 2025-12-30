@@ -17,16 +17,12 @@ const TeamsWorkedWith = () => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   
   return (
-    <section id="teams" className="py-24 md:py-32 reveal overflow-visible">
-      <div className="container max-w-6xl mx-auto px-6 md:px-8 overflow-visible">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display mb-6 font-light lg:text-4xl">
-            Awesome Teams I've Worked With
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Proud to have contributed to these amazing organizations over the years.
-          </p>
-        </div>
+    <section id="teams" className="section-padding overflow-visible">
+      <div className="container-narrow overflow-visible">
+        <h2 className="text-section mb-4 reveal">Awesome Teams I've Worked With</h2>
+        <p className="text-base text-muted-foreground max-w-2xl mb-16 reveal reveal-delay-1">
+          Proud to have contributed to these amazing organizations over the years.
+        </p>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12 overflow-visible">
           {experiences.map(exp => (
