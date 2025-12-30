@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import ExperienceCamunda from "./pages/ExperienceCamunda";
 import ExperienceSumTotal from "./pages/ExperienceSumTotal";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminAuth from "./pages/AdminAuth";
 import PageTransition from "./components/PageTransition";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const AnimatedRoutes = () => {
         <Route path="/experience/camunda" element={<PageTransition><ExperienceCamunda /></PageTransition>} />
         <Route path="/experience/sumtotal" element={<PageTransition><ExperienceSumTotal /></PageTransition>} />
         <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
+        <Route path="/admin/auth" element={<PageTransition><AdminAuth /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
