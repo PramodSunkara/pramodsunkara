@@ -14,23 +14,24 @@ const Hero = () => {
       <HeroBackground />
       <div className="container-narrow text-center flex-1 flex flex-col justify-center px-4 md:px-8">
         {/* Profile image with Open to Work badge */}
-        <div className="relative w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 md:mb-8">
+        <div className="relative w-40 h-40 md:w-48 md:h-48 mx-auto mb-6 md:mb-8">
           {/* Open to Work badge */}
           <svg 
             className="absolute inset-0 w-full h-full animate-spin-slow"
+            style={{ animationDuration: '40s' }}
             viewBox="0 0 100 100"
           >
             <defs>
               <path
                 id="circlePath"
-                d="M 50,50 m -42,0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0"
+                d="M 50,50 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"
               />
             </defs>
             <text 
               fill="white" 
-              fontSize="9" 
+              fontSize="5.5" 
               fontWeight="bold"
-              letterSpacing="1"
+              letterSpacing="0.5"
               className="uppercase"
             >
               <textPath href="#circlePath" startOffset="50%" textAnchor="middle">
@@ -38,7 +39,7 @@ const Hero = () => {
               </textPath>
             </text>
           </svg>
-          <img 
+          <img
             src={profileImage} 
             alt="Pramod" 
             className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)] rounded-full object-cover border-2 border-background shadow-lg"
