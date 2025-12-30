@@ -1,1 +1,7 @@
 project_id = "tgvwbvwxhjguqemwwbyg"
+
+[functions.chat-about-pramod]
+verify_jwt = false
+
+[functions.admin-conversations]
+verify_jwt = false
