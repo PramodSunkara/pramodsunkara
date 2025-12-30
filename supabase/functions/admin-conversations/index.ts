@@ -6,74 +6,17 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Simple in-memory rate limiting (resets on function cold start)
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT_MAX = 5;
-const RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
-  
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return true;
-  }
-  
-  if (entry.count >= RATE_LIMIT_MAX) {
-    return false;
-  }
-  
-  entry.count++;
-  return true;
-}
-
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Get client IP for rate limiting
-  const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
-                   req.headers.get("cf-connecting-ip") || 
-                   "unknown";
-
   try {
-    const { password, dateFilter, searchQuery } = await req.json();
-    
-    // Get admin password from secrets
-    const ADMIN_PASSWORD = Deno.env.get("ADMIN_PASSWORD");
-    
-    if (!ADMIN_PASSWORD) {
-      console.error("ADMIN_PASSWORD secret not configured");
-      return new Response(
-        JSON.stringify({ error: "Service configuration error" }),
-        { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-    
-    // Check rate limit before password validation
-    if (!checkRateLimit(clientIp)) {
-      console.warn(`Rate limit exceeded for IP: ${clientIp}`);
-      return new Response(
-        JSON.stringify({ error: "Too many attempts. Please try again later." }),
-        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-    
-    // Validate admin password server-side
-    if (password !== ADMIN_PASSWORD) {
-      console.warn(`Failed login attempt from IP: ${clientIp}`);
-      return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-    if (!supabaseUrl || !supabaseServiceKey) {
+    if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey) {
       console.error("Supabase credentials not configured");
       return new Response(
         JSON.stringify({ error: "Service configuration error" }),
@@ -81,9 +24,52 @@ serve(async (req) => {
       );
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    // Get the authorization header
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: "Missing authorization header" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
-    let query = supabase
+    // Create client with user's JWT to verify authentication
+    const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
+
+    // Verify the user is authenticated
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+    
+    if (authError || !user) {
+      console.warn("Auth verification failed:", authError?.message);
+      return new Response(
+        JSON.stringify({ error: "Unauthorized" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Check if user has admin role using service role client
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+    
+    const { data: roles, error: rolesError } = await supabaseAdmin
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .eq("role", "admin");
+
+    if (rolesError || !roles || roles.length === 0) {
+      console.warn(`User ${user.id} attempted admin access without permission`);
+      return new Response(
+        JSON.stringify({ error: "Forbidden - Admin access required" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // User is authenticated and has admin role - proceed with request
+    const { dateFilter, searchQuery } = await req.json();
+
+    let query = supabaseAdmin
       .from("chatbot_conversations")
       .select("*")
       .order("created_at", { ascending: false });
@@ -109,7 +95,7 @@ serve(async (req) => {
       );
     }
 
-    // Apply search filter if provided (done in edge function for flexibility)
+    // Apply search filter if provided
     let filteredData = data || [];
     if (searchQuery) {
       const lowerSearch = searchQuery.toLowerCase();
@@ -117,6 +103,8 @@ serve(async (req) => {
         msg.content.toLowerCase().includes(lowerSearch)
       );
     }
+
+    console.log(`Admin ${user.email} fetched ${filteredData.length} conversation records`);
 
     return new Response(
       JSON.stringify({ conversations: filteredData }),

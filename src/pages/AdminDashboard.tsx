@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Search, Lock, Calendar, MessageSquare, User, Bot } from 'lucide-react';
+import { Search, Lock, Calendar, MessageSquare, User, Bot, ShieldAlert } from 'lucide-react';
 import { format } from 'date-fns';
 import FloatingBackButton from '@/components/FloatingBackButton';
+import { useToast } from '@/hooks/use-toast';
 
 interface Conversation {
   id: string;
@@ -24,67 +27,74 @@ interface GroupedConversation {
 const ADMIN_API_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-conversations`;
 
 const AdminDashboard = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
-  const [storedPassword, setStoredPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [conversations, setConversations] = useState<GroupedConversation[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [dateFilter, setDateFilter] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [expandedSessions, setExpandedSessions] = useState<Set<string>>(new Set());
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setPasswordError('');
-    
-    try {
-      // Validate password server-side
-      const response = await fetch(ADMIN_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-
-      if (response.status === 401) {
-        setPasswordError('Incorrect password');
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        navigate('/admin/auth');
         return;
       }
 
-      if (!response.ok) {
-        setPasswordError('Failed to authenticate');
+      setUserEmail(session.user.email || null);
+
+      // Check if user has admin role
+      const { data: roles, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', session.user.id)
+        .eq('role', 'admin');
+
+      if (error || !roles || roles.length === 0) {
+        setIsAdmin(false);
+        setIsLoading(false);
         return;
       }
 
-      setStoredPassword(password);
-      setIsAuthenticated(true);
-      setPasswordError('');
-    } catch (error) {
-      console.error('Login error:', error);
-      setPasswordError('Failed to connect to server');
-    } finally {
+      setIsAdmin(true);
       setIsLoading(false);
-    }
-  };
+    };
+
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!session) {
+        navigate('/admin/auth');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
 
   const fetchConversations = async () => {
-    if (!storedPassword) return;
-    
     setIsLoading(true);
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
       const response = await fetch(ADMIN_API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+        },
         body: JSON.stringify({ 
-          password: storedPassword,
           dateFilter: dateFilter || undefined,
         }),
       });
 
-      if (response.status === 401) {
-        setIsAuthenticated(false);
-        setStoredPassword('');
+      if (response.status === 401 || response.status === 403) {
+        setIsAdmin(false);
         return;
       }
 
@@ -104,7 +114,6 @@ const AdminDashboard = () => {
         return acc;
       }, {});
 
-      // Convert to array and sort by earliest message
       const groupedArray: GroupedConversation[] = Object.entries(grouped).map(([session_id, messages]) => ({
         session_id,
         messages: (messages as Conversation[]).sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()),
@@ -117,16 +126,26 @@ const AdminDashboard = () => {
       setConversations(groupedArray);
     } catch (error) {
       console.error('Failed to fetch conversations:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to load conversations',
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (isAuthenticated && storedPassword) {
+    if (isAdmin) {
       fetchConversations();
     }
-  }, [isAuthenticated, dateFilter, storedPassword]);
+  }, [isAdmin, dateFilter]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/admin/auth');
+  };
 
   const filteredConversations = conversations.filter(conv => 
     searchQuery === '' || 
@@ -147,45 +166,45 @@ const AdminDashboard = () => {
     });
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    setStoredPassword('');
-    setPassword('');
-    setConversations([]);
-  };
-
   const totalMessages = conversations.reduce((sum, conv) => sum + conv.messages.length, 0);
   const totalSessions = conversations.length;
 
-  if (!isAuthenticated) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <FloatingBackButton />
+        <Card className="w-full max-w-md">
+          <CardContent className="p-8 text-center">
+            <p className="text-muted-foreground">Loading...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <FloatingBackButton />
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <Lock className="w-6 h-6 text-primary" />
+            <div className="w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-4">
+              <ShieldAlert className="w-6 h-6 text-destructive" />
             </div>
-            <CardTitle>Admin Dashboard</CardTitle>
-            <p className="text-muted-foreground text-sm mt-2">Enter password to access chatbot analytics</p>
+            <CardTitle>Access Denied</CardTitle>
+            <p className="text-muted-foreground text-sm mt-2">
+              You don't have admin permissions. Contact the site owner to request access.
+            </p>
+            {userEmail && (
+              <p className="text-xs text-muted-foreground mt-2">
+                Logged in as: {userEmail}
+              </p>
+            )}
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <Input
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="text-center"
-                disabled={isLoading}
-              />
-              {passwordError && (
-                <p className="text-destructive text-sm text-center">{passwordError}</p>
-              )}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Authenticating...' : 'Access Dashboard'}
-              </Button>
-            </form>
+          <CardContent className="space-y-2">
+            <Button variant="outline" className="w-full" onClick={handleLogout}>
+              Sign Out
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -201,10 +220,12 @@ const AdminDashboard = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold">Chatbot Analytics</h1>
-            <p className="text-muted-foreground">View and search through conversations</p>
+            <p className="text-muted-foreground">
+              Logged in as {userEmail}
+            </p>
           </div>
           <Button variant="outline" onClick={handleLogout}>
-            Logout
+            Sign Out
           </Button>
         </div>
 
