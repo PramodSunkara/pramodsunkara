@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '@/integrations/supabase/client';
 
 // Animated Dog Component - exported for use in Footer
 export const AnimatedDog = ({ size = 48, className = '' }: { size?: number; className?: string }) => (
@@ -81,11 +82,25 @@ const Chatbot = () => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId] = useState(() => crypto.randomUUID());
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastAssistantMessageRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const prevMessageCountRef = useRef(messages.length);
   const { toast } = useToast();
+
+  const saveMessage = async (role: 'user' | 'assistant', content: string) => {
+    try {
+      await supabase.from('chatbot_conversations').insert({
+        session_id: sessionId,
+        role,
+        content,
+        user_agent: navigator.userAgent
+      });
+    } catch (error) {
+      console.error('Failed to save message:', error);
+    }
+  };
 
   const scrollToNewMessage = () => {
     if (scrollContainerRef.current && lastAssistantMessageRef.current) {
@@ -153,6 +168,9 @@ const Chatbot = () => {
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
+    
+    // Save user message to database
+    saveMessage('user', userMessage.content);
 
     let assistantContent = '';
 
@@ -231,6 +249,10 @@ const Chatbot = () => {
         });
       }
     } finally {
+      // Save assistant message to database after streaming is complete
+      if (assistantContent) {
+        saveMessage('assistant', assistantContent);
+      }
       setIsLoading(false);
     }
   };
