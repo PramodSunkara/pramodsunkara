@@ -46,7 +46,7 @@ const AdminAuth = () => {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}${import.meta.env.BASE_URL}#/dashboard`,
+            emailRedirectTo: `${window.location.origin}/dashboard`,
           },
         });
         
