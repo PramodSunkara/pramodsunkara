@@ -21,7 +21,7 @@ const AdminAuth = () => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate('/dashboard');
+        navigate('/admin');
       }
     };
     checkAuth();
@@ -29,7 +29,7 @@ const AdminAuth = () => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        navigate('/dashboard');
+        navigate('/admin');
       }
     });
 
@@ -46,7 +46,7 @@ const AdminAuth = () => {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/dashboard`,
+            emailRedirectTo: `${window.location.origin}/admin`,
           },
         });
         

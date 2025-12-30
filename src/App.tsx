@@ -23,8 +23,8 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<PageTransition><Index /></PageTransition>} />
         <Route path="/experience/camunda" element={<PageTransition><ExperienceCamunda /></PageTransition>} />
         <Route path="/experience/sumtotal" element={<PageTransition><ExperienceSumTotal /></PageTransition>} />
-        <Route path="/dashboard" element={<PageTransition><AdminDashboard /></PageTransition>} />
-        <Route path="/dashboard/auth" element={<PageTransition><AdminAuth /></PageTransition>} />
+        <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
+        <Route path="/admin/auth" element={<PageTransition><AdminAuth /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
