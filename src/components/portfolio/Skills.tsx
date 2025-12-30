@@ -254,7 +254,7 @@ const Skills = () => {
         </div>
 
         {/* Education & Certifications */}
-        <div className="reveal reveal-delay-5 border-t border-border pt-12 mt-12">
+        <div id="certifications" className="reveal reveal-delay-5 border-t border-border pt-12 mt-12">
           <div className="grid grid-cols-1 lg:grid-cols-[55%_1fr] gap-12">
             {/* Certifications */}
             <div>
