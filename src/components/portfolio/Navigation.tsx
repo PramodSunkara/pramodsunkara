@@ -1,5 +1,6 @@
 import { useTheme } from '@/hooks/useTheme';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Moon, Sun } from 'lucide-react';
 
 const navItems = [
   { label: 'Work', href: '#teams' },
@@ -9,7 +10,7 @@ const navItems = [
 ];
 
 const Navigation = () => {
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -49,6 +50,21 @@ const Navigation = () => {
             {item.label}
           </button>
         ))}
+        <button
+          onClick={toggleTheme}
+          className={`ml-1 p-2 rounded-full transition-colors duration-200 ${
+            theme === 'dark'
+              ? 'hover:bg-white/10'
+              : 'hover:bg-primary-foreground/10'
+          }`}
+          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+        >
+          {theme === 'light' ? (
+            <Moon className="h-4 w-4" />
+          ) : (
+            <Sun className="h-4 w-4" />
+          )}
+        </button>
       </nav>
     </header>
   );
