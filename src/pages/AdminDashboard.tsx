@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Search, Lock, Calendar, MessageSquare, User, Bot, ShieldAlert } from 'lucide-react';
+import { Search, Lock, Calendar, MessageSquare, User, Bot, ShieldAlert, MapPin, Clock, Globe } from 'lucide-react';
 import { format } from 'date-fns';
 import FloatingBackButton from '@/components/FloatingBackButton';
 import { useToast } from '@/hooks/use-toast';
@@ -16,12 +16,18 @@ interface Conversation {
   content: string;
   user_agent: string | null;
   created_at: string;
+  ip_address: string | null;
+  country: string | null;
+  city: string | null;
+  region: string | null;
 }
 
 interface GroupedConversation {
   session_id: string;
   messages: Conversation[];
   started_at: string;
+  location: string | null;
+  country: string | null;
 }
 
 const ADMIN_API_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-conversations`;
@@ -114,14 +120,22 @@ const AdminDashboard = () => {
         return acc;
       }, {});
 
-      const groupedArray: GroupedConversation[] = Object.entries(grouped).map(([session_id, messages]) => ({
-        session_id,
-        messages: (messages as Conversation[]).sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()),
-        started_at: (messages as Conversation[]).reduce((earliest, msg) => 
-          new Date(msg.created_at) < new Date(earliest) ? msg.created_at : earliest, 
-          (messages as Conversation[])[0].created_at
-        )
-      })).sort((a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime());
+      const groupedArray: GroupedConversation[] = Object.entries(grouped).map(([session_id, messages]) => {
+        const sortedMessages = (messages as Conversation[]).sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+        const firstUserMessage = sortedMessages.find(m => m.role === 'user');
+        const locationParts = [firstUserMessage?.city, firstUserMessage?.region, firstUserMessage?.country].filter(Boolean);
+        
+        return {
+          session_id,
+          messages: sortedMessages,
+          started_at: sortedMessages.reduce((earliest, msg) => 
+            new Date(msg.created_at) < new Date(earliest) ? msg.created_at : earliest, 
+            sortedMessages[0].created_at
+          ),
+          location: locationParts.length > 0 ? locationParts.join(', ') : null,
+          country: firstUserMessage?.country || null
+        };
+      }).sort((a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime());
 
       setConversations(groupedArray);
     } catch (error) {
@@ -168,6 +182,7 @@ const AdminDashboard = () => {
 
   const totalMessages = conversations.reduce((sum, conv) => sum + conv.messages.length, 0);
   const totalSessions = conversations.length;
+  const uniqueCountries = [...new Set(conversations.map(c => c.country).filter(Boolean))].length;
 
   if (isLoading) {
     return (
@@ -230,7 +245,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <Card>
             <CardContent className="p-4 flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
@@ -250,6 +265,17 @@ const AdminDashboard = () => {
               <div>
                 <p className="text-2xl font-bold">{totalSessions}</p>
                 <p className="text-sm text-muted-foreground">Sessions</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Globe className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{uniqueCountries}</p>
+                <p className="text-sm text-muted-foreground">Countries</p>
               </div>
             </CardContent>
           </Card>
@@ -319,9 +345,23 @@ const AdminDashboard = () => {
                             ? previewMessage.slice(0, 100) + '...' 
                             : previewMessage}
                         </p>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {format(new Date(conv.started_at), 'MMM d, yyyy h:mm a')} · {conv.messages.length} messages
-                        </p>
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground mt-1">
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {format(new Date(conv.started_at), 'MMM d, yyyy h:mm a')}
+                          </span>
+                          <span>·</span>
+                          <span>{conv.messages.length} messages</span>
+                          {conv.location && (
+                            <>
+                              <span>·</span>
+                              <span className="flex items-center gap-1">
+                                <MapPin className="w-3 h-3" />
+                                {conv.location}
+                              </span>
+                            </>
+                          )}
+                        </div>
                       </div>
                       <div className="text-muted-foreground">
                         {isExpanded ? '−' : '+'}

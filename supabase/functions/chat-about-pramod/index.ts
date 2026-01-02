@@ -96,12 +96,37 @@ const getSupabaseClient = () => {
   return createClient(supabaseUrl, supabaseServiceKey);
 };
 
+// Lookup location from IP using free API
+const getLocationFromIP = async (ip: string): Promise<{ country: string | null; city: string | null; region: string | null }> => {
+  try {
+    // Skip for localhost/private IPs
+    if (!ip || ip === '127.0.0.1' || ip === '::1' || ip.startsWith('192.168.') || ip.startsWith('10.')) {
+      return { country: null, city: null, region: null };
+    }
+    
+    const response = await fetch(`http://ip-api.com/json/${ip}?fields=country,city,regionName`);
+    if (!response.ok) return { country: null, city: null, region: null };
+    
+    const data = await response.json();
+    return {
+      country: data.country || null,
+      city: data.city || null,
+      region: data.regionName || null
+    };
+  } catch (error) {
+    console.error("Failed to lookup IP location:", error);
+    return { country: null, city: null, region: null };
+  }
+};
+
 // Save message to database (server-side only)
 const saveMessage = async (
   sessionId: string,
   role: 'user' | 'assistant',
   content: string,
-  userAgent: string | null
+  userAgent: string | null,
+  ipAddress: string | null = null,
+  location: { country: string | null; city: string | null; region: string | null } | null = null
 ) => {
   const supabase = getSupabaseClient();
   if (!supabase) return;
@@ -111,7 +136,11 @@ const saveMessage = async (
       session_id: sessionId,
       role,
       content,
-      user_agent: userAgent
+      user_agent: userAgent,
+      ip_address: ipAddress,
+      country: location?.country,
+      city: location?.city,
+      region: location?.region
     });
   } catch (error) {
     console.error("Failed to save message:", error);
@@ -127,6 +156,12 @@ serve(async (req) => {
     const { messages, sessionId, userAgent } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
+    // Get client IP address from headers
+    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('x-real-ip') || 
+                     req.headers.get('cf-connecting-ip') || 
+                     null;
+    
     if (!LOVABLE_API_KEY) {
       console.error("LOVABLE_API_KEY is not configured");
       return new Response(JSON.stringify({ error: "Service configuration error. Please try again later." }), {
@@ -135,10 +170,17 @@ serve(async (req) => {
       });
     }
 
+    // Lookup location for user messages only
+    let location: { country: string | null; city: string | null; region: string | null } | null = null;
+    if (clientIP) {
+      location = await getLocationFromIP(clientIP);
+      console.log(`Client IP: ${clientIP}, Location: ${location?.city}, ${location?.region}, ${location?.country}`);
+    }
+
     // Get the last user message for saving
     const lastUserMessage = messages[messages.length - 1];
     if (lastUserMessage?.role === 'user' && sessionId) {
-      await saveMessage(sessionId, 'user', lastUserMessage.content, userAgent || null);
+      await saveMessage(sessionId, 'user', lastUserMessage.content, userAgent || null, clientIP, location);
     }
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
