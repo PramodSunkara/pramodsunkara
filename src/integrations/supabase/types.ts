@@ -16,25 +16,37 @@ export type Database = {
     Tables: {
       chatbot_conversations: {
         Row: {
+          city: string | null
           content: string
+          country: string | null
           created_at: string | null
           id: string
+          ip_address: string | null
+          region: string | null
           role: string
           session_id: string
           user_agent: string | null
         }
         Insert: {
+          city?: string | null
           content: string
+          country?: string | null
           created_at?: string | null
           id?: string
+          ip_address?: string | null
+          region?: string | null
           role: string
           session_id: string
           user_agent?: string | null
         }
         Update: {
+          city?: string | null
           content?: string
+          country?: string | null
           created_at?: string | null
           id?: string
+          ip_address?: string | null
+          region?: string | null
           role?: string
           session_id?: string
           user_agent?: string | null
