@@ -19,7 +19,7 @@ const highlights = [
 
 const ImpactHighlights = () => {
   return (
-    <section className="section-padding bg-secondary/50">
+    <section id="highlights" className="section-padding bg-secondary/50">
       <div className="container-narrow">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {highlights.map((item, index) => (
