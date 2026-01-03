@@ -98,7 +98,7 @@ const ExperienceCamunda = () => {
                     key={idx} 
                     className={`p-6 rounded-xl bg-card transition-all duration-300 cursor-pointer ${
                       isHighlighted 
-                        ? 'border border-amber-400 animate-gradient-border hover:shadow-lg' 
+                        ? 'animate-border-spin hover:shadow-lg hover:shadow-amber-500/20' 
                         : 'border border-border hover:border-primary/30 hover:shadow-lg'
                     }`}
                   >
