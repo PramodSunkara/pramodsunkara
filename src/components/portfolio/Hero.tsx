@@ -54,7 +54,7 @@ const Hero = () => {
         
         <p className="text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-16 font-light text-sm md:text-base">With 19+ years of experience, I lead the design and development of smart, scalable websites and interfaces that align business strategy with meaningful user experiences.</p>
 
-        <button onClick={() => scrollToSection('highlights')} className="mx-auto flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer" aria-label="Scroll to highlights">
+        <button onClick={() => scrollToSection('value-props')} className="mx-auto flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer" aria-label="Scroll to value propositions">
           <ChevronDown className="w-6 h-6 md:w-8 md:h-8 animate-bounce" />
         </button>
       </div>
@@ -64,7 +64,7 @@ const Hero = () => {
       <LogoStrip />
     </div>
 
-    <section className="py-8 md:py-16 px-0 pb-[100px] pt-[50px]">
+    <section id="value-props" className="py-8 md:py-16 px-0 pb-[100px] pt-[50px]">
       <div className="container-narrow px-4 md:px-8">
         {/* Value propositions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 reveal reveal-delay-1">
