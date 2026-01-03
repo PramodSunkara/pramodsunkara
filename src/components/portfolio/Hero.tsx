@@ -54,13 +54,13 @@ const Hero = () => {
         
         <p className="text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-16 font-light text-sm md:text-base">With 19+ years of experience, I lead the design and development of smart, scalable websites and interfaces that align business strategy with meaningful user experiences.</p>
 
-        <button onClick={() => scrollToSection('value-props')} className="mx-auto flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer" aria-label="Scroll to value propositions">
+        <button onClick={() => scrollToSection('logos')} className="mx-auto flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 cursor-pointer" aria-label="Scroll to logos">
           <ChevronDown className="w-6 h-6 md:w-8 md:h-8 animate-bounce" />
         </button>
       </div>
     </section>
 
-    <div className="reveal py-1 md:py-12">
+    <div id="logos" className="reveal py-1 md:py-12">
       <LogoStrip />
     </div>
 
