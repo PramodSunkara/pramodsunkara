@@ -12,7 +12,7 @@ interface ProjectHoverCardProps {
 }
 
 const ProjectHoverCard = ({ children }: ProjectHoverCardProps) => {
-  const [activeTab, setActiveTab] = useState<'before' | 'after'>('after');
+  const [activeTab, setActiveTab] = useState<'before' | 'after'>('before');
 
   return (
     <HoverCard openDelay={200} closeDelay={100}>
