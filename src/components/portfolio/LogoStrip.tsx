@@ -19,6 +19,23 @@ const tools = [
   { name: 'Framer', icon: Box, color: '#0055FF', years: 1 },
 ];
 
+// Mobile order: Figma and Photoshop positions swapped
+const mobileTools = [
+  tools[6], // Figma (was position 7, now position 1)
+  tools[1], // HTML5
+  tools[2], // CSS3
+  tools[3], // WordPress
+  tools[4], // JavaScript
+  tools[5], // Git
+  tools[0], // Photoshop (was position 1, now position 7)
+  tools[7], // Adobe XD
+  tools[8], // React
+  tools[9], // TypeScript
+  tools[10], // Tailwind
+  tools[11], // Webflow
+  tools[12], // Framer
+];
+
 const ToolItem = ({ tool, index }: { tool: typeof tools[0]; index: number }) => {
   const Icon = tool.icon;
   return (
@@ -82,7 +99,7 @@ const LogoStrip = () => {
       {/* Mobile: 3-row grid with tap-to-show popovers */}
       <div className="md:hidden px-4 py-4 reveal reveal-delay-3">
         <div className="grid grid-cols-3 gap-4">
-          {tools.map((tool, index) => (
+          {mobileTools.map((tool, index) => (
             <MobileToolItem key={index} tool={tool} />
           ))}
         </div>
