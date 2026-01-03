@@ -9,6 +9,7 @@ import About from '@/components/portfolio/About';
 import Contact from '@/components/portfolio/Contact';
 import Footer from '@/components/portfolio/Footer';
 import FloatingSimba from '@/components/portfolio/FloatingSimba';
+import ThemeTransitionOverlay from '@/components/portfolio/ThemeTransitionOverlay';
 
 const Index = () => {
   const containerRef = useScrollReveal();
@@ -22,6 +23,7 @@ const Index = () => {
     <div ref={containerRef} className="min-h-screen">
       <Navigation />
       <FloatingSimba />
+      <ThemeTransitionOverlay />
       <main>
         <Hero />
         <ImpactHighlights />
