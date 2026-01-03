@@ -1,15 +1,14 @@
-import { useEffect, lazy, Suspense } from 'react';
+import { useEffect } from 'react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import Navigation from '@/components/portfolio/Navigation';
 import Hero from '@/components/portfolio/Hero';
-
-const ImpactHighlights = lazy(() => import('@/components/portfolio/ImpactHighlights'));
-const TeamsWorkedWith = lazy(() => import('@/components/portfolio/TeamsWorkedWith'));
-const Skills = lazy(() => import('@/components/portfolio/Skills'));
-const About = lazy(() => import('@/components/portfolio/About'));
-const Contact = lazy(() => import('@/components/portfolio/Contact'));
-const Footer = lazy(() => import('@/components/portfolio/Footer'));
-const FloatingSimba = lazy(() => import('@/components/portfolio/FloatingSimba'));
+import ImpactHighlights from '@/components/portfolio/ImpactHighlights';
+import TeamsWorkedWith from '@/components/portfolio/TeamsWorkedWith';
+import Skills from '@/components/portfolio/Skills';
+import About from '@/components/portfolio/About';
+import Contact from '@/components/portfolio/Contact';
+import Footer from '@/components/portfolio/Footer';
+import FloatingSimba from '@/components/portfolio/FloatingSimba';
 
 const Index = () => {
   const containerRef = useScrollReveal();
@@ -22,22 +21,16 @@ const Index = () => {
   return (
     <div ref={containerRef} className="min-h-screen">
       <Navigation />
-      <Suspense fallback={null}>
-        <FloatingSimba />
-      </Suspense>
+      <FloatingSimba />
       <main>
         <Hero />
-        <Suspense fallback={null}>
-          <ImpactHighlights />
-          <TeamsWorkedWith />
-          <Skills />
-          <About />
-          <Contact />
-        </Suspense>
+        <ImpactHighlights />
+        <TeamsWorkedWith />
+        <Skills />
+        <About />
+        <Contact />
       </main>
-      <Suspense fallback={null}>
-        <Footer />
-      </Suspense>
+      <Footer />
     </div>
   );
 };

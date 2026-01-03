@@ -99,9 +99,7 @@ const FloatingSimba = () => {
             className="cursor-pointer hover:scale-110 transition-transform"
             aria-label="Scroll to bottom"
           >
-            <div>
-              <AnimatedDog size={56} />
-            </div>
+            <AnimatedDog size={56} />
           </motion.button>
         </motion.div>
       )}

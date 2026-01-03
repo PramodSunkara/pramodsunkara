@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, forwardRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Send, User, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -6,71 +6,61 @@ import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Animated Dog Component - exported for use in Footer
-export const AnimatedDog = forwardRef<SVGSVGElement, { size?: number; className?: string }>(
-  ({ size = 48, className = '' }, ref) => (
-    <svg 
-      ref={ref}
-      width={size} 
-      height={size} 
-      viewBox="0 0 64 64" 
-      className={className}
-    >
-      {/* Dog body */}
-      <ellipse cx="32" cy="42" rx="18" ry="14" fill="#D2691E" />
-      {/* Dog head */}
-      <circle cx="32" cy="24" r="14" fill="#D2691E" />
-      {/* Snout */}
-      <ellipse cx="32" cy="30" rx="8" ry="6" fill="#F4A460" />
-      {/* Nose */}
-      <ellipse cx="32" cy="28" rx="3" ry="2.5" fill="#2C1810" />
-      {/* Left eye */}
-      <circle cx="26" cy="22" r="3" fill="#2C1810" />
-      <circle cx="27" cy="21" r="1" fill="white" />
-      {/* Right eye */}
-      <circle cx="38" cy="22" r="3" fill="#2C1810" />
-      <circle cx="39" cy="21" r="1" fill="white" />
-      {/* Left ear */}
-      <ellipse cx="20" cy="16" rx="6" ry="10" fill="#8B4513" transform="rotate(-20 20 16)" />
-      {/* Right ear */}
-      <ellipse cx="44" cy="16" rx="6" ry="10" fill="#8B4513" transform="rotate(20 44 16)" />
-      {/* Tongue */}
-      <ellipse cx="32" cy="35" rx="3" ry="4" fill="#FF6B6B" className="animate-pulse" />
-      {/* Tail */}
-      <path d="M 50 42 Q 58 35 55 28" stroke="#D2691E" strokeWidth="5" fill="none" strokeLinecap="round" className="origin-bottom-left" style={{ animation: 'wag 0.3s ease-in-out infinite alternate' }} />
-      {/* Front paws */}
-      <ellipse cx="24" cy="54" rx="5" ry="4" fill="#D2691E" />
-      <ellipse cx="40" cy="54" rx="5" ry="4" fill="#D2691E" />
-    </svg>
-  )
+export const AnimatedDog = ({ size = 48, className = '' }: { size?: number; className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 64 64" 
+    className={className}
+  >
+    {/* Dog body */}
+    <ellipse cx="32" cy="42" rx="18" ry="14" fill="#D2691E" />
+    {/* Dog head */}
+    <circle cx="32" cy="24" r="14" fill="#D2691E" />
+    {/* Snout */}
+    <ellipse cx="32" cy="30" rx="8" ry="6" fill="#F4A460" />
+    {/* Nose */}
+    <ellipse cx="32" cy="28" rx="3" ry="2.5" fill="#2C1810" />
+    {/* Left eye */}
+    <circle cx="26" cy="22" r="3" fill="#2C1810" />
+    <circle cx="27" cy="21" r="1" fill="white" />
+    {/* Right eye */}
+    <circle cx="38" cy="22" r="3" fill="#2C1810" />
+    <circle cx="39" cy="21" r="1" fill="white" />
+    {/* Left ear */}
+    <ellipse cx="20" cy="16" rx="6" ry="10" fill="#8B4513" transform="rotate(-20 20 16)" />
+    {/* Right ear */}
+    <ellipse cx="44" cy="16" rx="6" ry="10" fill="#8B4513" transform="rotate(20 44 16)" />
+    {/* Tongue */}
+    <ellipse cx="32" cy="35" rx="3" ry="4" fill="#FF6B6B" className="animate-pulse" />
+    {/* Tail */}
+    <path d="M 50 42 Q 58 35 55 28" stroke="#D2691E" strokeWidth="5" fill="none" strokeLinecap="round" className="origin-bottom-left" style={{ animation: 'wag 0.3s ease-in-out infinite alternate' }} />
+    {/* Front paws */}
+    <ellipse cx="24" cy="54" rx="5" ry="4" fill="#D2691E" />
+    <ellipse cx="40" cy="54" rx="5" ry="4" fill="#D2691E" />
+  </svg>
 );
-
-AnimatedDog.displayName = 'AnimatedDog';
 
 // Small dog head for chat messages
-export const AnimatedDogHead = forwardRef<SVGSVGElement, { size?: number; className?: string }>(
-  ({ size = 24, className = '' }, ref) => (
-    <svg 
-      ref={ref}
-      width={size} 
-      height={size} 
-      viewBox="0 0 64 64" 
-      className={className}
-    >
-      <circle cx="32" cy="32" r="20" fill="#D2691E" />
-      <ellipse cx="32" cy="40" rx="10" ry="8" fill="#F4A460" />
-      <ellipse cx="32" cy="37" rx="4" ry="3" fill="#2C1810" />
-      <circle cx="24" cy="28" r="4" fill="#2C1810" />
-      <circle cx="25" cy="27" r="1.5" fill="white" />
-      <circle cx="40" cy="28" r="4" fill="#2C1810" />
-      <circle cx="41" cy="27" r="1.5" fill="white" />
-      <ellipse cx="14" cy="20" rx="8" ry="14" fill="#8B4513" transform="rotate(-15 14 20)" />
-      <ellipse cx="50" cy="20" rx="8" ry="14" fill="#8B4513" transform="rotate(15 50 20)" />
-      <ellipse cx="32" cy="48" rx="4" ry="5" fill="#FF6B6B" className="animate-pulse" />
-    </svg>
-  )
+export const AnimatedDogHead = ({ size = 24, className = '' }: { size?: number; className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 64 64" 
+    className={className}
+  >
+    <circle cx="32" cy="32" r="20" fill="#D2691E" />
+    <ellipse cx="32" cy="40" rx="10" ry="8" fill="#F4A460" />
+    <ellipse cx="32" cy="37" rx="4" ry="3" fill="#2C1810" />
+    <circle cx="24" cy="28" r="4" fill="#2C1810" />
+    <circle cx="25" cy="27" r="1.5" fill="white" />
+    <circle cx="40" cy="28" r="4" fill="#2C1810" />
+    <circle cx="41" cy="27" r="1.5" fill="white" />
+    <ellipse cx="14" cy="20" rx="8" ry="14" fill="#8B4513" transform="rotate(-15 14 20)" />
+    <ellipse cx="50" cy="20" rx="8" ry="14" fill="#8B4513" transform="rotate(15 50 20)" />
+    <ellipse cx="32" cy="48" rx="4" ry="5" fill="#FF6B6B" className="animate-pulse" />
+  </svg>
 );
-
-AnimatedDogHead.displayName = 'AnimatedDogHead';
 
 interface Message {
   role: 'user' | 'assistant';
