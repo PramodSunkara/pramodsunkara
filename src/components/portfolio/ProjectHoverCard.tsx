@@ -52,18 +52,18 @@ const ProjectHoverCard = ({ children }: ProjectHoverCardProps) => {
           </div>
 
           {/* Images */}
-          <div className="relative h-56 overflow-hidden">
+          <div className="relative h-64 overflow-hidden bg-muted/30">
             <img
               src={camundaBefore}
               alt="Camunda website before redesign"
-              className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-300 ${
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ${
                 activeTab === 'before' ? 'opacity-100' : 'opacity-0'
               }`}
             />
             <img
               src={camundaAfter}
               alt="Camunda website after redesign"
-              className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-300 ${
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ${
                 activeTab === 'after' ? 'opacity-100' : 'opacity-0'
               }`}
             />
