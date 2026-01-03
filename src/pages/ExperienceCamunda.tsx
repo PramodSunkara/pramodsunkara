@@ -84,22 +84,6 @@ const ExperienceCamunda = () => {
             </div>
           </section>
 
-          {/* Responsibilities */}
-          <section>
-            <div className="flex items-center gap-3 mb-8">
-              <Target className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl md:text-3xl font-display font-semibold">Key Responsibilities</h2>
-            </div>
-            <ul className="grid md:grid-cols-2 gap-4">
-              {experience.responsibilities.map((resp, idx) => (
-                <li key={idx} className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border">
-                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  <span>{resp}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
           {/* Projects */}
           <section>
             <div className="flex items-center gap-3 mb-8">
@@ -145,6 +129,22 @@ const ExperienceCamunda = () => {
                 return projectCard;
               })}
             </div>
+          </section>
+
+          {/* Responsibilities */}
+          <section>
+            <div className="flex items-center gap-3 mb-8">
+              <Target className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl md:text-3xl font-display font-semibold">Key Responsibilities</h2>
+            </div>
+            <ul className="grid md:grid-cols-2 gap-4">
+              {experience.responsibilities.map((resp, idx) => (
+                <li key={idx} className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border">
+                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                  <span>{resp}</span>
+                </li>
+              ))}
+            </ul>
           </section>
 
           {/* Skills */}
