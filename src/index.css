@@ -204,6 +204,19 @@
   animation: spin-slow 20s linear infinite;
 }
 
+@keyframes gradient-border {
+  0%, 100% {
+    border-color: #f59e0b;
+  }
+  50% {
+    border-color: #ea580c;
+  }
+}
+
+.animate-gradient-border {
+  animation: gradient-border 2s ease-in-out infinite;
+}
+
 @layer utilities {
   /* Reduced motion support */
   @media (prefers-reduced-motion: reduce) {
