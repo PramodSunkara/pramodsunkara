@@ -5,7 +5,7 @@ import camundaLogo from '@/assets/camunda-logo.svg';
 import Navigation from '@/components/portfolio/Navigation';
 import Footer from '@/components/portfolio/Footer';
 import FloatingBackButton from '@/components/FloatingBackButton';
-
+import ProjectHoverCard from '@/components/portfolio/ProjectHoverCard';
 
 const ExperienceCamunda = () => {
   const navigate = useNavigate();
@@ -107,15 +107,28 @@ const ExperienceCamunda = () => {
               <h2 className="text-2xl md:text-3xl font-display font-semibold">Key Projects</h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {experience.projects.map((project, idx) => (
-                <div key={idx} className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300">
-                  <h3 className="text-lg font-semibold mb-2">{project.name}</h3>
-                  <p className="text-muted-foreground text-sm mb-3">{project.description}</p>
-                  {project.impact && (
-                    <p className="text-primary font-medium text-sm">{project.impact}</p>
-                  )}
-                </div>
-              ))}
+              {experience.projects.map((project, idx) => {
+                const projectCard = (
+                  <div key={idx} className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 cursor-pointer">
+                    <h3 className="text-lg font-semibold mb-2">{project.name}</h3>
+                    <p className="text-muted-foreground text-sm mb-3">{project.description}</p>
+                    {project.impact && (
+                      <p className="text-primary font-medium text-sm">{project.impact}</p>
+                    )}
+                  </div>
+                );
+
+                // Wrap "Camunda Website Redesign" with hover card
+                if (project.name === 'Camunda Website Redesign') {
+                  return (
+                    <ProjectHoverCard key={idx}>
+                      {projectCard}
+                    </ProjectHoverCard>
+                  );
+                }
+
+                return projectCard;
+              })}
             </div>
           </section>
 
