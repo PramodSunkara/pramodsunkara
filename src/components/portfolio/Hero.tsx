@@ -42,6 +42,8 @@ const Hero = () => {
           <img 
             src={profileImage} 
             alt="Pramod" 
+            decoding="async"
+            fetchPriority="high"
             className="absolute inset-5 w-[calc(100%-40px)] h-[calc(100%-40px)] rounded-full object-cover border-2 border-background shadow-lg"
           />
         </div>
