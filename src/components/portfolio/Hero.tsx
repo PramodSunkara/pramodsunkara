@@ -28,11 +28,11 @@ const Hero = () => {
               />
             </defs>
             <text 
-              fill="#059669" 
+              fill="currentColor"
               fontSize="5.5"
               fontWeight="bold"
               letterSpacing="0.5"
-              className="uppercase"
+              className="uppercase text-emerald-600 dark:text-yellow-500"
             >
               <textPath href="#circlePath" startOffset="50%" textAnchor="middle">
                 #OPENTOWORK
@@ -48,7 +48,7 @@ const Hero = () => {
         <h1 className="text-foreground mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-extralight leading-tight">
           I'm Pramod, designing and building web experiences that <em className="font-normal italic">connect,</em> <em className="font-normal italic">engage,</em> and <em className="font-normal italic">convert.</em>
         </h1>
-        <p className="text-xs md:text-sm tracking-wide mb-6 md:mb-8 text-emerald-600">
+        <p className="text-xs md:text-sm tracking-wide mb-6 md:mb-8 text-emerald-600 dark:text-yellow-500">
           Senior Web Developer · UI/UX Designer · Digital Experience Leader
         </p>
         
