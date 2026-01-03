@@ -108,9 +108,24 @@ const ExperienceCamunda = () => {
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {experience.projects.map((project, idx) => {
+                const isHighlighted = project.name === 'Camunda Website Redesign';
                 const projectCard = (
-                  <div key={idx} className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 cursor-pointer">
-                    <h3 className="text-lg font-semibold mb-2">{project.name}</h3>
+                  <div 
+                    key={idx} 
+                    className={`p-6 rounded-xl bg-card border transition-all duration-300 cursor-pointer ${
+                      isHighlighted 
+                        ? 'border-primary/50 ring-2 ring-primary/20 hover:ring-primary/40 hover:border-primary hover:shadow-lg shadow-primary/10' 
+                        : 'border-border hover:border-primary/30 hover:shadow-lg'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="text-lg font-semibold mb-2">{project.name}</h3>
+                      {isHighlighted && (
+                        <span className="text-[10px] px-2 py-0.5 bg-primary/10 text-primary rounded-full whitespace-nowrap">
+                          Hover for details
+                        </span>
+                      )}
+                    </div>
                     <p className="text-muted-foreground text-sm mb-3">{project.description}</p>
                     {project.impact && (
                       <p className="text-primary font-medium text-sm">{project.impact}</p>
@@ -119,7 +134,7 @@ const ExperienceCamunda = () => {
                 );
 
                 // Wrap "Camunda Website Redesign" with hover card
-                if (project.name === 'Camunda Website Redesign') {
+                if (isHighlighted) {
                   return (
                     <ProjectHoverCard key={idx}>
                       {projectCard}
