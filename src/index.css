@@ -214,3 +214,33 @@
     }
   }
 }
+
+/* Theme Transition Overlay */
+.theme-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 40;
+  background: hsl(0 0% 98%);
+  will-change: height;
+}
+
+.theme-transition-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 1)
+  );
+  box-shadow: 
+    0 0 30px 15px rgba(255, 255, 255, 0.8),
+    0 0 60px 30px rgba(255, 255, 255, 0.4),
+    0 4px 20px 10px rgba(0, 0, 0, 0.1);
+}
