@@ -1,52 +1,27 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useIsMobile } from "@/hooks/use-mobile";
 import aboveBeyondAward from "@/assets/above-beyond-award.jpg";
-
 const AwardWithImage = () => {
   const isMobile = useIsMobile();
-
-  const awardContent = (
-    <div className="cursor-pointer">
+  const awardContent = <div className="cursor-pointer">
       <p className="font-medium text-base animate-text-shimmer-orange">
         Above & Beyond Award
       </p>
       <p className="text-sm text-muted-foreground">SumTotal Systems</p>
-    </div>
-  );
-
-  const imageContent = (
-    <img 
-      src={aboveBeyondAward} 
-      alt="Pramod receiving Above & Beyond Award" 
-      className="w-40 h-auto rounded-md"
-    />
-  );
-
+    </div>;
+  const imageContent = <img src={aboveBeyondAward} alt="Pramod receiving Above & Beyond Award" className="w-40 h-auto rounded-md" />;
   if (isMobile) {
-    return (
-      <Popover>
+    return <Popover>
         <PopoverTrigger asChild>
           {awardContent}
         </PopoverTrigger>
         <PopoverContent side="top" className="w-auto p-1 bg-card border border-border">
           {imageContent}
         </PopoverContent>
-      </Popover>
-    );
+      </Popover>;
   }
-
-  return (
-    <TooltipProvider delayDuration={0}>
+  return <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger asChild>
           {awardContent}
@@ -55,13 +30,10 @@ const AwardWithImage = () => {
           {imageContent}
         </TooltipContent>
       </Tooltip>
-    </TooltipProvider>
-  );
+    </TooltipProvider>;
 };
-
 const About = () => {
-  return (
-    <section id="about" className="section-padding bg-secondary/30">
+  return <section id="about" className="section-padding bg-secondary/30">
       <div className="container-narrow">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div>
@@ -107,14 +79,12 @@ const About = () => {
             <div className="flex items-center gap-6 px-2">
               <div>
                 <p className="font-semibold text-foreground text-base">Pramod Sunkara</p>
-                <p className="text-sm text-muted-foreground">Senior Web Developer & UI/UX Engineer</p>
+                <p className="text-sm text-muted-foreground">Senior Web Developer & UI/UX Designer</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default About;
