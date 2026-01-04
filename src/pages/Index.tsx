@@ -9,6 +9,7 @@ import About from '@/components/portfolio/About';
 import Contact from '@/components/portfolio/Contact';
 import Footer from '@/components/portfolio/Footer';
 import FloatingSimba from '@/components/portfolio/FloatingSimba';
+import LinkedInRecommendations from '@/components/portfolio/LinkedInRecommendations';
 
 const Index = () => {
   const containerRef = useScrollReveal();
@@ -28,6 +29,7 @@ const Index = () => {
         <TeamsWorkedWith />
         <Skills />
         <About />
+        <LinkedInRecommendations />
         <Contact />
       </main>
       <Footer />
