@@ -33,4 +33,28 @@ export const recommendations: Recommendation[] = [
     quote: 'Pramod brings a unique blend of creativity and strategic thinking to every project. His work on our enterprise platform significantly improved user satisfaction scores.',
     initials: 'ER',
   },
+  {
+    id: '4',
+    name: 'David Park',
+    title: 'Product Lead',
+    company: 'ScaleUp Inc',
+    quote: 'I had the pleasure of working with Pramod on several high-impact projects. His attention to detail and user-centric approach consistently resulted in products that exceeded expectations.',
+    initials: 'DP',
+  },
+  {
+    id: '5',
+    name: 'Amanda Foster',
+    title: 'Design Director',
+    company: 'Creative Co',
+    quote: 'Pramod has an incredible ability to simplify complex problems. His designs are not just beautiful but highly functional, making him an invaluable asset to any product team.',
+    initials: 'AF',
+  },
+  {
+    id: '6',
+    name: 'James Wilson',
+    title: 'CTO',
+    company: 'TechVentures',
+    quote: 'Pramod understands the intersection of design and technology better than anyone I know. His collaborative approach and technical awareness make him exceptionally effective.',
+    initials: 'JW',
+  },
 ];
