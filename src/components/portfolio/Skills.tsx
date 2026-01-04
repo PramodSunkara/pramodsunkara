@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
-import certificationBadges from '@/assets/certification-badges.png';
+import ibmBadge from '@/assets/ibm-genai-badge.png';
+import w3cxBadge from '@/assets/w3cx-fewd-badge.png';
 import { Users, Layers, PenTool, Grid, Eye, Palette, FileCode, Code, FileText, Smartphone, Zap, Play, FlaskConical, TrendingUp, BarChart3, Layout, Mail, Search } from 'lucide-react';
 
 const skillCategories = [
@@ -286,11 +287,16 @@ const Skills = () => {
               </ul>
               
               {/* Certification Badges */}
-              <div className="flex gap-4 mt-6">
+              <div className="flex flex-wrap gap-6 mt-6 items-center justify-center md:justify-start">
                 <img 
-                  src={certificationBadges} 
-                  alt="IBM Generative AI Essentials and W3Cx Front End Web Developer Certificates" 
-                  className="h-24 md:h-28 object-contain hover:scale-105 transition-transform"
+                  src={ibmBadge} 
+                  alt="IBM Generative AI Essentials Certificate" 
+                  className="w-28 h-28 md:w-36 md:h-36 object-contain hover:scale-105 transition-transform"
+                />
+                <img 
+                  src={w3cxBadge} 
+                  alt="W3Cx Front End Web Developer Certificate" 
+                  className="w-28 h-28 md:w-36 md:h-36 object-contain hover:scale-105 transition-transform"
                 />
               </div>
             </div>
