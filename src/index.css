@@ -250,6 +250,21 @@
   background: hsl(var(--card));
 }
 
+/* Orange text shimmer animation for interactive hint */
+@keyframes text-shimmer-orange {
+  0%, 100% {
+    color: hsl(25, 95%, 53%);
+  }
+  50% {
+    color: hsl(21, 90%, 48%);
+  }
+}
+
+.animate-text-shimmer-orange {
+  animation: text-shimmer-orange 2s ease-in-out infinite;
+  cursor: pointer;
+}
+
 @layer utilities {
   /* Reduced motion support */
   @media (prefers-reduced-motion: reduce) {
