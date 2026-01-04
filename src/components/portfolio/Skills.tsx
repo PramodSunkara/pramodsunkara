@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import certificationBadges from '@/assets/certification-badges.png';
 import { Users, Layers, PenTool, Grid, Eye, Palette, FileCode, Code, FileText, Smartphone, Zap, Play, FlaskConical, TrendingUp, BarChart3, Layout, Mail, Search } from 'lucide-react';
 
 const skillCategories = [
@@ -283,6 +284,15 @@ const Skills = () => {
                   <span>WordPress Essential Training</span>
                 </li>
               </ul>
+              
+              {/* Certification Badges */}
+              <div className="flex gap-4 mt-6">
+                <img 
+                  src={certificationBadges} 
+                  alt="IBM Generative AI Essentials and W3Cx Front End Web Developer Certificates" 
+                  className="h-24 md:h-28 object-contain hover:scale-105 transition-transform"
+                />
+              </div>
             </div>
 
             {/* Educational History */}
