@@ -4,7 +4,60 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { useIsMobile } from "@/hooks/use-mobile";
 import aboveBeyondAward from "@/assets/above-beyond-award.jpg";
+
+const AwardWithImage = () => {
+  const isMobile = useIsMobile();
+
+  const awardContent = (
+    <div className="cursor-pointer">
+      <p className="font-medium text-base animate-text-shimmer-orange">
+        Above & Beyond Award
+      </p>
+      <p className="text-sm text-muted-foreground">SumTotal Systems</p>
+    </div>
+  );
+
+  const imageContent = (
+    <img 
+      src={aboveBeyondAward} 
+      alt="Pramod receiving Above & Beyond Award" 
+      className="w-40 h-auto rounded-md"
+    />
+  );
+
+  if (isMobile) {
+    return (
+      <Popover>
+        <PopoverTrigger asChild>
+          {awardContent}
+        </PopoverTrigger>
+        <PopoverContent side="top" className="w-auto p-1 bg-card border border-border">
+          {imageContent}
+        </PopoverContent>
+      </Popover>
+    );
+  }
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {awardContent}
+        </TooltipTrigger>
+        <TooltipContent side="top" className="p-1 bg-card border border-border">
+          {imageContent}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+};
 
 const About = () => {
   return (
@@ -23,25 +76,7 @@ const About = () => {
                 Awards
               </h3>
               <div className="space-y-3">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div className="cursor-pointer">
-                        <p className="font-medium text-base animate-text-shimmer-orange">
-                          Above & Beyond Award
-                        </p>
-                        <p className="text-sm text-muted-foreground">SumTotal Systems</p>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent side="top" className="p-1 bg-card border border-border">
-                      <img 
-                        src={aboveBeyondAward} 
-                        alt="Pramod receiving Above & Beyond Award" 
-                        className="w-40 h-auto rounded-md"
-                      />
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <AwardWithImage />
                 <div>
                   <p className="font-medium text-foreground text-base">Employee Achievement Award</p>
                   <p className="text-sm text-muted-foreground">Skillsoft</p>
