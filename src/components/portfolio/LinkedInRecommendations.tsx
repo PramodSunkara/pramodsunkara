@@ -36,7 +36,7 @@ const LinkedInRecommendations = () => {
         </div>
 
         {/* Recommendations Carousel */}
-        <div className="relative">
+        <div className="relative px-2 py-2">
           <Carousel
             opts={{
               loop: true,
@@ -55,8 +55,8 @@ const LinkedInRecommendations = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="-left-12 md:-left-14" />
-            <CarouselNext className="-right-12 md:-right-14" />
+            <CarouselPrevious className="-left-10 md:-left-12" />
+            <CarouselNext className="-right-10 md:-right-12" />
           </Carousel>
         </div>
 
