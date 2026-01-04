@@ -46,7 +46,7 @@ const AwardWithImage = () => {
   }
 
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger asChild>
           {awardContent}
