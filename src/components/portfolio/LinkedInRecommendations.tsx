@@ -45,11 +45,11 @@ const LinkedInRecommendations = () => {
             plugins={[autoplayPlugin.current]}
             className="w-full"
           >
-            <CarouselContent className="-ml-4">
+            <CarouselContent>
               {recommendations.map((rec, index) => (
                 <CarouselItem
                   key={rec.id}
-                  className="pl-4 basis-full md:basis-1/2"
+                  className="basis-full md:basis-1/2"
                 >
                   <RecommendationCard recommendation={rec} delay={index} />
                 </CarouselItem>
