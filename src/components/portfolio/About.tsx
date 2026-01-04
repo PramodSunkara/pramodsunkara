@@ -1,3 +1,11 @@
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import aboveBeyondAward from "@/assets/above-beyond-award.jpg";
+
 const About = () => {
   return (
     <section id="about" className="section-padding bg-secondary/30">
@@ -15,10 +23,25 @@ const About = () => {
                 Awards
               </h3>
               <div className="space-y-3">
-                <div>
-                  <p className="font-medium text-foreground text-base">Above & Beyond Award</p>
-                  <p className="text-sm text-muted-foreground">SumTotal Systems</p>
-                </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="cursor-pointer">
+                        <p className="font-medium text-base animate-text-shimmer-orange">
+                          Above & Beyond Award
+                        </p>
+                        <p className="text-sm text-muted-foreground">SumTotal Systems</p>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" className="p-0 border-0 bg-transparent">
+                      <img 
+                        src={aboveBeyondAward} 
+                        alt="Pramod receiving Above & Beyond Award" 
+                        className="w-64 h-auto rounded-lg shadow-lg"
+                      />
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
                 <div>
                   <p className="font-medium text-foreground text-base">Employee Achievement Award</p>
                   <p className="text-sm text-muted-foreground">Skillsoft</p>
