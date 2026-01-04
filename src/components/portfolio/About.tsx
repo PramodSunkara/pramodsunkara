@@ -33,11 +33,11 @@ const About = () => {
                         <p className="text-sm text-muted-foreground">SumTotal Systems</p>
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent side="right" className="p-0 border-0 bg-transparent">
+                    <TooltipContent side="top" className="p-1 bg-card border border-border">
                       <img 
                         src={aboveBeyondAward} 
                         alt="Pramod receiving Above & Beyond Award" 
-                        className="w-64 h-auto rounded-lg shadow-lg"
+                        className="w-40 h-auto rounded-md"
                       />
                     </TooltipContent>
                   </Tooltip>
