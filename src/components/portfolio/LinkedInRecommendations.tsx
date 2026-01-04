@@ -1,11 +1,14 @@
 import { useRef } from 'react';
-import { Linkedin, Quote } from 'lucide-react';
+import { Linkedin, Quote, ExternalLink } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import { recommendations } from '@/data/recommendations';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
 } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
@@ -33,25 +36,43 @@ const LinkedInRecommendations = () => {
         </div>
 
         {/* Recommendations Carousel */}
-        <Carousel
-          opts={{
-            loop: true,
-            align: 'start',
-          }}
-          plugins={[autoplayPlugin.current]}
-          className="w-full"
-        >
-          <CarouselContent className="-ml-4">
-            {recommendations.map((rec, index) => (
-              <CarouselItem
-                key={rec.id}
-                className="pl-4 basis-full md:basis-1/2 lg:basis-1/3"
-              >
-                <RecommendationCard recommendation={rec} delay={index} />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+        <div className="relative px-12">
+          <Carousel
+            opts={{
+              loop: true,
+              align: 'start',
+            }}
+            plugins={[autoplayPlugin.current]}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-4">
+              {recommendations.map((rec, index) => (
+                <CarouselItem
+                  key={rec.id}
+                  className="pl-4 basis-full md:basis-1/2"
+                >
+                  <RecommendationCard recommendation={rec} delay={index} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-0" />
+            <CarouselNext className="right-0" />
+          </Carousel>
+        </div>
+
+        {/* CTA Button */}
+        <div className="mt-10 text-center reveal">
+          <Button asChild variant="outline" size="lg">
+            <a 
+              href="https://www.linkedin.com/in/pramodsunkara/details/recommendations/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              See All Recommendations
+              <ExternalLink className="ml-2 h-4 w-4" />
+            </a>
+          </Button>
+        </div>
       </div>
     </section>
   );
