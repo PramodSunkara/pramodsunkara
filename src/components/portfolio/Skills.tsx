@@ -288,16 +288,20 @@ const Skills = () => {
               
               {/* Certification Badges */}
               <div className="flex flex-wrap gap-6 mt-6 items-center justify-center md:justify-start">
-                <img 
-                  src={ibmBadge} 
-                  alt="IBM Generative AI Essentials Certificate" 
-                  className="w-28 h-28 md:w-36 md:h-36 object-contain hover:scale-105 transition-transform"
-                />
-                <img 
-                  src={w3cxBadge} 
-                  alt="W3Cx Front End Web Developer Certificate" 
-                  className="w-28 h-28 md:w-36 md:h-36 object-contain hover:scale-105 transition-transform"
-                />
+                <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-white flex items-center justify-center p-2 hover:scale-105 transition-transform shadow-sm">
+                  <img 
+                    src={ibmBadge} 
+                    alt="IBM Generative AI Essentials Certificate" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-white flex items-center justify-center p-2 hover:scale-105 transition-transform shadow-sm">
+                  <img 
+                    src={w3cxBadge} 
+                    alt="W3Cx Front End Web Developer Certificate" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               </div>
             </div>
 
