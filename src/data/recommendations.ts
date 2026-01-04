@@ -21,7 +21,7 @@ export const recommendations: Recommendation[] = [
     id: '2',
     name: 'Kieran King',
     title: 'Chief Customer Officer',
-    company: 'Camunda',
+    company: 'Pindrop',
     quote: 'Pramod is a highly experienced and incredibly creative digital marketing expert. He combines modern insight with a deep knowledge of demand generating tactics that come to life on any web project that he touches.',
     initials: 'KK',
   },
