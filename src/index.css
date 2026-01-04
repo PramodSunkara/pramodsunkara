@@ -244,9 +244,9 @@
 .animate-border-spin::after {
   content: '';
   position: absolute;
-  inset: 1px;
+  inset: 2px;
   z-index: -1;
-  border-radius: 0.7rem;
+  border-radius: 0.65rem;
   background: hsl(var(--card));
 }
 
