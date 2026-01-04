@@ -238,7 +238,7 @@
     transparent 280deg,
     transparent 360deg
   );
-  animation: border-rotate 2.5s linear infinite;
+  animation: border-rotate 8s linear infinite;
 }
 
 .animate-border-spin::after {
