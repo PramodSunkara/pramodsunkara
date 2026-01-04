@@ -1,8 +1,23 @@
+import { useRef } from 'react';
 import { Linkedin, Quote } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { recommendations } from '@/data/recommendations';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 const LinkedInRecommendations = () => {
+  const autoplayPlugin = useRef(
+    Autoplay({
+      delay: 3000,
+      stopOnMouseEnter: true,
+      stopOnInteraction: false,
+    })
+  );
+
   return (
     <section className="section-padding bg-secondary/30">
       <div className="container-narrow">
@@ -17,21 +32,26 @@ const LinkedInRecommendations = () => {
           </p>
         </div>
 
-        {/* Recommendations Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {recommendations.slice(0, 2).map((rec, index) => (
-            <RecommendationCard key={rec.id} recommendation={rec} delay={index} />
-          ))}
-        </div>
-        
-        {/* Third recommendation centered */}
-        {recommendations[2] && (
-          <div className="mt-6 flex justify-center">
-            <div className="w-full md:w-1/2">
-              <RecommendationCard recommendation={recommendations[2]} delay={2} />
-            </div>
-          </div>
-        )}
+        {/* Recommendations Carousel */}
+        <Carousel
+          opts={{
+            loop: true,
+            align: 'start',
+          }}
+          plugins={[autoplayPlugin.current]}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-4">
+            {recommendations.map((rec, index) => (
+              <CarouselItem
+                key={rec.id}
+                className="pl-4 basis-full md:basis-1/2 lg:basis-1/3"
+              >
+                <RecommendationCard recommendation={rec} delay={index} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
       </div>
     </section>
   );
@@ -45,7 +65,7 @@ interface RecommendationCardProps {
 const RecommendationCard = ({ recommendation, delay }: RecommendationCardProps) => {
   return (
     <div 
-      className={`reveal reveal-delay-${delay + 1} bg-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 relative`}
+      className={`reveal reveal-delay-${(delay % 3) + 1} bg-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 relative h-full`}
     >
       {/* Quote Icon */}
       <Quote className="absolute top-4 right-4 h-8 w-8 text-muted-foreground/20" />
