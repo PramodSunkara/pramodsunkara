@@ -38,9 +38,7 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div>
             <h2 className="text-section mb-8 reveal">About</h2>
-            <p className="text-base text-muted-foreground leading-relaxed reveal reveal-delay-1 mb-12">
-              We may work remotely, but we deliver mighty results. My approach provides a personalized service, guiding you every step of the way. Being a focused practitioner means I move swiftly and respond quickly, ensuring you always have timely support and attention.
-            </p>
+            <p className="text-base text-muted-foreground leading-relaxed reveal reveal-delay-1 mb-12">I may work remotely, but I'll deliver mighty results. My approach provides a personalized service, guiding you every step of the way. Being a focused practitioner means I move swiftly and respond quickly, ensuring you always have timely support and attention.</p>
 
             {/* Awards */}
             <div className="reveal reveal-delay-1">
