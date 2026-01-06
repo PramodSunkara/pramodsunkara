@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import ibmBadge from '@/assets/ibm-genai-badge.png';
 import w3cxBadge from '@/assets/w3cx-fewd-badge.png';
+import googleUxBadge from '@/assets/google-ux-badge.png';
 import { Users, Layers, PenTool, Grid, Eye, Palette, FileCode, Code, FileText, Smartphone, Zap, Play, FlaskConical, TrendingUp, BarChart3, Layout, Mail, Search } from 'lucide-react';
 
 const skillCategories = [
@@ -288,6 +289,11 @@ const Skills = () => {
               
               {/* Certification Badges */}
               <div className="flex flex-wrap gap-8 mt-6 items-center justify-center md:justify-start">
+                <img 
+                  src={googleUxBadge} 
+                  alt="Google UX Design Professional Certificate" 
+                  className="w-24 h-24 md:w-32 md:h-32 object-contain hover:scale-105 transition-transform drop-shadow-md"
+                />
                 <img 
                   src={ibmBadge} 
                   alt="IBM Generative AI Essentials Certificate" 
