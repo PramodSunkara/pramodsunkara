@@ -292,17 +292,20 @@ const Skills = () => {
                 <img 
                   src={googleUxBadge} 
                   alt="Google UX Design Professional Certificate" 
-                  className="w-24 h-24 md:w-32 md:h-32 object-contain hover:scale-105 transition-transform drop-shadow-md"
+                  className="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-md"
+                  style={{ imageRendering: 'auto' }}
                 />
                 <img 
                   src={ibmBadge} 
                   alt="IBM Generative AI Essentials Certificate" 
-                  className="w-24 h-24 md:w-32 md:h-32 object-contain hover:scale-105 transition-transform drop-shadow-md"
+                  className="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-md"
+                  style={{ imageRendering: 'auto' }}
                 />
                 <img 
                   src={w3cxBadge} 
                   alt="W3Cx Front End Web Developer Certificate" 
-                  className="w-24 h-24 md:w-32 md:h-32 object-contain hover:scale-105 transition-transform drop-shadow-md"
+                  className="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-md"
+                  style={{ imageRendering: 'auto' }}
                 />
               </div>
             </div>
