@@ -20,7 +20,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="min-h-screen">
+    <div ref={containerRef} className="min-h-screen overflow-x-hidden">
       <Navigation />
       <FloatingSimba />
       <main>
