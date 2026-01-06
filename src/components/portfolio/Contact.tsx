@@ -9,7 +9,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="bg-dark-section text-dark-section-foreground">
+    <section id="contact" className="bg-dark-section text-dark-section-foreground scroll-mt-20">
       <div className="section-padding">
         <div className="container-narrow">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">

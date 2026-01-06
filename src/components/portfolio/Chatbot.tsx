@@ -252,7 +252,7 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 scroll-mt-24">
       {/* Tail wag animation */}
       <style>{`
         @keyframes wag {
