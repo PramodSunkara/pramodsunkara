@@ -46,11 +46,11 @@ const FloatingSimba = () => {
     };
   }, [isDismissed]);
 
-  const scrollToBottom = () => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: 'smooth'
-    });
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleDismiss = (e: React.MouseEvent) => {
@@ -93,7 +93,7 @@ const FloatingSimba = () => {
 
           {/* Clickable dog with bounce animation */}
           <motion.button
-            onClick={scrollToBottom}
+            onClick={scrollToContact}
             animate={{ y: [0, -5, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
             className="cursor-pointer hover:scale-110 transition-transform"
