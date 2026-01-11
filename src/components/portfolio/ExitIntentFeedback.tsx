@@ -4,73 +4,12 @@ import { X, Send, Check, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
+import { AnimatedDog } from './Chatbot';
 
 const SESSION_STORAGE_KEY = 'exitFeedbackShown';
 const MIN_TIME_ON_PAGE = 8000; // 8 seconds
 const MIN_CHARS = 5;
 const MAX_CHARS = 500;
-
-// Animated Simba mascot component
-const AnimatedSimba = () => (
-  <motion.div
-    className="relative w-20 h-20 mx-auto mb-4"
-    animate={{
-      y: [0, -8, 0],
-    }}
-    transition={{
-      duration: 1.5,
-      repeat: Infinity,
-      ease: "easeInOut",
-    }}
-  >
-    <svg viewBox="0 0 100 100" className="w-full h-full">
-      {/* Body */}
-      <ellipse cx="50" cy="65" rx="25" ry="20" fill="hsl(var(--primary))" opacity="0.9" />
-      {/* Head */}
-      <circle cx="50" cy="35" r="22" fill="hsl(var(--primary))" />
-      {/* Ears */}
-      <ellipse cx="32" cy="20" rx="8" ry="10" fill="hsl(var(--primary))" />
-      <ellipse cx="68" cy="20" rx="8" ry="10" fill="hsl(var(--primary))" />
-      <ellipse cx="32" cy="20" rx="5" ry="7" fill="hsl(var(--primary-foreground))" opacity="0.3" />
-      <ellipse cx="68" cy="20" rx="5" ry="7" fill="hsl(var(--primary-foreground))" opacity="0.3" />
-      {/* Eyes */}
-      <ellipse cx="42" cy="32" rx="5" ry="6" fill="hsl(var(--primary-foreground))" />
-      <ellipse cx="58" cy="32" rx="5" ry="6" fill="hsl(var(--primary-foreground))" />
-      <circle cx="43" cy="31" r="2.5" fill="hsl(var(--foreground))" />
-      <circle cx="59" cy="31" r="2.5" fill="hsl(var(--foreground))" />
-      <circle cx="44" cy="30" r="1" fill="hsl(var(--primary-foreground))" />
-      <circle cx="60" cy="30" r="1" fill="hsl(var(--primary-foreground))" />
-      {/* Nose */}
-      <ellipse cx="50" cy="42" rx="4" ry="3" fill="hsl(var(--foreground))" opacity="0.8" />
-      {/* Mouth - happy smile */}
-      <path
-        d="M 42 48 Q 50 55 58 48"
-        stroke="hsl(var(--foreground))"
-        strokeWidth="2"
-        fill="none"
-        opacity="0.6"
-      />
-      {/* Tongue */}
-      <ellipse cx="50" cy="52" rx="4" ry="3" fill="#ff9999" />
-      {/* Tail */}
-      <motion.path
-        d="M 75 65 Q 90 55 85 45"
-        stroke="hsl(var(--primary))"
-        strokeWidth="6"
-        strokeLinecap="round"
-        fill="none"
-        animate={{ d: ["M 75 65 Q 90 55 85 45", "M 75 65 Q 95 60 90 50", "M 75 65 Q 90 55 85 45"] }}
-        transition={{ duration: 0.8, repeat: Infinity }}
-      />
-      {/* Front legs */}
-      <ellipse cx="38" cy="80" rx="6" ry="8" fill="hsl(var(--primary))" opacity="0.95" />
-      <ellipse cx="62" cy="80" rx="6" ry="8" fill="hsl(var(--primary))" opacity="0.95" />
-      {/* Paws */}
-      <ellipse cx="38" cy="87" rx="7" ry="4" fill="hsl(var(--primary))" />
-      <ellipse cx="62" cy="87" rx="7" ry="4" fill="hsl(var(--primary))" />
-    </svg>
-  </motion.div>
-);
 
 type SubmitState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -317,7 +256,27 @@ export default function ExitIntentFeedback() {
             ) : (
               // Form state
               <form onSubmit={handleSubmit}>
-                <AnimatedSimba />
+                {/* Tail wag animation for Simba */}
+                <style>{`
+                  @keyframes wag {
+                    from { transform: rotate(-10deg); }
+                    to { transform: rotate(10deg); }
+                  }
+                `}</style>
+                
+                <motion.div
+                  className="flex justify-center mb-4"
+                  animate={{
+                    y: [0, -8, 0],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <AnimatedDog size={80} />
+                </motion.div>
 
                 <h2
                   id="exit-feedback-title"
