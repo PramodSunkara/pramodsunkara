@@ -10,6 +10,7 @@ import Contact from '@/components/portfolio/Contact';
 import Footer from '@/components/portfolio/Footer';
 import FloatingSimba from '@/components/portfolio/FloatingSimba';
 import LinkedInRecommendations from '@/components/portfolio/LinkedInRecommendations';
+import ExitIntentFeedback from '@/components/portfolio/ExitIntentFeedback';
 
 const Index = () => {
   const containerRef = useScrollReveal();
@@ -23,6 +24,7 @@ const Index = () => {
     <div ref={containerRef} className="min-h-screen overflow-x-hidden">
       <Navigation />
       <FloatingSimba />
+      <ExitIntentFeedback />
       <main>
         <Hero />
         <ImpactHighlights />
