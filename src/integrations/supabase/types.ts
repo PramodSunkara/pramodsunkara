@@ -53,6 +53,72 @@ export type Database = {
         }
         Relationships: []
       }
+      exit_feedback: {
+        Row: {
+          accept_language: string | null
+          browser: string | null
+          created_at: string
+          device_type: string | null
+          feedback_text: string
+          geo_country: string | null
+          geo_region: string | null
+          id: string
+          ip_hash: string | null
+          os: string | null
+          page_url: string | null
+          referrer: string | null
+          timezone_offset: number | null
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          viewport_height: number | null
+          viewport_width: number | null
+        }
+        Insert: {
+          accept_language?: string | null
+          browser?: string | null
+          created_at?: string
+          device_type?: string | null
+          feedback_text: string
+          geo_country?: string | null
+          geo_region?: string | null
+          id?: string
+          ip_hash?: string | null
+          os?: string | null
+          page_url?: string | null
+          referrer?: string | null
+          timezone_offset?: number | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          viewport_height?: number | null
+          viewport_width?: number | null
+        }
+        Update: {
+          accept_language?: string | null
+          browser?: string | null
+          created_at?: string
+          device_type?: string | null
+          feedback_text?: string
+          geo_country?: string | null
+          geo_region?: string | null
+          id?: string
+          ip_hash?: string | null
+          os?: string | null
+          page_url?: string | null
+          referrer?: string | null
+          timezone_offset?: number | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          viewport_height?: number | null
+          viewport_width?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null
