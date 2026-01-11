@@ -1,12 +1,44 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+// Allowed origins for admin endpoint (restrict CORS)
+const ALLOWED_ORIGINS = [
+  "https://id-preview--tgvwbvwxhjguqemwwbyg.lovable.app", // Lovable preview
+  "https://pramodsunkara.com", // Production domain (if applicable)
+  "http://localhost:8080",
+  "http://localhost:5173",
+  "http://localhost:3000",
+];
+
+/**
+ * Get CORS headers based on request origin
+ */
+function getCorsHeaders(origin: string | null): Record<string, string> {
+  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
+    origin === allowed || origin.endsWith(".lovable.app")
+  );
+  
+  return {
+    "Access-Control-Allow-Origin": isAllowed ? origin! : ALLOWED_ORIGINS[0],
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Credentials": "false",
+  };
+}
+
+/**
+ * Validate date filter format
+ */
+function isValidDateFilter(dateFilter: unknown): dateFilter is string {
+  if (!dateFilter || typeof dateFilter !== 'string') return false;
+  const date = new Date(dateFilter);
+  return !isNaN(date.getTime());
+}
 
 serve(async (req) => {
+  // Get origin-specific CORS headers
+  const origin = req.headers.get("origin");
+  const corsHeaders = getCorsHeaders(origin);
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -74,8 +106,15 @@ serve(async (req) => {
       .select("*")
       .order("created_at", { ascending: false });
 
-    // Apply date filter if provided
+    // Apply date filter if provided (with validation)
     if (dateFilter) {
+      if (!isValidDateFilter(dateFilter)) {
+        return new Response(
+          JSON.stringify({ error: "Invalid date format" }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      
       const startDate = new Date(dateFilter);
       startDate.setHours(0, 0, 0, 0);
       const endDate = new Date(dateFilter);

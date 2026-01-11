@@ -6,6 +6,70 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// UUID v4 regex for sessionId validation
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+// Validation constants
+const MAX_MESSAGES = 100;
+const MAX_MESSAGE_LENGTH = 10000;
+const MAX_USER_AGENT_LENGTH = 500;
+
+/**
+ * Validate incoming chat request data
+ */
+function validateChatRequest(data: unknown): { 
+  messages: Array<{ role: string; content: string }>; 
+  sessionId: string; 
+  userAgent: string | null 
+} {
+  if (!data || typeof data !== 'object') {
+    throw new Error('Invalid request data');
+  }
+  
+  const reqData = data as Record<string, unknown>;
+
+  // Validate messages array
+  if (!Array.isArray(reqData.messages) || reqData.messages.length === 0) {
+    throw new Error('Invalid messages format');
+  }
+  if (reqData.messages.length > MAX_MESSAGES) {
+    throw new Error('Too many messages');
+  }
+
+  // Validate each message
+  for (const msg of reqData.messages) {
+    if (!msg || typeof msg !== 'object') {
+      throw new Error('Invalid message format');
+    }
+    const msgObj = msg as Record<string, unknown>;
+    if (!msgObj.role || !['user', 'assistant'].includes(msgObj.role as string)) {
+      throw new Error('Invalid message role');
+    }
+    if (!msgObj.content || typeof msgObj.content !== 'string') {
+      throw new Error('Invalid message content');
+    }
+    if ((msgObj.content as string).length > MAX_MESSAGE_LENGTH) {
+      throw new Error('Message too long');
+    }
+  }
+
+  // Validate sessionId as UUID v4
+  if (!reqData.sessionId || typeof reqData.sessionId !== 'string' || !UUID_REGEX.test(reqData.sessionId)) {
+    throw new Error('Invalid session ID');
+  }
+
+  // Sanitize userAgent (truncate if too long)
+  const userAgent = reqData.userAgent 
+    ? String(reqData.userAgent).slice(0, MAX_USER_AGENT_LENGTH) 
+    : null;
+
+  return {
+    messages: reqData.messages as Array<{ role: string; content: string }>,
+    sessionId: reqData.sessionId,
+    userAgent
+  };
+}
+
 const systemPrompt = `You are Simba, Pramod's friend's pet dog who knows him very well. You're a friendly and enthusiastic virtual assistant on Pramod Sunkara's portfolio website. You help visitors learn about Pramod's experience, skills, and background.
 
 CUSTOM Q&A RESPONSES (Use these exact answers when asked):
@@ -153,7 +217,21 @@ serve(async (req) => {
   }
 
   try {
-    const { messages, sessionId, userAgent } = await req.json();
+    // Parse and validate request data
+    let validatedData;
+    try {
+      const rawData = await req.json();
+      validatedData = validateChatRequest(rawData);
+    } catch (validationError: unknown) {
+      const errorMessage = validationError instanceof Error ? validationError.message : "Invalid request data";
+      console.warn("Request validation failed:", errorMessage);
+      return new Response(
+        JSON.stringify({ error: errorMessage }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const { messages, sessionId, userAgent } = validatedData;
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     // Get client IP address from headers
