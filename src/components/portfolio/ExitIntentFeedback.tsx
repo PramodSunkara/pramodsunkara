@@ -226,7 +226,7 @@ export default function ExitIntentFeedback() {
             <button
               type="button"
               onClick={closeModal}
-              className="absolute right-4 top-4 rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              className="absolute right-4 top-4 z-20 rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               aria-label="Close feedback dialog"
             >
               <X className="h-5 w-5" />
