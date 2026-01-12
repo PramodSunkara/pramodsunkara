@@ -62,6 +62,18 @@ export default function ExitIntentFeedback() {
     };
   }, [hasMetMinTime]);
 
+  const closeModal = useCallback(() => {
+    setIsOpen(false);
+    setFeedback('');
+    setSubmitState('idle');
+    setErrorMessage('');
+    
+    // Restore focus
+    setTimeout(() => {
+      previousActiveElement.current?.focus();
+    }, 100);
+  }, []);
+
   // Focus trap and ESC key handling
   useEffect(() => {
     if (!isOpen) return;
@@ -97,19 +109,7 @@ export default function ExitIntentFeedback() {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen]);
-
-  const closeModal = useCallback(() => {
-    setIsOpen(false);
-    setFeedback('');
-    setSubmitState('idle');
-    setErrorMessage('');
-    
-    // Restore focus
-    setTimeout(() => {
-      previousActiveElement.current?.focus();
-    }, 100);
-  }, []);
+  }, [isOpen, closeModal]);
 
   // Auto-close after success
   useEffect(() => {
@@ -121,11 +121,6 @@ export default function ExitIntentFeedback() {
     }
   }, [submitState, closeModal]);
 
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      closeModal();
-    }
-  };
 
   const getUtmParams = () => {
     const params = new URLSearchParams(window.location.search);
@@ -206,13 +201,17 @@ export default function ExitIntentFeedback() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          onClick={handleOverlayClick}
         >
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+          {/* Overlay - click to dismiss */}
+          <div 
+            className="absolute inset-0 bg-background/80 backdrop-blur-sm cursor-pointer" 
+            onClick={closeModal}
+            aria-hidden="true"
+          />
 
           {/* Modal */}
           <motion.div
+            onClick={(e) => e.stopPropagation()}
             ref={modalRef}
             role="dialog"
             aria-modal="true"
