@@ -14,10 +14,10 @@ interface GalleryCardProps {
 const GalleryCard = ({ project, isActive = false, progress = 0, className }: GalleryCardProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 40, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={cn(
         "relative w-full bg-card border border-border rounded-2xl shadow-xl overflow-hidden",
         "bg-gradient-to-br from-primary/5 via-card to-card",
@@ -64,12 +64,12 @@ const GalleryCard = ({ project, isActive = false, progress = 0, className }: Gal
           </div>
         </div>
         
-        {/* Right Column - Screenshot Display */}
-        <div className="md:flex-1 p-4 md:p-6 lg:p-8 flex items-center justify-center bg-muted/30">
+        {/* Right Column - Screenshot Display (70%) */}
+        <div className="md:w-[70%] p-4 md:p-6 lg:p-8 flex items-center justify-center bg-muted/30">
           <MonitorMock 
             screenshot={project.screenshot} 
             title={project.title}
-            className="max-w-full"
+            className="w-full"
           />
         </div>
       </div>

@@ -14,35 +14,22 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
     <div className={cn("relative", className)}>
       {/* Monitor frame with thick black border */}
       <div className="rounded-xl overflow-hidden border-[12px] border-foreground shadow-2xl bg-foreground">
-        {/* Screen content - scrollable container */}
+        {/* Screen content - scrollable with fixed height */}
         <div 
-          className="bg-card max-h-[600px] overflow-y-auto overflow-x-hidden relative scroll-smooth"
+          className="bg-card max-h-[500px] overflow-y-auto overflow-x-hidden relative scroll-smooth"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           style={{ cursor: isHovering ? 'ns-resize' : 'default' }}
         >
-          {/* Supersampling wrapper: render at 130% then scale down for sharpness */}
-          <div 
-            className="origin-top-left"
-            style={{ 
-              transform: 'scale(0.77)', 
-              width: '130%',
-              transformOrigin: 'top left'
-            }}
-          >
-            <img 
-              src={screenshot} 
-              alt={`${title} screenshot`} 
-              className="block max-w-full h-auto pointer-events-none"
-              loading="eager"
-              decoding="sync"
-              fetchPriority="high"
-              style={{ 
-                imageRendering: 'auto',
-                objectFit: 'contain'
-              }}
-            />
-          </div>
+          <img 
+            src={screenshot} 
+            alt={`${title} screenshot`} 
+            className="w-full h-auto block pointer-events-none"
+            loading="eager"
+            decoding="sync"
+            fetchPriority="high"
+            style={{ imageRendering: '-webkit-optimize-contrast' }}
+          />
           
           {/* Scroll hint tooltip */}
           {isHovering && (
