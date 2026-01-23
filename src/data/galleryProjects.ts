@@ -8,6 +8,7 @@ export interface GalleryProject {
 }
 
 import camundaHome from '@/assets/gallery/camunda-home.png';
+import camundaconLatest from '@/assets/gallery/camundacon-latest.png';
 import sumtotalBrand from '@/assets/gallery/sumtotal-brand-redesign.png';
 import sumtotalBrand2 from '@/assets/gallery/sumtotal-brand-redesign2.png';
 import skillsoftBrand from '@/assets/gallery/skillsoft-brand-redesign.png';
@@ -21,6 +22,14 @@ export const galleryProjects: GalleryProject[] = [
     year: '2024',
     techStack: ['React', 'TypeScript', 'Figma', 'Tailwind CSS'],
     screenshot: camundaHome
+  },
+  {
+    id: 'camundacon-event',
+    title: 'CamundaCon Event Website',
+    description: 'Designed and developed the digital experience for CamundaCon, Camunda\'s flagship annual conference, featuring an immersive event platform with seamless registration flow.',
+    year: '2024',
+    techStack: ['Event Design', 'Web Design', 'Figma', 'React'],
+    screenshot: camundaconLatest
   },
   {
     id: 'sumtotal-brand',
