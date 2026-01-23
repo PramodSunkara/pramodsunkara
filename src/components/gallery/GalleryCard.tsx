@@ -20,9 +20,9 @@ const GalleryCard = ({ project, isActive = false, progress = 0, className }: Gal
       )}
     >
       {isActive && (
-        <div className="absolute left-0 top-0 z-10 h-[3px] w-full bg-transparent">
+        <div className="absolute left-0 top-0 z-10 h-[3px] w-full bg-muted/30 overflow-hidden">
           <div
-            className="h-full bg-progress transition-[width] duration-300 ease-out"
+            className="h-full bg-progress transition-all duration-500 ease-out"
             style={{ width: `${Math.max(0, Math.min(1, progress)) * 100}%` }}
           />
         </div>

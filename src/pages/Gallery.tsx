@@ -54,11 +54,11 @@ const Gallery = () => {
 
       {/* Hero Section */}
       <section className="pt-28 pb-12 md:pt-32 md:pb-16 bg-gradient-to-b from-primary/5 to-background">
-        <div className="container max-w-5xl mx-auto px-6 md:px-8">
+        <div className="container max-w-5xl mx-auto px-6 md:px-8 text-center">
           <h1 className="text-section font-display font-bold text-foreground mb-4">
             Gallery
           </h1>
-          <p className="text-muted-foreground text-body max-w-2xl">
+          <p className="text-muted-foreground text-body max-w-2xl mx-auto">
             Selected case studies showcasing design and engineering work that drives measurable impact.
           </p>
         </div>
