@@ -7,8 +7,9 @@ export interface GalleryProject {
   screenshot: string;
 }
 
-import camundaHome from '@/assets/gallery/camunda-home.png';
+import camundaHome from '@/assets/gallery/camunda-home-2025.png';
 import camundaconLatest from '@/assets/gallery/camundacon-latest.png';
+import camundacon2024 from '@/assets/gallery/camundacon-2024.png';
 import sumtotalBrand from '@/assets/gallery/sumtotal-brand-redesign.png';
 import sumtotalBrand2 from '@/assets/gallery/sumtotal-brand-redesign2.png';
 import skillsoftBrand from '@/assets/gallery/skillsoft-brand-redesign.png';
