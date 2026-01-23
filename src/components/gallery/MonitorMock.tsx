@@ -24,7 +24,10 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
           <img 
             src={screenshot} 
             alt={`${title} screenshot`} 
-            className="w-full h-auto object-cover object-top pointer-events-none"
+            className="w-full h-auto object-contain object-top pointer-events-none"
+            loading="eager"
+            decoding="sync"
+            style={{ imageRendering: 'auto' }}
           />
           
           {/* Scroll hint tooltip */}
