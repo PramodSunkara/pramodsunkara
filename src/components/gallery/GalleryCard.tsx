@@ -69,7 +69,7 @@ const GalleryCard = ({ project, isActive = false, progress = 0, className }: Gal
           <MonitorMock 
             screenshot={project.screenshot} 
             title={project.title}
-            className="w-full max-w-[700px]"
+            className="w-full"
           />
         </div>
       </div>

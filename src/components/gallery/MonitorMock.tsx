@@ -16,7 +16,7 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
       <div className="rounded-xl overflow-hidden border-[12px] border-foreground shadow-2xl bg-foreground">
         {/* Screen content - scrollable with fixed height */}
         <div 
-          className="bg-card max-h-[400px] overflow-y-auto overflow-x-hidden relative scroll-smooth"
+          className="bg-card max-h-[500px] overflow-y-auto overflow-x-hidden relative scroll-smooth"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           style={{ cursor: isHovering ? 'ns-resize' : 'default' }}
@@ -28,6 +28,7 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
             loading="eager"
             decoding="sync"
             fetchPriority="high"
+            style={{ imageRendering: '-webkit-optimize-contrast' }}
           />
           
           {/* Scroll hint tooltip */}
