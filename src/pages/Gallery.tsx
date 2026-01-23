@@ -23,33 +23,23 @@ const Gallery = () => {
     if (isMobile) return;
 
     const handleScroll = () => {
-      // Get the first card's sticky top position as reference
-      const firstCardTop = 100; // matches sticky top for index 0
-      
-      const newVisibility = galleryProjects.map((_, index) => {
-        const card = cardRefs.current[index];
-        if (!card) return true;
+      const stickyTop = 100; // all cards share the same sticky top
 
-        const rect = card.getBoundingClientRect();
-        
-        // Card should disappear only when it reaches the top (where first card sticks)
-        // Check if this card has been pushed above its sticky position by subsequent cards
-        if (rect.top <= firstCardTop && index < galleryProjects.length - 1) {
-          const nextCard = cardRefs.current[index + 1];
-          if (nextCard) {
-            const nextRect = nextCard.getBoundingClientRect();
-            // Hide this card only when next card has reached the same top position
-            if (nextRect.top <= firstCardTop + 40) {
-              return false;
-            }
-          }
+      // Find the latest card that has reached the sticky top.
+      // Only that card stays visible, so there is no "pile up".
+      let activeIndex = 0;
+      for (let i = 0; i < galleryProjects.length; i++) {
+        const el = cardRefs.current[i];
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= stickyTop + 1) {
+          activeIndex = i;
         }
-        return true;
-      });
+      }
 
-      setVisibleCards(newVisibility);
+      setVisibleCards(galleryProjects.map((_, i) => i === activeIndex));
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobile]);
@@ -84,8 +74,8 @@ const Gallery = () => {
                   ? {}
                   : {
                       position: 'sticky',
-                      top: `${100 + index * 32}px`,
-                      zIndex: index + 1,
+                      top: '100px',
+                      zIndex: galleryProjects.length - index,
                       opacity: visibleCards[index] ? 1 : 0,
                       transition: 'opacity 0.3s ease-in-out',
                       pointerEvents: visibleCards[index] ? 'auto' : 'none',
@@ -95,11 +85,7 @@ const Gallery = () => {
               <div
                 className="w-full lg:w-[90vw] max-w-7xl transition-all duration-300"
                 style={
-                  isMobile
-                    ? {}
-                    : {
-                        transform: `scale(${1 - index * 0.01})`,
-                      }
+                  isMobile ? {} : {}
                 }
               >
                 <GalleryCard project={project} />
