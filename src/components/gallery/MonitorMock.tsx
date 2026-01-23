@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface MonitorMockProps {
   screenshot: string;
@@ -7,28 +8,49 @@ interface MonitorMockProps {
   className?: string;
 }
 
+// Fixed pixel widths at breakpoints - clean integer values for 1:1 pixel mapping
+const SCREEN_WIDTHS = {
+  desktop: 1024,
+  mobile: 512
+};
+
 const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
   const [isHovering, setIsHovering] = useState(false);
+  const isMobile = useIsMobile();
+  
+  // Select fixed width based on breakpoint
+  const screenWidth = isMobile ? SCREEN_WIDTHS.mobile : SCREEN_WIDTHS.desktop;
 
   return (
-    <div className={cn("relative", className)}>
-      {/* Monitor frame with thick black border */}
+    <div className={cn("relative flex justify-center", className)}>
+      {/* Monitor frame - any tilt/perspective goes on THIS wrapper only */}
       <div className="rounded-xl overflow-hidden border-[12px] border-foreground shadow-2xl bg-foreground">
-        {/* Screen content - scrollable viewport */}
+        {/* Screen viewport - FIXED PIXEL WIDTH for 1:1 rendering */}
         <div 
           className="bg-card max-h-[500px] overflow-y-auto overflow-x-hidden relative scroll-smooth"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
-          style={{ cursor: isHovering ? 'ns-resize' : 'default' }}
+          style={{ 
+            cursor: isHovering ? 'ns-resize' : 'default',
+            width: `${screenWidth}px`
+          }}
         >
+          {/* Image - exactly matches container width for 1:1 pixel mapping */}
           <img 
             src={screenshot} 
             alt={`${title} screenshot`} 
-            className="block pointer-events-none w-full h-auto"
+            className="block pointer-events-none"
             loading="eager"
             decoding="sync"
             fetchPriority="high"
-            sizes="(min-width: 1024px) 900px, 100vw"
+            style={{
+              width: `${screenWidth}px`,
+              height: 'auto',
+              imageRendering: 'auto',
+              transform: 'none',
+              filter: 'none',
+              willChange: 'auto'
+            }}
           />
           
           {/* Scroll hint tooltip */}
