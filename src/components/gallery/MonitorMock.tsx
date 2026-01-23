@@ -20,14 +20,6 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
           />
         </div>
       </div>
-      
-      {/* Monitor stand */}
-      <div className="flex justify-center">
-        <div className="w-16 h-6 bg-foreground rounded-b-lg" />
-      </div>
-      <div className="flex justify-center -mt-1">
-        <div className="w-28 h-2 bg-foreground rounded-b-lg" />
-      </div>
     </div>
   );
 };
