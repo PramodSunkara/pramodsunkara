@@ -7,6 +7,8 @@ export interface GalleryProject {
   screenshot: string;
 }
 
+import camundaHome from '@/assets/camunda-home.png';
+
 export const galleryProjects: GalleryProject[] = [
   {
     id: 'camunda-redesign',
@@ -14,7 +16,7 @@ export const galleryProjects: GalleryProject[] = [
     description: 'Led the complete redesign of Camunda\'s website, improving user engagement by 40% and reducing bounce rates through intuitive navigation and modern visual design.',
     year: '2024',
     techStack: ['React', 'TypeScript', 'Figma', 'Tailwind CSS'],
-    screenshot: '/placeholder.svg'
+    screenshot: camundaHome
   },
   {
     id: 'design-system',
