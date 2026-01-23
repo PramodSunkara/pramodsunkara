@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import MonitorMock from './MonitorMock';
+import BrowserMock from './MonitorMock';
 import type { GalleryProject } from '@/data/galleryProjects';
 
 interface GalleryCardProps {
@@ -18,8 +18,8 @@ const GalleryCard = ({ project, className }: GalleryCardProps) => {
       )}
     >
       <div className="flex flex-col md:flex-row">
-        {/* Left Column - 60% */}
-        <div className="flex-1 md:w-[60%] p-6 md:p-8 lg:p-10 flex flex-col justify-center">
+        {/* Left Column - Content (30%) */}
+        <div className="flex-1 md:w-[30%] p-6 md:p-8 lg:p-10 flex flex-col justify-center">
           {/* Year badge */}
           <span className="text-xs font-medium text-muted-foreground mb-3">
             {project.year}
@@ -49,12 +49,12 @@ const GalleryCard = ({ project, className }: GalleryCardProps) => {
           </div>
         </div>
         
-        {/* Right Column - 40% */}
-        <div className="md:w-[40%] p-6 md:p-8 flex items-center justify-center bg-muted/30">
-          <MonitorMock 
+        {/* Right Column - Screenshot Display (70%) */}
+        <div className="md:w-[70%] p-4 md:p-6 lg:p-8 flex items-center justify-center bg-muted/30">
+          <BrowserMock 
             screenshot={project.screenshot} 
             title={project.title}
-            className="w-full max-w-[280px]"
+            className="w-full max-w-[700px]"
           />
         </div>
       </div>
