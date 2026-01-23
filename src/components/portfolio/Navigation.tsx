@@ -2,8 +2,15 @@ import { useTheme } from '@/hooks/useTheme';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Moon, Sun } from 'lucide-react';
 
-const navItems = [
+interface NavItem {
+  label: string;
+  href: string;
+  isRoute?: boolean;
+}
+
+const navItems: NavItem[] = [
   { label: 'Work', href: '#teams' },
+  { label: 'Gallery', href: '/gallery', isRoute: true },
   { label: 'Skills', href: '#skills' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
@@ -14,17 +21,21 @@ const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  const scrollToSection = (href: string) => {
-    const id = href.replace('#', '');
-    
-    // If not on home page, navigate to home first then scroll
-    if (location.pathname !== '/') {
-      navigate('/');
-      setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-      }, 500);
+  const handleNavClick = (item: NavItem) => {
+    if (item.isRoute) {
+      navigate(item.href);
     } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      const id = item.href.replace('#', '');
+      
+      // If not on home page, navigate to home first then scroll
+      if (location.pathname !== '/') {
+        navigate('/');
+        setTimeout(() => {
+          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        }, 500);
+      } else {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -40,11 +51,17 @@ const Navigation = () => {
         {navItems.map((item) => (
           <button
             key={item.label}
-            onClick={() => scrollToSection(item.href)}
+            onClick={() => handleNavClick(item)}
             className={`px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full ${
               theme === 'dark'
                 ? 'hover:bg-white/10'
                 : 'hover:bg-primary-foreground/10'
+            }${
+              item.isRoute && location.pathname === item.href
+                ? theme === 'dark'
+                  ? ' bg-white/15'
+                  : ' bg-primary-foreground/15'
+                : ''
             }`}
           >
             {item.label}
