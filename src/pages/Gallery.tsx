@@ -86,12 +86,7 @@ const Gallery = () => {
                     }
               }
             >
-              <div
-                className="w-full lg:w-[90vw] max-w-7xl transition-all duration-300"
-                style={
-                  isMobile ? {} : {}
-                }
-              >
+              <div className="w-full max-w-7xl mx-auto">
                 <GalleryCard
                   project={project}
                   isActive={!isMobile && index === activeIndex}
