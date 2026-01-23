@@ -23,18 +23,25 @@ const Gallery = () => {
     if (isMobile) return;
 
     const handleScroll = () => {
+      // Get the first card's sticky top position as reference
+      const firstCardTop = 100; // matches sticky top for index 0
+      
       const newVisibility = galleryProjects.map((_, index) => {
         const card = cardRefs.current[index];
         if (!card) return true;
 
         const rect = card.getBoundingClientRect();
-        const nextCard = cardRefs.current[index + 1];
-
-        if (nextCard) {
-          const nextRect = nextCard.getBoundingClientRect();
-          // If next card has overlapped this one significantly, hide this card
-          if (nextRect.top < rect.top + 60) {
-            return false;
+        
+        // Card should disappear only when it reaches the top (where first card sticks)
+        // Check if this card has been pushed above its sticky position by subsequent cards
+        if (rect.top <= firstCardTop && index < galleryProjects.length - 1) {
+          const nextCard = cardRefs.current[index + 1];
+          if (nextCard) {
+            const nextRect = nextCard.getBoundingClientRect();
+            // Hide this card only when next card has reached the same top position
+            if (nextRect.top <= firstCardTop + 40) {
+              return false;
+            }
           }
         }
         return true;
