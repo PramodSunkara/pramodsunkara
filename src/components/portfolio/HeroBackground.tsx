@@ -1,6 +1,19 @@
+import { SparklesCore } from '@/components/ui/sparkles';
+
 const HeroBackground = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Sparkles particle animation - behind everything */}
+      <SparklesCore
+        id="hero-sparkles"
+        background="transparent"
+        minSize={0.6}
+        maxSize={1.4}
+        particleDensity={100}
+        className="absolute inset-0 w-full h-full"
+        particleColor="#d4af37"
+      />
+      
       {/* Simple, clean gradient background - no banding */}
       <div 
         className="absolute inset-0 opacity-40 dark:opacity-30"
