@@ -54,6 +54,7 @@ export default {
         clay: "hsl(var(--clay))",
         olive: "hsl(var(--olive))",
         "warm-gray": "hsl(var(--warm-gray))",
+        progress: "hsl(var(--progress))",
         "dark-section": {
           DEFAULT: "hsl(var(--dark-section))",
           foreground: "hsl(var(--dark-section-foreground))",

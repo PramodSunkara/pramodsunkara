@@ -42,6 +42,7 @@
     --clay: 220 10% 18%;
     --olive: 160 15% 45%;
     --warm-gray: 220 5% 70%;
+    --progress: 48 96% 55%;
 
     /* Dark section background */
     --dark-section: 220 10% 18%;
@@ -92,6 +93,7 @@
     --clay: 210 20% 85%;
     --olive: 160 12% 40%;
     --warm-gray: 220 5% 45%;
+    --progress: 48 96% 60%;
 
     /* Dark section in dark mode becomes lighter */
     --dark-section: 220 10% 15%;
