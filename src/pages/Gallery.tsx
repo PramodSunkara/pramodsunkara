@@ -8,6 +8,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 
 const Gallery = () => {
   const isMobile = useIsMobile();
+  const [activeIndex, setActiveIndex] = useState(0);
   const [visibleCards, setVisibleCards] = useState<boolean[]>(
     galleryProjects.map(() => true)
   );
@@ -25,18 +26,20 @@ const Gallery = () => {
     const handleScroll = () => {
       const stickyTop = 100; // all cards share the same sticky top
 
-      // Find the latest card that has reached the sticky top.
-      // Only that card stays visible, so there is no "pile up".
-      let activeIndex = 0;
+      // Find the latest card that has reached the shared sticky top.
+      let nextActiveIndex = 0;
       for (let i = 0; i < galleryProjects.length; i++) {
         const el = cardRefs.current[i];
         if (!el) continue;
         if (el.getBoundingClientRect().top <= stickyTop + 1) {
-          activeIndex = i;
+          nextActiveIndex = i;
         }
       }
 
-      setVisibleCards(galleryProjects.map((_, i) => i === activeIndex));
+      setActiveIndex(nextActiveIndex);
+      // Keep the current card + upcoming cards visible (so you can see the next card
+      // slide/overlap into place), but hide completed cards behind.
+      setVisibleCards(galleryProjects.map((_, i) => i >= nextActiveIndex));
     };
 
     handleScroll();
@@ -75,7 +78,8 @@ const Gallery = () => {
                   : {
                       position: 'sticky',
                       top: '100px',
-                      zIndex: galleryProjects.length - index,
+                      // later cards should overlap earlier ones
+                      zIndex: index + 1,
                       opacity: visibleCards[index] ? 1 : 0,
                       transition: 'opacity 0.3s ease-in-out',
                       pointerEvents: visibleCards[index] ? 'auto' : 'none',
@@ -88,7 +92,11 @@ const Gallery = () => {
                   isMobile ? {} : {}
                 }
               >
-                <GalleryCard project={project} />
+                <GalleryCard
+                  project={project}
+                  isActive={!isMobile && index === activeIndex}
+                  progress={(activeIndex + 1) / galleryProjects.length}
+                />
               </div>
             </div>
           ))}

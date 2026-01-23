@@ -5,18 +5,28 @@ import type { GalleryProject } from '@/data/galleryProjects';
 
 interface GalleryCardProps {
   project: GalleryProject;
+  isActive?: boolean;
+  progress?: number; // 0..1
   className?: string;
 }
 
-const GalleryCard = ({ project, className }: GalleryCardProps) => {
+const GalleryCard = ({ project, isActive = false, progress = 0, className }: GalleryCardProps) => {
   return (
     <div
       className={cn(
-        "w-full bg-card border border-border rounded-2xl shadow-xl overflow-hidden",
+        "relative w-full bg-card border border-border rounded-2xl shadow-xl overflow-hidden",
         "bg-gradient-to-br from-primary/5 via-card to-card",
         className
       )}
     >
+      {isActive && (
+        <div className="absolute left-0 top-0 z-10 h-[3px] w-full bg-transparent">
+          <div
+            className="h-full bg-progress transition-[width] duration-300 ease-out"
+            style={{ width: `${Math.max(0, Math.min(1, progress)) * 100}%` }}
+          />
+        </div>
+      )}
       <div className="flex flex-col md:flex-row">
         {/* Left Column - Content (30%) */}
         <div className="flex-1 md:w-[30%] p-6 md:p-8 lg:p-10 flex flex-col justify-center">
