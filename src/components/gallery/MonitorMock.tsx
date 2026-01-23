@@ -12,24 +12,39 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
 
   return (
     <div className={cn("relative", className)}>
-      {/* Monitor frame with thick black border */}
+      {/* Monitor frame with thick black border - acts as clip container */}
       <div className="rounded-xl overflow-hidden border-[12px] border-foreground shadow-2xl bg-foreground">
-        {/* Screen content - scrollable with fixed height */}
+        {/* Screen content - scrollable viewport that clips the oversized image */}
         <div 
           className="bg-card max-h-[500px] overflow-y-auto overflow-x-hidden relative scroll-smooth"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           style={{ cursor: isHovering ? 'ns-resize' : 'default' }}
         >
-          <img 
-            src={screenshot} 
-            alt={`${title} screenshot`} 
-            className="w-full h-auto block pointer-events-none"
-            loading="eager"
-            decoding="sync"
-            fetchPriority="high"
-            style={{ imageRendering: '-webkit-optimize-contrast' }}
-          />
+          {/* Oversized render container - forces high-res rendering */}
+          <div 
+            className="relative"
+            style={{ 
+              width: '100%',
+              minWidth: '1600px', // Force minimum render width for crisp text
+              transformOrigin: 'top left'
+            }}
+          >
+            <img 
+              src={screenshot} 
+              alt={`${title} screenshot`} 
+              className="block pointer-events-none"
+              loading="eager"
+              decoding="sync"
+              fetchPriority="high"
+              style={{ 
+                width: '100%',
+                height: 'auto',
+                imageRendering: 'auto', // Let browser choose best rendering
+                WebkitFontSmoothing: 'antialiased'
+              }}
+            />
+          </div>
           
           {/* Scroll hint tooltip */}
           {isHovering && (
