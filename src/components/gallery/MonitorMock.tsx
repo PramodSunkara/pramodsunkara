@@ -14,9 +14,9 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
     <div className={cn("relative", className)}>
       {/* Monitor frame with thick black border */}
       <div className="rounded-xl overflow-hidden border-[12px] border-foreground shadow-2xl bg-foreground">
-        {/* Screen content - scrollable */}
+        {/* Screen content - scrollable with fixed height */}
         <div 
-          className="bg-card aspect-[16/10] overflow-y-auto overflow-x-hidden relative scroll-smooth"
+          className="bg-card max-h-[400px] overflow-y-auto overflow-x-hidden relative scroll-smooth"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           style={{ cursor: isHovering ? 'ns-resize' : 'default' }}
@@ -24,10 +24,10 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
           <img 
             src={screenshot} 
             alt={`${title} screenshot`} 
-            className="w-full h-auto object-contain object-top pointer-events-none"
+            className="w-full h-auto block pointer-events-none"
             loading="eager"
             decoding="sync"
-            style={{ imageRendering: 'auto' }}
+            fetchPriority="high"
           />
           
           {/* Scroll hint tooltip */}
