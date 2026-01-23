@@ -7,7 +7,11 @@ export interface GalleryProject {
   screenshot: string;
 }
 
-import camundaHome from '@/assets/camunda-home.png';
+import camundaHome from '@/assets/gallery/camunda-home.png';
+import sumtotalBrand from '@/assets/gallery/sumtotal-brand-redesign.png';
+import sumtotalBrand2 from '@/assets/gallery/sumtotal-brand-redesign2.png';
+import skillsoftBrand from '@/assets/gallery/skillsoft-brand-redesign.png';
+import perspectivesSkillsoft from '@/assets/gallery/perspectives-skillsoft.png';
 
 export const galleryProjects: GalleryProject[] = [
   {
@@ -19,43 +23,35 @@ export const galleryProjects: GalleryProject[] = [
     screenshot: camundaHome
   },
   {
-    id: 'design-system',
-    title: 'Enterprise Design System',
-    description: 'Built a comprehensive design system with 60+ components, reducing development time by 35% and ensuring brand consistency across 12 product teams.',
+    id: 'sumtotal-brand',
+    title: 'SumTotal Brand Redesign',
+    description: 'Transformed SumTotal\'s brand identity and website experience, creating a modern visual language that increased brand recognition and user engagement.',
     year: '2023',
-    techStack: ['Storybook', 'React', 'CSS Variables', 'Figma'],
-    screenshot: '/placeholder.svg'
+    techStack: ['Brand Strategy', 'UI Design', 'Figma', 'CSS'],
+    screenshot: sumtotalBrand
   },
   {
-    id: 'modeler-ux',
-    title: 'Process Modeler UX Overhaul',
-    description: 'Redesigned the BPMN modeling experience, resulting in 50% faster workflow creation and a 25-point increase in user satisfaction scores.',
+    id: 'sumtotal-website',
+    title: 'SumTotal Website Redesign',
+    description: 'Redesigned the complete SumTotal website with improved information architecture and modern UI patterns, resulting in 35% better conversion rates.',
     year: '2023',
-    techStack: ['User Research', 'Prototyping', 'React', 'Canvas API'],
-    screenshot: '/placeholder.svg'
+    techStack: ['UX Research', 'Wireframing', 'Figma', 'React'],
+    screenshot: sumtotalBrand2
   },
   {
-    id: 'analytics-dashboard',
-    title: 'Analytics Dashboard',
-    description: 'Designed an intuitive analytics dashboard for process insights, enabling teams to identify bottlenecks 3x faster with real-time data visualization.',
+    id: 'skillsoft-brand',
+    title: 'Skillsoft Brand Redesign',
+    description: 'Led the comprehensive brand redesign for Skillsoft, establishing a cohesive visual identity across all digital touchpoints.',
     year: '2022',
-    techStack: ['D3.js', 'React', 'GraphQL', 'Figma'],
-    screenshot: '/placeholder.svg'
+    techStack: ['Brand Identity', 'UI Design', 'Figma', 'Design System'],
+    screenshot: skillsoftBrand
   },
   {
-    id: 'mobile-app',
-    title: 'Mobile Task Management',
-    description: 'Created a mobile-first task management experience, achieving 4.8-star app store rating with 50,000+ downloads in the first quarter.',
-    year: '2022',
-    techStack: ['React Native', 'TypeScript', 'Figma', 'Lottie'],
-    screenshot: '/placeholder.svg'
-  },
-  {
-    id: 'onboarding-flow',
-    title: 'User Onboarding Redesign',
-    description: 'Streamlined the onboarding experience reducing time-to-value from 45 minutes to 12 minutes, increasing trial-to-paid conversion by 28%.',
-    year: '2021',
-    techStack: ['User Testing', 'Figma', 'React', 'Analytics'],
-    screenshot: '/placeholder.svg'
+    id: 'perspectives-event',
+    title: 'Perspectives 2020 Event',
+    description: 'Designed the digital experience for Skillsoft\'s flagship Perspectives event, creating an engaging virtual conference platform.',
+    year: '2020',
+    techStack: ['Event Design', 'Web Design', 'Figma', 'Responsive'],
+    screenshot: perspectivesSkillsoft
   }
 ];
