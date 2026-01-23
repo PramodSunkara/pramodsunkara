@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Navigation from '@/components/portfolio/Navigation';
 import Footer from '@/components/portfolio/Footer';
 import FloatingBackButton from '@/components/FloatingBackButton';
@@ -8,11 +8,44 @@ import { useIsMobile } from '@/hooks/use-mobile';
 
 const Gallery = () => {
   const isMobile = useIsMobile();
+  const [visibleCards, setVisibleCards] = useState<boolean[]>(
+    galleryProjects.map(() => true)
+  );
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Handle scroll-based card visibility
+  useEffect(() => {
+    if (isMobile) return;
+
+    const handleScroll = () => {
+      const newVisibility = galleryProjects.map((_, index) => {
+        const card = cardRefs.current[index];
+        if (!card) return true;
+
+        const rect = card.getBoundingClientRect();
+        const nextCard = cardRefs.current[index + 1];
+
+        if (nextCard) {
+          const nextRect = nextCard.getBoundingClientRect();
+          // If next card has overlapped this one significantly, hide this card
+          if (nextRect.top < rect.top + 60) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      setVisibleCards(newVisibility);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isMobile]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -33,10 +66,11 @@ const Gallery = () => {
 
       {/* Stacked Cards Section */}
       <section className="relative pb-32 md:pb-48">
-        <div className="container max-w-6xl mx-auto px-4 md:px-6">
+        <div className="container max-w-[95vw] mx-auto px-4 md:px-6">
           {galleryProjects.map((project, index) => (
             <div
               key={project.id}
+              ref={(el) => (cardRefs.current[index] = el)}
               className="flex justify-center py-3 md:py-4"
               style={
                 isMobile
@@ -45,16 +79,18 @@ const Gallery = () => {
                       position: 'sticky',
                       top: `${100 + index * 32}px`,
                       zIndex: index + 1,
+                      opacity: visibleCards[index] ? 1 : 0,
+                      transition: 'opacity 0.3s ease-in-out',
+                      pointerEvents: visibleCards[index] ? 'auto' : 'none',
                     }
               }
             >
               <div
-                className="w-full lg:w-[70vw] max-w-5xl transition-all duration-300"
+                className="w-full lg:w-[90vw] max-w-7xl transition-all duration-300"
                 style={
                   isMobile
                     ? {}
                     : {
-                        // Subtle scale reduction for stacked effect
                         transform: `scale(${1 - index * 0.01})`,
                       }
                 }
