@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface MonitorMockProps {
   screenshot: string;
@@ -18,15 +18,15 @@ const FRAME_HEIGHT = SCREEN_HEIGHT + FRAME_BORDER * 2;
 const MonitorMock = ({ screenshot, title, isActive = false, className }: MonitorMockProps) => {
   const [isHovering, setIsHovering] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const screenRef = useRef<HTMLDivElement | null>(null);
-  const imageRef = useRef<HTMLImageElement | null>(null);
   const [scale, setScale] = useState(1);
-  const [scrollY, setScrollY] = useState(0);
-  const [imageHeight, setImageHeight] = useState(SCREEN_HEIGHT * 5); // Default tall
-  const [hasReachedEnd, setHasReachedEnd] = useState(false);
-  const [hasReachedStart, setHasReachedStart] = useState(true);
+  const [imageHeight, setImageHeight] = useState(SCREEN_HEIGHT);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const maxScroll = Math.max(0, imageHeight - SCREEN_HEIGHT);
+  const canAutoScroll = maxScroll > 10; // Only animate if there's meaningful scroll distance
+
+  // Calculate animation duration based on scroll distance (8 seconds per 1000px)
+  const animationDuration = Math.max(3, (maxScroll / 1000) * 8);
 
   // Scale the fixed-size monitor down to fit the available width (prevents clipping).
   useEffect(() => {
@@ -54,64 +54,33 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
-      // Calculate the rendered height based on cover sizing
-      const imgAspect = img.naturalWidth / img.naturalHeight;
-      const screenAspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-      
-      let renderedHeight: number;
-      if (imgAspect < screenAspect) {
-        // Image is taller relative to screen - width fills, height extends
-        renderedHeight = SCREEN_WIDTH / imgAspect;
-      } else {
-        // Image is wider relative to screen - use natural proportions
-        renderedHeight = (SCREEN_WIDTH / img.naturalWidth) * img.naturalHeight;
-      }
-      
+      // Calculate the rendered height based on fixed width scaling
+      // backgroundSize is "SCREEN_WIDTH auto", so height scales proportionally
+      const renderedHeight = (SCREEN_WIDTH / img.naturalWidth) * img.naturalHeight;
       setImageHeight(Math.max(renderedHeight, SCREEN_HEIGHT));
     };
     img.src = screenshot;
   }, [screenshot]);
 
-  // Reset scroll position when card becomes inactive
+  // Stop animation when card becomes inactive
   useEffect(() => {
     if (!isActive) {
-      setScrollY(0);
-      setHasReachedEnd(false);
-      setHasReachedStart(true);
+      setIsAnimating(false);
     }
   }, [isActive]);
 
-  // Update boundary flags
-  useEffect(() => {
-    setHasReachedStart(scrollY <= 0);
-    setHasReachedEnd(scrollY >= maxScroll - 1);
-  }, [scrollY, maxScroll]);
-
-  // Handle wheel scroll inside the monitor screen - only when active
-  const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
-    if (!isActive) return;
-    
-    const scrollingDown = e.deltaY > 0;
-    const scrollingUp = e.deltaY < 0;
-    
-    // Allow page scroll if we've reached boundaries
-    if ((scrollingDown && hasReachedEnd) || (scrollingUp && hasReachedStart)) {
-      // Don't prevent default - let the page scroll
-      return;
+  // Handle hover to start/stop auto-scroll
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    if (isActive && canAutoScroll) {
+      setIsAnimating(true);
     }
-    
-    // We're in the middle of the image scroll range - prevent page scroll
-    e.preventDefault();
-    e.stopPropagation();
-    
-    setScrollY(prev => {
-      const next = prev + e.deltaY * 0.8;
-      return Math.max(0, Math.min(maxScroll, next));
-    });
-  }, [isActive, hasReachedEnd, hasReachedStart, maxScroll]);
+  };
 
-  const canScroll = isActive && isHovering;
-  const showScrollHint = canScroll && !hasReachedEnd;
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setIsAnimating(false);
+  };
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -136,17 +105,25 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
           >
             {/* Screen content area - fixed pixel dimensions for crisp rendering */}
             <div 
-              ref={screenRef}
               className="bg-card relative overflow-hidden"
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
-              onWheel={handleWheel}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
               style={{ 
-                cursor: canScroll ? 'ns-resize' : 'default',
+                cursor: isActive && canAutoScroll ? 'pointer' : 'default',
                 width: `${SCREEN_WIDTH}px`,
                 height: `${SCREEN_HEIGHT}px`,
               }}
             >
+              {/* Auto-scroll keyframes injected via style tag */}
+              <style>{`
+                @keyframes autoScrollDown {
+                  0% { transform: translateY(0) translateZ(0); }
+                  45% { transform: translateY(-${maxScroll}px) translateZ(0); }
+                  55% { transform: translateY(-${maxScroll}px) translateZ(0); }
+                  100% { transform: translateY(0) translateZ(0); }
+                }
+              `}</style>
+              
               {/* ScreenImage - div with background-image for crisp rendering */}
               <div
                 aria-label={`${title} screenshot`}
@@ -159,30 +136,26 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
                   backgroundPosition: 'top center',
                   backgroundRepeat: 'no-repeat',
                   imageRendering: '-webkit-optimize-contrast',
-                  transform: `translateY(-${scrollY}px) translateZ(0)`,
                   backfaceVisibility: 'hidden',
                   willChange: 'transform',
-                  transition: 'transform 0.1s ease-out',
+                  transform: isAnimating ? undefined : 'translateY(0) translateZ(0)',
+                  animation: isAnimating 
+                    ? `autoScrollDown ${animationDuration}s ease-in-out infinite`
+                    : 'none',
                 }}
               />
               
-              {/* Scroll hint tooltip - only show when active, hovering, and can still scroll */}
-              {showScrollHint && (
+              {/* Hover hint - shows when active and can scroll but not yet animating */}
+              {isActive && canAutoScroll && isHovering && !isAnimating && (
                 <div 
-                  className="absolute pointer-events-none z-50 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-full shadow-lg flex items-center gap-1.5 animate-fade-in"
+                  className="absolute pointer-events-none z-50 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-full shadow-lg animate-fade-in"
                   style={{
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)'
                   }}
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 5v14M5 12l7-7 7 7" />
-                  </svg>
-                  Scroll
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 19V5M5 12l7 7 7-7" />
-                  </svg>
+                  Hover to scroll
                 </div>
               )}
             </div>
