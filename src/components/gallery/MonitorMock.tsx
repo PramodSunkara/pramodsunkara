@@ -2,7 +2,6 @@ import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { X } from 'lucide-react';
 
 interface MonitorMockProps {
   screenshot: string;
@@ -139,15 +138,8 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-[95vw] w-[1200px] max-h-[90vh] p-0 flex flex-col overflow-hidden bg-card border-border">
           {/* Header - fixed at top */}
-          <div className="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b border-border bg-card/80 backdrop-blur-sm">
-            <h2 className="text-lg font-semibold text-foreground">{title}</h2>
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="p-2 rounded-full hover:bg-muted transition-colors"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5 text-muted-foreground" />
-            </button>
+          <div className="flex-shrink-0 px-6 py-4 border-b border-border bg-card/80 backdrop-blur-sm">
+            <h2 className="text-lg font-semibold text-foreground pr-8">{title}</h2>
           </div>
           
           {/* Scrollable content */}
