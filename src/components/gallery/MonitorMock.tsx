@@ -16,16 +16,25 @@ const FRAME_WIDTH = SCREEN_WIDTH + FRAME_BORDER * 2;
 const FRAME_HEIGHT = SCREEN_HEIGHT + FRAME_BORDER * 2;
 
 const MonitorMock = ({ screenshot, title, isActive = false, className }: MonitorMockProps) => {
-  const [isHovering, setIsHovering] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const screenRef = useRef<HTMLDivElement | null>(null);
   const [scale, setScale] = useState(1);
   const [scrollY, setScrollY] = useState(0);
   const [imageHeight, setImageHeight] = useState(SCREEN_HEIGHT);
 
+  // Use refs to track latest values for the wheel handler
+  const isActiveRef = useRef(isActive);
+  const scrollYRef = useRef(scrollY);
+  const maxScrollRef = useRef(0);
+
   const maxScroll = Math.max(0, imageHeight - SCREEN_HEIGHT);
+  
+  // Keep refs in sync
+  useEffect(() => { isActiveRef.current = isActive; }, [isActive]);
+  useEffect(() => { scrollYRef.current = scrollY; }, [scrollY]);
+  useEffect(() => { maxScrollRef.current = maxScroll; }, [maxScroll]);
+
   const hasReachedEnd = scrollY >= maxScroll - 1;
-  const hasReachedStart = scrollY <= 1;
 
   // Scale the fixed-size monitor down to fit the available width
   useEffect(() => {
@@ -53,7 +62,6 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
-      // Calculate rendered height: backgroundSize is "SCREEN_WIDTH auto"
       const renderedHeight = (SCREEN_WIDTH / img.naturalWidth) * img.naturalHeight;
       setImageHeight(Math.max(renderedHeight, SCREEN_HEIGHT));
     };
@@ -67,16 +75,17 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
     }
   }, [isActive]);
 
-  // Use native wheel event with passive: false to properly prevent page scroll
+  // Native wheel event - attached once, uses refs for current values
   useEffect(() => {
     const screen = screenRef.current;
     if (!screen) return;
 
     const handleWheel = (e: WheelEvent) => {
-      if (!isActive || !isHovering) return;
+      // Use refs to get latest values
+      if (!isActiveRef.current) return;
 
-      const currentScrollY = scrollY;
-      const currentMaxScroll = maxScroll;
+      const currentScrollY = scrollYRef.current;
+      const currentMaxScroll = maxScrollRef.current;
       const atEnd = currentScrollY >= currentMaxScroll - 1;
       const atStart = currentScrollY <= 1;
       
@@ -100,10 +109,10 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
 
     screen.addEventListener('wheel', handleWheel, { passive: false });
     return () => screen.removeEventListener('wheel', handleWheel);
-  }, [isActive, isHovering, scrollY, maxScroll]);
+  }, []); // Empty deps - handler uses refs
 
   const canScroll = isActive && maxScroll > 0;
-  const showScrollHint = canScroll && isHovering && !hasReachedEnd;
+  const showScrollHint = canScroll && !hasReachedEnd;
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -126,8 +135,6 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
             <div 
               ref={screenRef}
               className="bg-card relative overflow-hidden"
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
               
               style={{ 
                 cursor: canScroll ? 'ns-resize' : 'default',
