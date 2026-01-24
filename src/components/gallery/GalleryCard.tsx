@@ -35,10 +35,7 @@ const GalleryCard = ({ project, isActive = false, progress = 0, className }: Gal
       <div className="flex flex-col md:flex-row">
         {/* Left Column - Content (30%) */}
         <div className="flex-1 md:w-[30%] p-6 md:p-8 lg:p-10 flex flex-col justify-center">
-          {/* Year badge */}
-          <span className="text-xs font-medium text-muted-foreground mb-3">
-            {project.year}
-          </span>
+          {/* Title */}
           
           {/* Title */}
           <h3 className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-foreground mb-3">

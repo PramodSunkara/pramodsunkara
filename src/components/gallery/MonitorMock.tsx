@@ -1,5 +1,8 @@
 import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { X } from 'lucide-react';
 
 interface MonitorMockProps {
   screenshot: string;
@@ -17,31 +20,10 @@ const FRAME_HEIGHT = SCREEN_HEIGHT + FRAME_BORDER * 2;
 
 const MonitorMock = ({ screenshot, title, isActive = false, className }: MonitorMockProps) => {
   const [isHovering, setIsHovering] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const screenRef = useRef<HTMLDivElement | null>(null);
   const [scale, setScale] = useState(1);
-  const [scrollY, setScrollY] = useState(0);
-  // Default tall height so we capture wheel immediately even before image loads.
-  const [imageHeight, setImageHeight] = useState(SCREEN_HEIGHT * 5);
   const [isImageReady, setIsImageReady] = useState(false);
-
-  // Use refs to track latest values for the wheel handler
-  const isActiveRef = useRef(isActive);
-  const isHoveringRef = useRef(isHovering);
-  const isImageReadyRef = useRef(isImageReady);
-  const scrollYRef = useRef(scrollY);
-  const maxScrollRef = useRef(0);
-
-  const maxScroll = Math.max(0, imageHeight - SCREEN_HEIGHT);
-  
-  // Keep refs in sync
-  useEffect(() => { isActiveRef.current = isActive; }, [isActive]);
-  useEffect(() => { isHoveringRef.current = isHovering; }, [isHovering]);
-  useEffect(() => { isImageReadyRef.current = isImageReady; }, [isImageReady]);
-  useEffect(() => { scrollYRef.current = scrollY; }, [scrollY]);
-  useEffect(() => { maxScrollRef.current = maxScroll; }, [maxScroll]);
-
-  const hasReachedEnd = scrollY >= maxScroll - 1;
 
   // Scale the fixed-size monitor down to fit the available width
   useEffect(() => {
@@ -65,154 +47,123 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
     };
   }, []);
 
-  // Load the actual image to get its dimensions
+  // Load the actual image
   useEffect(() => {
     setIsImageReady(false);
     const img = new Image();
     img.onload = () => {
-      const renderedHeight = (SCREEN_WIDTH / img.naturalWidth) * img.naturalHeight;
-      setImageHeight(Math.max(renderedHeight, SCREEN_HEIGHT));
       setIsImageReady(true);
     };
     img.src = screenshot;
   }, [screenshot]);
 
-  // Reset scroll position when card becomes inactive
-  useEffect(() => {
-    if (!isActive) {
-      setScrollY(0);
-    }
-  }, [isActive]);
-
-  // Native wheel event - attached once, uses refs for current values
-  useEffect(() => {
-    const screen = screenRef.current;
-    if (!screen) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      // Use refs to get latest values
-      if (!isActiveRef.current || !isHoveringRef.current) return;
-
-      // If the screenshot hasn't loaded yet, don't allow the page/cards to scroll away.
-      if (!isImageReadyRef.current) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
-
-      const currentScrollY = scrollYRef.current;
-      const currentMaxScroll = maxScrollRef.current;
-      const atEnd = currentScrollY >= currentMaxScroll - 1;
-      const atStart = currentScrollY <= 1;
-      
-      const scrollingDown = e.deltaY > 0;
-      const scrollingUp = e.deltaY < 0;
-
-      // Always block default page/card scrolling while interacting with the monitor.
-      // We manually hand scroll back to the page ONLY after reaching boundaries.
-      e.preventDefault();
-      e.stopPropagation();
-
-      // If we've reached a boundary and the user keeps scrolling past it,
-      // forward the wheel delta to the page to advance to the next/prev card.
-      if ((scrollingDown && atEnd) || (scrollingUp && atStart)) {
-        window.scrollBy({ top: e.deltaY, left: 0, behavior: 'auto' });
-        return;
-      }
-
-      // Otherwise, consume the wheel and scroll the screenshot.
-      setScrollY(prev => {
-        const next = prev + e.deltaY * 0.8;
-        return Math.max(0, Math.min(currentMaxScroll, next));
-      });
-    };
-
-    screen.addEventListener('wheel', handleWheel, { passive: false, capture: true });
-    return () => screen.removeEventListener('wheel', handleWheel);
-  }, []); // Empty deps - handler uses refs
-
-  const canScroll = isActive && maxScroll > 0;
-  const showScrollHint = canScroll && isHovering && !hasReachedEnd;
+  const handleClick = () => {
+    setIsModalOpen(true);
+  };
 
   return (
-    <div className={cn("relative w-full", className)}>
-      <div ref={wrapperRef} className="w-full">
-        <div
-          className="relative"
-          style={{
-            width: `${FRAME_WIDTH * scale}px`,
-            height: `${FRAME_HEIGHT * scale}px`,
-          }}
-        >
-          <div
-            className="absolute left-0 top-0 box-border rounded-xl overflow-hidden border-[12px] border-foreground shadow-2xl bg-foreground origin-top-left"
-            style={{
-              width: `${FRAME_WIDTH}px`,
-              height: `${FRAME_HEIGHT}px`,
-              transform: `scale(${scale})`,
-            }}
+    <>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div 
+            className={cn("relative w-full cursor-pointer", className)}
+            onClick={handleClick}
           >
-            <div 
-              ref={screenRef}
-              className="bg-card relative overflow-hidden"
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
-              
-              style={{ 
-                cursor: canScroll ? 'ns-resize' : 'default',
-                width: `${SCREEN_WIDTH}px`,
-                height: `${SCREEN_HEIGHT}px`,
-              }}
-            >
+            <div ref={wrapperRef} className="w-full">
               <div
-                aria-label={`${title} screenshot`}
-                role="img"
+                className="relative"
                 style={{
-                  width: `${SCREEN_WIDTH}px`,
-                  height: `${imageHeight}px`,
-                  backgroundImage: `url(${screenshot})`,
-                  backgroundSize: `${SCREEN_WIDTH}px auto`,
-                  backgroundPosition: 'top center',
-                  backgroundRepeat: 'no-repeat',
-                  imageRendering: '-webkit-optimize-contrast',
-                  transform: `translateY(-${scrollY}px) translateZ(0)`,
-                  backfaceVisibility: 'hidden',
-                  willChange: 'transform',
-                  transition: 'transform 0.1s ease-out',
+                  width: `${FRAME_WIDTH * scale}px`,
+                  height: `${FRAME_HEIGHT * scale}px`,
                 }}
-              />
+              >
+                <div
+                  className="absolute left-0 top-0 box-border rounded-xl overflow-hidden border-[12px] border-foreground shadow-2xl bg-foreground origin-top-left transition-transform duration-200 hover:scale-[1.02]"
+                  style={{
+                    width: `${FRAME_WIDTH}px`,
+                    height: `${FRAME_HEIGHT}px`,
+                    transform: `scale(${scale})`,
+                  }}
+                  onMouseEnter={() => setIsHovering(true)}
+                  onMouseLeave={() => setIsHovering(false)}
+                >
+                  <div 
+                    className="bg-card relative overflow-hidden"
+                    style={{ 
+                      width: `${SCREEN_WIDTH}px`,
+                      height: `${SCREEN_HEIGHT}px`,
+                    }}
+                  >
+                    <div
+                      aria-label={`${title} screenshot`}
+                      role="img"
+                      style={{
+                        width: `${SCREEN_WIDTH}px`,
+                        height: `${SCREEN_HEIGHT}px`,
+                        backgroundImage: `url(${screenshot})`,
+                        backgroundSize: `${SCREEN_WIDTH}px auto`,
+                        backgroundPosition: 'top center',
+                        backgroundRepeat: 'no-repeat',
+                        imageRendering: '-webkit-optimize-contrast',
+                      }}
+                    />
 
-              {!isImageReady && (
-                <div className="absolute inset-0 grid place-items-center bg-background/60">
-                  <div className="rounded-full bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-sm">
-                    Loading…
+                    {!isImageReady && (
+                      <div className="absolute inset-0 grid place-items-center bg-background/60">
+                        <div className="rounded-full bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-sm">
+                          Loading…
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Click hint overlay */}
+                    {isHovering && (
+                      <div className="absolute inset-0 bg-foreground/10 flex items-center justify-center pointer-events-none">
+                        <div className="px-4 py-2 bg-foreground text-background text-sm font-medium rounded-full shadow-lg animate-fade-in">
+                          Click to view full page
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-              )}
-              
-              {showScrollHint && (
-                <div 
-                  className="absolute pointer-events-none z-50 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-full shadow-lg flex items-center gap-1.5 animate-fade-in"
-                  style={{
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)'
-                  }}
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 5v14M5 12l7-7 7 7" />
-                  </svg>
-                  Scroll
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 19V5M5 12l7 7 7-7" />
-                  </svg>
-                </div>
-              )}
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </TooltipTrigger>
+        <TooltipContent side="top" className="bg-foreground text-background">
+          Click to expand and scroll
+        </TooltipContent>
+      </Tooltip>
+
+      {/* Full-page modal for scrolling */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-[95vw] w-[1200px] h-[90vh] p-0 overflow-hidden bg-card border-border">
+          <div className="relative w-full h-full flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-card/80 backdrop-blur-sm">
+              <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="p-2 rounded-full hover:bg-muted transition-colors"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5 text-muted-foreground" />
+              </button>
+            </div>
+            
+            {/* Scrollable content */}
+            <div className="flex-1 overflow-y-auto">
+              <img 
+                src={screenshot} 
+                alt={`${title} full screenshot`}
+                className="w-full h-auto"
+                style={{ imageRendering: '-webkit-optimize-contrast' }}
+              />
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
