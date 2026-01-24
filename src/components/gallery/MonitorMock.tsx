@@ -15,16 +15,18 @@ const FRAME_BORDER = 12; // px
 const FRAME_WIDTH = SCREEN_WIDTH + FRAME_BORDER * 2;
 const FRAME_HEIGHT = SCREEN_HEIGHT + FRAME_BORDER * 2;
 
-// How much of the tall screenshot can be scrolled
-const SCROLL_HEIGHT = SCREEN_HEIGHT * 3;
-const MAX_SCROLL = SCROLL_HEIGHT - SCREEN_HEIGHT;
-
 const MonitorMock = ({ screenshot, title, isActive = false, className }: MonitorMockProps) => {
   const [isHovering, setIsHovering] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const screenRef = useRef<HTMLDivElement | null>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
   const [scale, setScale] = useState(1);
   const [scrollY, setScrollY] = useState(0);
+  const [imageHeight, setImageHeight] = useState(SCREEN_HEIGHT * 5); // Default tall
+  const [hasReachedEnd, setHasReachedEnd] = useState(false);
+  const [hasReachedStart, setHasReachedStart] = useState(true);
+
+  const maxScroll = Math.max(0, imageHeight - SCREEN_HEIGHT);
 
   // Scale the fixed-size monitor down to fit the available width (prevents clipping).
   useEffect(() => {
@@ -48,42 +50,68 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
     };
   }, []);
 
+  // Load the actual image to get its dimensions
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      // Calculate the rendered height based on cover sizing
+      const imgAspect = img.naturalWidth / img.naturalHeight;
+      const screenAspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+      
+      let renderedHeight: number;
+      if (imgAspect < screenAspect) {
+        // Image is taller relative to screen - width fills, height extends
+        renderedHeight = SCREEN_WIDTH / imgAspect;
+      } else {
+        // Image is wider relative to screen - use natural proportions
+        renderedHeight = (SCREEN_WIDTH / img.naturalWidth) * img.naturalHeight;
+      }
+      
+      setImageHeight(Math.max(renderedHeight, SCREEN_HEIGHT));
+    };
+    img.src = screenshot;
+  }, [screenshot]);
+
   // Reset scroll position when card becomes inactive
   useEffect(() => {
     if (!isActive) {
       setScrollY(0);
+      setHasReachedEnd(false);
+      setHasReachedStart(true);
     }
   }, [isActive]);
+
+  // Update boundary flags
+  useEffect(() => {
+    setHasReachedStart(scrollY <= 0);
+    setHasReachedEnd(scrollY >= maxScroll - 1);
+  }, [scrollY, maxScroll]);
 
   // Handle wheel scroll inside the monitor screen - only when active
   const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
     if (!isActive) return;
     
+    const scrollingDown = e.deltaY > 0;
+    const scrollingUp = e.deltaY < 0;
+    
+    // Allow page scroll if we've reached boundaries
+    if ((scrollingDown && hasReachedEnd) || (scrollingUp && hasReachedStart)) {
+      // Don't prevent default - let the page scroll
+      return;
+    }
+    
+    // We're in the middle of the image scroll range - prevent page scroll
     e.preventDefault();
     e.stopPropagation();
     
     setScrollY(prev => {
-      const next = prev + e.deltaY * 0.5;
-      return Math.max(0, Math.min(MAX_SCROLL, next));
+      const next = prev + e.deltaY * 0.8;
+      return Math.max(0, Math.min(maxScroll, next));
     });
-  }, [isActive]);
-
-  // Prevent page scroll when hovering over active monitor
-  useEffect(() => {
-    const screen = screenRef.current;
-    if (!screen || !isActive) return;
-
-    const preventScroll = (e: WheelEvent) => {
-      if (isHovering) {
-        e.preventDefault();
-      }
-    };
-
-    screen.addEventListener('wheel', preventScroll, { passive: false });
-    return () => screen.removeEventListener('wheel', preventScroll);
-  }, [isActive, isHovering]);
+  }, [isActive, hasReachedEnd, hasReachedStart, maxScroll]);
 
   const canScroll = isActive && isHovering;
+  const showScrollHint = canScroll && !hasReachedEnd;
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -125,9 +153,9 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
                 role="img"
                 style={{
                   width: `${SCREEN_WIDTH}px`,
-                  height: `${SCROLL_HEIGHT}px`,
+                  height: `${imageHeight}px`,
                   backgroundImage: `url(${screenshot})`,
-                  backgroundSize: 'cover',
+                  backgroundSize: `${SCREEN_WIDTH}px auto`,
                   backgroundPosition: 'top center',
                   backgroundRepeat: 'no-repeat',
                   imageRendering: '-webkit-optimize-contrast',
@@ -138,8 +166,8 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
                 }}
               />
               
-              {/* Scroll hint tooltip - only show when active and hovering */}
-              {canScroll && (
+              {/* Scroll hint tooltip - only show when active, hovering, and can still scroll */}
+              {showScrollHint && (
                 <div 
                   className="absolute pointer-events-none z-50 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-full shadow-lg flex items-center gap-1.5 animate-fade-in"
                   style={{
