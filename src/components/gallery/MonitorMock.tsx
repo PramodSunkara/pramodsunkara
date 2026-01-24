@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface MonitorMockProps {
   screenshot: string;
@@ -10,22 +10,58 @@ interface MonitorMockProps {
 // Fixed desktop width - scales down via wrapper on smaller screens
 const SCREEN_WIDTH = 1100;
 const SCREEN_HEIGHT = 600;
+const FRAME_BORDER = 12; // px
+const FRAME_WIDTH = SCREEN_WIDTH + FRAME_BORDER * 2;
+const FRAME_HEIGHT = SCREEN_HEIGHT + FRAME_BORDER * 2;
 
 const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
   const [isHovering, setIsHovering] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const [scale, setScale] = useState(1);
+
+  // Scale the fixed-size monitor down to fit the available width (prevents clipping).
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const available = el.clientWidth;
+      if (!available) return;
+      setScale(Math.min(1, available / FRAME_WIDTH));
+    };
+
+    update();
+
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener('resize', update, { passive: true });
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', update);
+    };
+  }, []);
 
   return (
     <div className={cn("relative w-full", className)}>
       {/* Responsive wrapper - scales the fixed-size monitor down on smaller screens */}
-      <div className="w-full overflow-hidden">
-        {/* Monitor frame with thick black border - fixed dimensions, scaled via transform */}
-        <div 
-          className="rounded-xl overflow-hidden border-[12px] border-foreground shadow-2xl bg-foreground origin-top-left"
+      <div ref={wrapperRef} className="w-full">
+        {/* Layout box reserves the scaled size, while the inner frame is scaled via transform */}
+        <div
+          className="relative"
           style={{
-            width: `${SCREEN_WIDTH + 24}px`, // +24 for border
-            maxWidth: '100%'
+            width: `${FRAME_WIDTH * scale}px`,
+            height: `${FRAME_HEIGHT * scale}px`,
           }}
         >
+          {/* Monitor frame with thick border - fixed pixel dimensions for crisp rendering */}
+          <div
+            className="absolute left-0 top-0 box-border rounded-xl overflow-hidden border-[12px] border-foreground shadow-2xl bg-foreground origin-top-left"
+            style={{
+              width: `${FRAME_WIDTH}px`,
+              height: `${FRAME_HEIGHT}px`,
+              transform: `scale(${scale})`,
+            }}
+          >
           {/* Screen content area - fixed pixel dimensions for crisp rendering */}
           <div 
             className="bg-card relative overflow-hidden"
@@ -75,6 +111,7 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
                 </svg>
               </div>
             )}
+          </div>
           </div>
         </div>
       </div>
