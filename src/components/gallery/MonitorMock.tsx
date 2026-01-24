@@ -62,12 +62,15 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
     img.src = screenshot;
   }, [screenshot]);
 
-  // Stop animation when card becomes inactive
+  // Start/stop animation based on active state and hover
   useEffect(() => {
     if (!isActive) {
       setIsAnimating(false);
+    } else if (isActive && isHovering && canAutoScroll) {
+      // Start animating if we become active while already hovering
+      setIsAnimating(true);
     }
-  }, [isActive]);
+  }, [isActive, isHovering, canAutoScroll]);
 
   // Handle hover to start/stop auto-scroll
   const handleMouseEnter = () => {
