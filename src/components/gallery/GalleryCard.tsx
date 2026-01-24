@@ -69,6 +69,7 @@ const GalleryCard = ({ project, isActive = false, progress = 0, className }: Gal
           <MonitorMock 
             screenshot={project.screenshot} 
             title={project.title}
+            isActive={isActive}
             className="w-full"
           />
         </div>

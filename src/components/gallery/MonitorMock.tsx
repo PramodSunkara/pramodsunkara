@@ -1,9 +1,10 @@
 import { cn } from '@/lib/utils';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 interface MonitorMockProps {
   screenshot: string;
   title: string;
+  isActive?: boolean;
   className?: string;
 }
 
@@ -14,10 +15,16 @@ const FRAME_BORDER = 12; // px
 const FRAME_WIDTH = SCREEN_WIDTH + FRAME_BORDER * 2;
 const FRAME_HEIGHT = SCREEN_HEIGHT + FRAME_BORDER * 2;
 
-const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
+// How much of the tall screenshot can be scrolled
+const SCROLL_HEIGHT = SCREEN_HEIGHT * 3;
+const MAX_SCROLL = SCROLL_HEIGHT - SCREEN_HEIGHT;
+
+const MonitorMock = ({ screenshot, title, isActive = false, className }: MonitorMockProps) => {
   const [isHovering, setIsHovering] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const screenRef = useRef<HTMLDivElement | null>(null);
   const [scale, setScale] = useState(1);
+  const [scrollY, setScrollY] = useState(0);
 
   // Scale the fixed-size monitor down to fit the available width (prevents clipping).
   useEffect(() => {
@@ -41,6 +48,43 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
     };
   }, []);
 
+  // Reset scroll position when card becomes inactive
+  useEffect(() => {
+    if (!isActive) {
+      setScrollY(0);
+    }
+  }, [isActive]);
+
+  // Handle wheel scroll inside the monitor screen - only when active
+  const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
+    if (!isActive) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    setScrollY(prev => {
+      const next = prev + e.deltaY * 0.5;
+      return Math.max(0, Math.min(MAX_SCROLL, next));
+    });
+  }, [isActive]);
+
+  // Prevent page scroll when hovering over active monitor
+  useEffect(() => {
+    const screen = screenRef.current;
+    if (!screen || !isActive) return;
+
+    const preventScroll = (e: WheelEvent) => {
+      if (isHovering) {
+        e.preventDefault();
+      }
+    };
+
+    screen.addEventListener('wheel', preventScroll, { passive: false });
+    return () => screen.removeEventListener('wheel', preventScroll);
+  }, [isActive, isHovering]);
+
+  const canScroll = isActive && isHovering;
+
   return (
     <div className={cn("relative w-full", className)}>
       {/* Responsive wrapper - scales the fixed-size monitor down on smaller screens */}
@@ -62,56 +106,58 @@ const MonitorMock = ({ screenshot, title, className }: MonitorMockProps) => {
               transform: `scale(${scale})`,
             }}
           >
-          {/* Screen content area - fixed pixel dimensions for crisp rendering */}
-          <div 
-            className="bg-card relative overflow-hidden"
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-            style={{ 
-              cursor: isHovering ? 'ns-resize' : 'default',
-              width: `${SCREEN_WIDTH}px`,
-              height: `${SCREEN_HEIGHT}px`,
-              maxWidth: '100%'
-            }}
-          >
-            {/* ScreenImage - div with background-image for crisp rendering */}
-            <div
-              aria-label={`${title} screenshot`}
-              role="img"
-              style={{
+            {/* Screen content area - fixed pixel dimensions for crisp rendering */}
+            <div 
+              ref={screenRef}
+              className="bg-card relative overflow-hidden"
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+              onWheel={handleWheel}
+              style={{ 
+                cursor: canScroll ? 'ns-resize' : 'default',
                 width: `${SCREEN_WIDTH}px`,
-                height: `${SCREEN_HEIGHT * 3}px`, // Tall for scrolling
-                backgroundImage: `url(${screenshot})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'top center',
-                backgroundRepeat: 'no-repeat',
-                imageRendering: '-webkit-optimize-contrast',
-                transform: 'translateZ(0)',
-                backfaceVisibility: 'hidden',
-                willChange: 'transform'
+                height: `${SCREEN_HEIGHT}px`,
               }}
-            />
-            
-            {/* Scroll hint tooltip */}
-            {isHovering && (
-              <div 
-                className="absolute pointer-events-none z-50 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-full shadow-lg flex items-center gap-1.5 animate-fade-in"
+            >
+              {/* ScreenImage - div with background-image for crisp rendering */}
+              <div
+                aria-label={`${title} screenshot`}
+                role="img"
                 style={{
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)'
+                  width: `${SCREEN_WIDTH}px`,
+                  height: `${SCROLL_HEIGHT}px`,
+                  backgroundImage: `url(${screenshot})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'top center',
+                  backgroundRepeat: 'no-repeat',
+                  imageRendering: '-webkit-optimize-contrast',
+                  transform: `translateY(-${scrollY}px) translateZ(0)`,
+                  backfaceVisibility: 'hidden',
+                  willChange: 'transform',
+                  transition: 'transform 0.1s ease-out',
                 }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 5v14M5 12l7-7 7 7" />
-                </svg>
-                Scroll
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 19V5M5 12l7 7 7-7" />
-                </svg>
-              </div>
-            )}
-          </div>
+              />
+              
+              {/* Scroll hint tooltip - only show when active and hovering */}
+              {canScroll && (
+                <div 
+                  className="absolute pointer-events-none z-50 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-full shadow-lg flex items-center gap-1.5 animate-fade-in"
+                  style={{
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 5v14M5 12l7-7 7 7" />
+                  </svg>
+                  Scroll
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 19V5M5 12l7 7 7-7" />
+                  </svg>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
