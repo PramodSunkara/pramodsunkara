@@ -47,22 +47,22 @@ const GalleryCard = ({
         {/* Left Column - Content (30%) */}
         <div className="flex-1 md:w-[30%] p-6 md:p-8 lg:p-10 flex flex-col justify-center">
           {/* Title */}
-          <h3 className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-foreground mb-3">
+          <h3 className="text-base md:text-xl lg:text-2xl font-display font-bold text-foreground mb-3">
             {project.title}
           </h3>
           
           {/* Description */}
-          <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
+          <p className="text-muted-foreground text-xs md:text-sm leading-relaxed mb-6">
             {project.description}
           </p>
           
           {/* Tech Stack Tags */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
             {project.techStack.map((tech) => (
               <Badge
                 key={tech}
                 variant="secondary"
-                className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary border-0 hover:bg-primary/20"
+                className="px-2 py-0.5 text-[10px] font-medium bg-primary/10 text-primary border-0 hover:bg-primary/20"
               >
                 {tech}
               </Badge>
