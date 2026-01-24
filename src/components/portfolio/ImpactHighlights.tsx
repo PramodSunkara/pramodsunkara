@@ -1,7 +1,7 @@
 const highlights = [
   {
-    category: 'Accessibility & WCAG',
-    outcome: 'Accessibility-first design and WCAG compliance embedded across complex SaaS and enterprise systems',
+    category: 'Navigation UX',
+    outcome: 'Redesigned complex navigation reducing user drop-off by 40%',
   },
   {
     category: 'Event Platforms',
