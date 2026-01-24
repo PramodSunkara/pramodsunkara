@@ -67,27 +67,40 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
     }
   }, [isActive]);
 
-  // Handle wheel scroll - intercept only when inside scroll range
-  const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
-    if (!isActive) return;
+  // Use native wheel event with passive: false to properly prevent page scroll
+  useEffect(() => {
+    const screen = screenRef.current;
+    if (!screen) return;
 
-    const scrollingDown = e.deltaY > 0;
-    const scrollingUp = e.deltaY < 0;
+    const handleWheel = (e: WheelEvent) => {
+      if (!isActive || !isHovering) return;
 
-    // At boundaries, let page scroll
-    if ((scrollingDown && hasReachedEnd) || (scrollingUp && hasReachedStart)) {
-      return;
-    }
+      const currentScrollY = scrollY;
+      const currentMaxScroll = maxScroll;
+      const atEnd = currentScrollY >= currentMaxScroll - 1;
+      const atStart = currentScrollY <= 1;
+      
+      const scrollingDown = e.deltaY > 0;
+      const scrollingUp = e.deltaY < 0;
 
-    // Within scroll range - capture the scroll
-    e.preventDefault();
-    e.stopPropagation();
+      // At boundaries, let page scroll
+      if ((scrollingDown && atEnd) || (scrollingUp && atStart)) {
+        return;
+      }
 
-    setScrollY(prev => {
-      const next = prev + e.deltaY * 0.8;
-      return Math.max(0, Math.min(maxScroll, next));
-    });
-  }, [isActive, hasReachedEnd, hasReachedStart, maxScroll]);
+      // Within scroll range - block page scroll completely
+      e.preventDefault();
+      e.stopPropagation();
+
+      setScrollY(prev => {
+        const next = prev + e.deltaY * 0.8;
+        return Math.max(0, Math.min(currentMaxScroll, next));
+      });
+    };
+
+    screen.addEventListener('wheel', handleWheel, { passive: false });
+    return () => screen.removeEventListener('wheel', handleWheel);
+  }, [isActive, isHovering, scrollY, maxScroll]);
 
   const canScroll = isActive && maxScroll > 0;
   const showScrollHint = canScroll && isHovering && !hasReachedEnd;
@@ -115,7 +128,7 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
               className="bg-card relative overflow-hidden"
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
-              onWheel={handleWheel}
+              
               style={{ 
                 cursor: canScroll ? 'ns-resize' : 'default',
                 width: `${SCREEN_WIDTH}px`,
