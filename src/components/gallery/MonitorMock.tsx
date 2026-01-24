@@ -96,22 +96,26 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
       const scrollingDown = e.deltaY > 0;
       const scrollingUp = e.deltaY < 0;
 
-      // At boundaries, let page scroll
-      if ((scrollingDown && atEnd) || (scrollingUp && atStart)) {
-        return;
-      }
-
-      // Within scroll range - block page scroll completely
+      // Always block default page/card scrolling while interacting with the monitor.
+      // We manually hand scroll back to the page ONLY after reaching boundaries.
       e.preventDefault();
       e.stopPropagation();
 
+      // If we've reached a boundary and the user keeps scrolling past it,
+      // forward the wheel delta to the page to advance to the next/prev card.
+      if ((scrollingDown && atEnd) || (scrollingUp && atStart)) {
+        window.scrollBy({ top: e.deltaY, left: 0, behavior: 'auto' });
+        return;
+      }
+
+      // Otherwise, consume the wheel and scroll the screenshot.
       setScrollY(prev => {
         const next = prev + e.deltaY * 0.8;
         return Math.max(0, Math.min(currentMaxScroll, next));
       });
     };
 
-    screen.addEventListener('wheel', handleWheel, { passive: false });
+    screen.addEventListener('wheel', handleWheel, { passive: false, capture: true });
     return () => screen.removeEventListener('wheel', handleWheel);
   }, []); // Empty deps - handler uses refs
 
