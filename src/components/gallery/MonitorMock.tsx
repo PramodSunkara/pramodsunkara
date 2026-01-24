@@ -137,29 +137,27 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
 
       {/* Full-page modal for scrolling */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-[95vw] w-[1200px] h-[90vh] p-0 overflow-hidden bg-card border-border">
-          <div className="relative w-full h-full flex flex-col">
-            {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-card/80 backdrop-blur-sm">
-              <h2 className="text-lg font-semibold text-foreground">{title}</h2>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="p-2 rounded-full hover:bg-muted transition-colors"
-                aria-label="Close modal"
-              >
-                <X className="w-5 h-5 text-muted-foreground" />
-              </button>
-            </div>
-            
-            {/* Scrollable content */}
-            <div className="flex-1 overflow-y-auto">
-              <img 
-                src={screenshot} 
-                alt={`${title} full screenshot`}
-                className="w-full h-auto"
-                style={{ imageRendering: '-webkit-optimize-contrast' }}
-              />
-            </div>
+        <DialogContent className="max-w-[95vw] w-[1200px] max-h-[90vh] p-0 flex flex-col overflow-hidden bg-card border-border">
+          {/* Header - fixed at top */}
+          <div className="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b border-border bg-card/80 backdrop-blur-sm">
+            <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="p-2 rounded-full hover:bg-muted transition-colors"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5 text-muted-foreground" />
+            </button>
+          </div>
+          
+          {/* Scrollable content */}
+          <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
+            <img 
+              src={screenshot} 
+              alt={`${title} full screenshot`}
+              className="w-full h-auto block"
+              style={{ imageRendering: '-webkit-optimize-contrast' }}
+            />
           </div>
         </DialogContent>
       </Dialog>
