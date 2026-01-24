@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface MonitorMockProps {
   screenshot: string;
@@ -16,14 +16,17 @@ const FRAME_WIDTH = SCREEN_WIDTH + FRAME_BORDER * 2;
 const FRAME_HEIGHT = SCREEN_HEIGHT + FRAME_BORDER * 2;
 
 const MonitorMock = ({ screenshot, title, isActive = false, className }: MonitorMockProps) => {
+  const [isHovering, setIsHovering] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const screenRef = useRef<HTMLDivElement | null>(null);
   const [scale, setScale] = useState(1);
   const [scrollY, setScrollY] = useState(0);
-  const [imageHeight, setImageHeight] = useState(SCREEN_HEIGHT);
+  // Default tall height so we capture wheel immediately even before image loads.
+  const [imageHeight, setImageHeight] = useState(SCREEN_HEIGHT * 5);
 
   // Use refs to track latest values for the wheel handler
   const isActiveRef = useRef(isActive);
+  const isHoveringRef = useRef(isHovering);
   const scrollYRef = useRef(scrollY);
   const maxScrollRef = useRef(0);
 
@@ -31,6 +34,7 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
   
   // Keep refs in sync
   useEffect(() => { isActiveRef.current = isActive; }, [isActive]);
+  useEffect(() => { isHoveringRef.current = isHovering; }, [isHovering]);
   useEffect(() => { scrollYRef.current = scrollY; }, [scrollY]);
   useEffect(() => { maxScrollRef.current = maxScroll; }, [maxScroll]);
 
@@ -82,7 +86,7 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
 
     const handleWheel = (e: WheelEvent) => {
       // Use refs to get latest values
-      if (!isActiveRef.current) return;
+      if (!isActiveRef.current || !isHoveringRef.current) return;
 
       const currentScrollY = scrollYRef.current;
       const currentMaxScroll = maxScrollRef.current;
@@ -112,7 +116,7 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
   }, []); // Empty deps - handler uses refs
 
   const canScroll = isActive && maxScroll > 0;
-  const showScrollHint = canScroll && !hasReachedEnd;
+  const showScrollHint = canScroll && isHovering && !hasReachedEnd;
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -135,6 +139,8 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
             <div 
               ref={screenRef}
               className="bg-card relative overflow-hidden"
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
               
               style={{ 
                 cursor: canScroll ? 'ns-resize' : 'default',
