@@ -10,8 +10,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Work', href: '#teams' },
-  { label: 'Gallery', href: '/gallery', isRoute: true },
   { label: 'Skills', href: '#skills' },
+  { label: 'Gallery', href: '/gallery', isRoute: true },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ];
