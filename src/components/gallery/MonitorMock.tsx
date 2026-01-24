@@ -23,10 +23,12 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
   const [scrollY, setScrollY] = useState(0);
   // Default tall height so we capture wheel immediately even before image loads.
   const [imageHeight, setImageHeight] = useState(SCREEN_HEIGHT * 5);
+  const [isImageReady, setIsImageReady] = useState(false);
 
   // Use refs to track latest values for the wheel handler
   const isActiveRef = useRef(isActive);
   const isHoveringRef = useRef(isHovering);
+  const isImageReadyRef = useRef(isImageReady);
   const scrollYRef = useRef(scrollY);
   const maxScrollRef = useRef(0);
 
@@ -35,6 +37,7 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
   // Keep refs in sync
   useEffect(() => { isActiveRef.current = isActive; }, [isActive]);
   useEffect(() => { isHoveringRef.current = isHovering; }, [isHovering]);
+  useEffect(() => { isImageReadyRef.current = isImageReady; }, [isImageReady]);
   useEffect(() => { scrollYRef.current = scrollY; }, [scrollY]);
   useEffect(() => { maxScrollRef.current = maxScroll; }, [maxScroll]);
 
@@ -64,10 +67,12 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
 
   // Load the actual image to get its dimensions
   useEffect(() => {
+    setIsImageReady(false);
     const img = new Image();
     img.onload = () => {
       const renderedHeight = (SCREEN_WIDTH / img.naturalWidth) * img.naturalHeight;
       setImageHeight(Math.max(renderedHeight, SCREEN_HEIGHT));
+      setIsImageReady(true);
     };
     img.src = screenshot;
   }, [screenshot]);
@@ -87,6 +92,13 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
     const handleWheel = (e: WheelEvent) => {
       // Use refs to get latest values
       if (!isActiveRef.current || !isHoveringRef.current) return;
+
+      // If the screenshot hasn't loaded yet, don't allow the page/cards to scroll away.
+      if (!isImageReadyRef.current) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
 
       const currentScrollY = scrollYRef.current;
       const currentMaxScroll = maxScrollRef.current;
@@ -169,6 +181,14 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
                   transition: 'transform 0.1s ease-out',
                 }}
               />
+
+              {!isImageReady && (
+                <div className="absolute inset-0 grid place-items-center bg-background/60">
+                  <div className="rounded-full bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-sm">
+                    Loading…
+                  </div>
+                </div>
+              )}
               
               {showScrollHint && (
                 <div 

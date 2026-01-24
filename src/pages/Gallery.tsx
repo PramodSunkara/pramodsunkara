@@ -19,6 +19,23 @@ const Gallery = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Preload gallery screenshots so monitor scrolling is responsive when cards come into view.
+  useEffect(() => {
+    const imgs: HTMLImageElement[] = [];
+    galleryProjects.forEach((p) => {
+      const img = new Image();
+      img.src = p.screenshot;
+      // Hint the browser to decode early when supported.
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      img.decode?.().catch(() => undefined);
+      imgs.push(img);
+    });
+    return () => {
+      // release references
+      imgs.length = 0;
+    };
+  }, []);
+
   // Handle scroll-based card visibility
   useEffect(() => {
     if (isMobile) return;
