@@ -1,6 +1,6 @@
 const highlights = [
   {
-    category: 'Navigation UX',
+    category: 'ACCESSIBILITY & WCAG',
     outcome: 'Redesigned complex navigation reducing user drop-off by 40%',
   },
   {
