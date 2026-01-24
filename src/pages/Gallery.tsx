@@ -94,8 +94,8 @@ const Gallery = () => {
           <h1 className="text-section font-display font-bold text-foreground mb-4">
             Gallery
           </h1>
-          <p className="text-muted-foreground text-body max-w-2xl mx-auto">
-            Selected case studies showcasing design and engineering work that drives measurable impact.
+          <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">
+            Design and development work crafted to solve complex problems and drive results.
           </p>
         </div>
       </section>
