@@ -9,9 +9,20 @@ interface GalleryCardProps {
   isActive?: boolean;
   progress?: number; // 0..1
   className?: string;
+  onNavigate?: (direction: 'prev' | 'next') => void;
+  hasPrev?: boolean;
+  hasNext?: boolean;
 }
 
-const GalleryCard = ({ project, isActive = false, progress = 0, className }: GalleryCardProps) => {
+const GalleryCard = ({ 
+  project, 
+  isActive = false, 
+  progress = 0, 
+  className,
+  onNavigate,
+  hasPrev = false,
+  hasNext = false
+}: GalleryCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -35,8 +46,6 @@ const GalleryCard = ({ project, isActive = false, progress = 0, className }: Gal
       <div className="flex flex-col md:flex-row">
         {/* Left Column - Content (30%) */}
         <div className="flex-1 md:w-[30%] p-6 md:p-8 lg:p-10 flex flex-col justify-center">
-          {/* Title */}
-          
           {/* Title */}
           <h3 className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-foreground mb-3">
             {project.title}
@@ -68,6 +77,9 @@ const GalleryCard = ({ project, isActive = false, progress = 0, className }: Gal
             title={project.title}
             isActive={isActive}
             className="w-full"
+            onNavigate={onNavigate}
+            hasPrev={hasPrev}
+            hasNext={hasNext}
           />
         </div>
       </div>
