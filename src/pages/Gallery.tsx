@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Navigation from '@/components/portfolio/Navigation';
 import Footer from '@/components/portfolio/Footer';
 import FloatingBackButton from '@/components/FloatingBackButton';
@@ -64,6 +64,25 @@ const Gallery = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobile]);
 
+  // Navigate to a specific project card
+  const navigateToProject = useCallback((index: number) => {
+    const targetCard = cardRefs.current[index];
+    if (targetCard) {
+      const stickyTop = 100;
+      const targetPosition = targetCard.getBoundingClientRect().top + window.scrollY - stickyTop;
+      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      setActiveIndex(index);
+    }
+  }, []);
+
+  // Handle navigation from modal
+  const handleNavigate = useCallback((currentIndex: number, direction: 'prev' | 'next') => {
+    const newIndex = direction === 'prev' ? currentIndex - 1 : currentIndex + 1;
+    if (newIndex >= 0 && newIndex < galleryProjects.length) {
+      navigateToProject(newIndex);
+    }
+  }, [navigateToProject]);
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -105,14 +124,14 @@ const Gallery = () => {
             >
               <div
                 className="w-full lg:w-[90vw] max-w-7xl transition-all duration-300"
-                style={
-                  isMobile ? {} : {}
-                }
               >
                 <GalleryCard
                   project={project}
                   isActive={!isMobile && index === activeIndex}
                   progress={(activeIndex + 1) / galleryProjects.length}
+                  onNavigate={(direction) => handleNavigate(index, direction)}
+                  hasPrev={index > 0}
+                  hasNext={index < galleryProjects.length - 1}
                 />
               </div>
             </div>

@@ -1,13 +1,17 @@
 import { cn } from '@/lib/utils';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface MonitorMockProps {
   screenshot: string;
   title: string;
   isActive?: boolean;
   className?: string;
+  onNavigate?: (direction: 'prev' | 'next') => void;
+  hasPrev?: boolean;
+  hasNext?: boolean;
 }
 
 // Fixed desktop width - scales down via wrapper on smaller screens
@@ -17,7 +21,15 @@ const FRAME_BORDER = 12; // px
 const FRAME_WIDTH = SCREEN_WIDTH + FRAME_BORDER * 2;
 const FRAME_HEIGHT = SCREEN_HEIGHT + FRAME_BORDER * 2;
 
-const MonitorMock = ({ screenshot, title, isActive = false, className }: MonitorMockProps) => {
+const MonitorMock = ({ 
+  screenshot, 
+  title, 
+  isActive = false, 
+  className,
+  onNavigate,
+  hasPrev = false,
+  hasNext = false
+}: MonitorMockProps) => {
   const [isHovering, setIsHovering] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -55,6 +67,28 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
     };
     img.src = screenshot;
   }, [screenshot]);
+
+  // Keyboard navigation handler
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (!isModalOpen) return;
+    
+    if (e.key === 'ArrowLeft' && hasPrev && onNavigate) {
+      e.preventDefault();
+      onNavigate('prev');
+    } else if (e.key === 'ArrowRight' && hasNext && onNavigate) {
+      e.preventDefault();
+      onNavigate('next');
+    }
+    // Escape is handled by Dialog component automatically
+  }, [isModalOpen, hasPrev, hasNext, onNavigate]);
+
+  // Add keyboard event listener when modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isModalOpen, handleKeyDown]);
 
   const handleClick = () => {
     setIsModalOpen(true);
@@ -138,8 +172,45 @@ const MonitorMock = ({ screenshot, title, isActive = false, className }: Monitor
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-[95vw] w-[1200px] max-h-[90vh] p-0 flex flex-col overflow-hidden bg-card border-border">
           {/* Header - fixed at top */}
-          <div className="flex-shrink-0 px-6 py-4 border-b border-border bg-card/80 backdrop-blur-sm">
+          <div className="flex-shrink-0 px-6 py-4 border-b border-border bg-card/80 backdrop-blur-sm flex items-center justify-between">
             <h2 className="text-lg font-semibold text-foreground pr-8">{title}</h2>
+            
+            {/* Navigation arrows */}
+            <div className="flex items-center gap-2 mr-8">
+              <button
+                onClick={() => onNavigate?.('prev')}
+                disabled={!hasPrev}
+                className={cn(
+                  "p-2 rounded-full transition-colors",
+                  hasPrev 
+                    ? "hover:bg-muted text-foreground" 
+                    : "text-muted-foreground/30 cursor-not-allowed"
+                )}
+                aria-label="Previous project"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => onNavigate?.('next')}
+                disabled={!hasNext}
+                className={cn(
+                  "p-2 rounded-full transition-colors",
+                  hasNext 
+                    ? "hover:bg-muted text-foreground" 
+                    : "text-muted-foreground/30 cursor-not-allowed"
+                )}
+                aria-label="Next project"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+          
+          {/* Keyboard hint */}
+          <div className="flex-shrink-0 px-6 py-2 bg-muted/30 border-b border-border">
+            <p className="text-xs text-muted-foreground text-center">
+              Use <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">←</kbd> <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">→</kbd> arrow keys to navigate • <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">Esc</kbd> to close
+            </p>
           </div>
           
           {/* Scrollable content */}
